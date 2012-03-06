@@ -400,7 +400,7 @@ static int retrieve_device(dev_t *device_out, const char *path)
 	assert(device_out);
 
 	if (p_lstat(path, &path_info))
-		return git__throw(GIT_EOSERR, "Failed to get file informations: %s", path);
+		return git__throw(GIT_EOSERR, "Failed to get file information: %s", path);
 
 	*device_out = path_info.st_dev;
 
