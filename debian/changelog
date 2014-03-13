@@ -1,3 +1,15 @@
+libgit2 (0.20.0-1) experimental; urgency=medium
+
+  * New upstream release 0.20.0.
+  * debian/patches/disable_online_tests.patch: Renamed to
+    disable_tests.patch.
+  * debian/patches/disable_tests.patch: Disabled blame test.
+  * debian/rules: Use automatic dh_makeshlib version dependency.
+  * Bumped standards version to 3.9.5 (no change necessary).
+  * debian/copyright: Added new licenses: MIT, BSD and PHP
+
+ -- Russell Sim <russell.sim@gmail.com>  Thu, 13 Mar 2014 20:35:39 +1100
+
 libgit2 (0.19.0-2) experimental; urgency=low
 
   * Added correct dependencies to development package. (Closes: #715173)
