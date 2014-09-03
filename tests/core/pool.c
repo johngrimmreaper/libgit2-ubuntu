@@ -38,19 +38,19 @@ void test_core_pool__1(void)
 		cl_assert(git_pool_malloc(&p, i) != NULL);
 
 	/* with fixed page size, allocation must end up with these values */
-	cl_assert(git_pool__open_pages(&p) == 1);
-	cl_assert(git_pool__full_pages(&p) == 505);
+	cl_assert_equal_i(1, git_pool__open_pages(&p));
+	cl_assert_equal_i(507, git_pool__full_pages(&p));
 
 	git_pool_clear(&p);
 
-	cl_git_pass(git_pool_init(&p, 1, 4100));
+	cl_git_pass(git_pool_init(&p, 1, 4120));
 
 	for (i = 2010; i > 0; i--)
 		cl_assert(git_pool_malloc(&p, i) != NULL);
 
 	/* with fixed page size, allocation must end up with these values */
-	cl_assert(git_pool__open_pages(&p) == 1);
-	cl_assert(git_pool__full_pages(&p) == 492);
+	cl_assert_equal_i(1, git_pool__open_pages(&p));
+	cl_assert_equal_i(492, git_pool__full_pages(&p));
 
 	git_pool_clear(&p);
 }
@@ -139,7 +139,8 @@ void test_core_pool__strndup_limit(void)
 	git_pool p;
 
 	cl_git_pass(git_pool_init(&p, 1, 100));
-	cl_assert(git_pool_strndup(&p, "foo", -1) == NULL);
+	/* ensure 64 bit doesn't overflow */
+	cl_assert(git_pool_strndup(&p, "foo", (size_t)-1) == NULL);
 	git_pool_clear(&p);
 }
 
