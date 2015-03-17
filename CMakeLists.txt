@@ -488,7 +488,7 @@ IF (BUILD_CLAR)
 	ENDIF ()
 
 	ENABLE_TESTING()
-	ADD_TEST(libgit2_clar libgit2_clar -ionline)
+	ADD_TEST(libgit2_clar libgit2_clar -xonline -xblame::simple::trivial_libgit2)
 ENDIF ()
 
 IF (TAGS)
