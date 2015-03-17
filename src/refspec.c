@@ -119,6 +119,12 @@ int git_refspec__parse(git_refspec *refspec, const char *input, bool is_fetch)
 			if (!git_reference__is_valid_name(refspec->dst, flags))
 				goto invalid;
 		}
+
+		/* if the RHS is empty, then it's a copy of the LHS */
+		if (!refspec->dst) {
+			refspec->dst = git__strdup(refspec->src);
+			GITERR_CHECK_ALLOC(refspec->dst);
+		}
 	}
 
 	refspec->string = git__strdup(input);
@@ -223,7 +229,13 @@ static int refspec_transform(
 
 int git_refspec_transform(git_buf *out, const git_refspec *spec, const char *name)
 {
-        git_buf_sanitize(out);
+	assert(out && spec && name);
+	git_buf_sanitize(out);
+
+	if (!git_refspec_src_matches(spec, name)) {
+		giterr_set(GITERR_INVALID, "ref '%s' doesn't match the source", name);
+		return -1;
+	}
 
 	if (!spec->pattern)
 		return git_buf_puts(out, spec->dst);
@@ -233,7 +245,13 @@ int git_refspec_transform(git_buf *out, const git_refspec *spec, const char *nam
 
 int git_refspec_rtransform(git_buf *out, const git_refspec *spec, const char *name)
 {
-        git_buf_sanitize(out);
+	assert(out && spec && name);
+	git_buf_sanitize(out);
+
+	if (!git_refspec_dst_matches(spec, name)) {
+		giterr_set(GITERR_INVALID, "ref '%s' doesn't match the destination", name);
+		return -1;
+	}
 
 	if (!spec->pattern)
 		return git_buf_puts(out, spec->src);

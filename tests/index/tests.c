@@ -243,11 +243,11 @@ void test_index_tests__add(void)
 	entry = git_index_get_byindex(index, 0);
 
 	/* And the built-in hashing mechanism worked as expected */
-	cl_assert(git_oid_cmp(&id1, &entry->id) == 0);
+	cl_assert_equal_oid(&id1, &entry->id);
 
 	/* Test access by path instead of index */
 	cl_assert((entry = git_index_get_bypath(index, "test.txt", 0)) != NULL);
-	cl_assert(git_oid_cmp(&id1, &entry->id) == 0);
+	cl_assert_equal_oid(&id1, &entry->id);
 
 	git_index_free(index);
 	git_repository_free(repo);
@@ -283,14 +283,14 @@ void test_index_tests__add_issue_1397(void)
 
 	/* Make sure the initial SHA-1 is correct */
 	cl_assert((entry = git_index_get_bypath(index, "crlf_file.txt", 0)) != NULL);
-	cl_assert_(git_oid_cmp(&id1, &entry->id) == 0, "first oid check");
+	cl_assert_equal_oid(&id1, &entry->id);
 
 	/* Update the index */
 	cl_git_pass(git_index_add_bypath(index, "crlf_file.txt"));
 
 	/* Check the new SHA-1 */
 	cl_assert((entry = git_index_get_bypath(index, "crlf_file.txt", 0)) != NULL);
-	cl_assert_(git_oid_cmp(&id1, &entry->id) == 0, "second oid check");
+	cl_assert_equal_oid(&id1, &entry->id);
 
 	git_index_free(index);
 }
@@ -423,6 +423,27 @@ void test_index_tests__write_invalid_filename(void)
 	write_invalid_filename(repo, "./foo");
 	write_invalid_filename(repo, "./bar");
 	write_invalid_filename(repo, "foo/../bar");
+
+	git_repository_free(repo);
+
+	cl_fixture_cleanup("invalid");
+}
+
+void test_index_tests__honors_protect_filesystems(void)
+{
+	git_repository *repo;
+
+	p_mkdir("invalid", 0700);
+
+	cl_git_pass(git_repository_init(&repo, "./invalid", 0));
+
+	cl_repo_set_bool(repo, "core.protectHFS", true);
+	cl_repo_set_bool(repo, "core.protectNTFS", true);
+
+	write_invalid_filename(repo, ".git./hello");
+	write_invalid_filename(repo, ".git\xe2\x80\xad/hello");
+	write_invalid_filename(repo, "git~1/hello");
+	write_invalid_filename(repo, ".git\xe2\x81\xaf/hello");
 
 	git_repository_free(repo);
 
@@ -599,7 +620,7 @@ void test_index_tests__reload_from_disk(void)
 	cl_git_pass(git_index_open(&read_index, write_index->index_file_path));
 	cl_assert_equal_i(false, read_index->on_disk);
 
-	/* Stage two new files agaisnt the write_index */
+	/* Stage two new files against the write_index */
 	cl_git_pass(git_index_add_bypath(write_index, "a.txt"));
 	cl_git_pass(git_index_add_bypath(write_index, "b.txt"));
 
