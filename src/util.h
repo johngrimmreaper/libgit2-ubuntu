@@ -317,12 +317,12 @@ GIT_INLINE(bool) git__isdigit(int c)
 
 GIT_INLINE(bool) git__isspace(int c)
 {
-	return (c == ' ' || c == '\t' || c == '\n' || c == '\f' || c == '\r' || c == '\v' || c == 0x85 /* Unicode CR+LF */);
+	return (c == ' ' || c == '\t' || c == '\n' || c == '\f' || c == '\r' || c == '\v');
 }
 
 GIT_INLINE(bool) git__isspace_nonlf(int c)
 {
-	return (c == ' ' || c == '\t' || c == '\f' || c == '\r' || c == '\v' || c == 0x85 /* Unicode CR+LF */);
+	return (c == ' ' || c == '\t' || c == '\f' || c == '\r' || c == '\v');
 }
 
 GIT_INLINE(bool) git__iswildcard(int c)
@@ -431,7 +431,18 @@ GIT_INLINE(double) git__timer(void)
        scaling_factor = (double)info.numer / (double)info.denom;
    }
 
-   return (double)time * scaling_factor / 1.0E-9;
+   return (double)time * scaling_factor / 1.0E9;
+}
+
+#elif defined(AMIGA)
+
+#include <proto/timer.h>
+
+GIT_INLINE(double) git__timer(void)
+{
+	struct TimeVal tv;
+	ITimer->GetUpTime(&tv);
+	return (double)tv.Seconds + (double)tv.Microseconds / 1.0E6;
 }
 
 #else
@@ -443,13 +454,13 @@ GIT_INLINE(double) git__timer(void)
 	struct timespec tp;
 
 	if (clock_gettime(CLOCK_MONOTONIC, &tp) == 0) {
-		return (double) tp.tv_sec + (double) tp.tv_nsec / 1E-9;
+		return (double) tp.tv_sec + (double) tp.tv_nsec / 1.0E9;
 	} else {
 		/* Fall back to using gettimeofday */
 		struct timeval tv;
 		struct timezone tz;
 		gettimeofday(&tv, &tz);
-		return (double)tv.tv_sec + (double)tv.tv_usec / 1E-6;
+		return (double)tv.tv_sec + (double)tv.tv_usec / 1.0E6;
 	}
 }
 
