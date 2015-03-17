@@ -1,3 +1,9 @@
+libgit2 (0.22.1-0ubuntu2) vivid; urgency=medium
+
+  * Update disable_tests.patch to disable network test
+
+ -- Jonathan Riddell <jriddell@ubuntu.com>  Tue, 17 Mar 2015 15:44:12 +0100
+
 libgit2 (0.22.1-0ubuntu1) vivid; urgency=medium
 
   * New upstream release
