@@ -1,3 +1,11 @@
+libgit2 (0.22.1-0ubuntu3) vivid; urgency=medium
+
+  * debian/control:
+    - Add pkg-config as a build-dep as it's required to detect
+      available libraries like libssh2
+
+ -- Łukasz 'sil2100' Zemczak <lukasz.zemczak@canonical.com>  Tue, 14 Apr 2015 14:19:48 -0500
+
 libgit2 (0.22.1-0ubuntu2) vivid; urgency=medium
 
   * Update disable_tests.patch to disable network test
