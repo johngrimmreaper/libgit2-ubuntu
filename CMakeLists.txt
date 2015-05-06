@@ -490,7 +490,7 @@ IF (BUILD_CLAR)
 	ENDIF ()
 
 	ENABLE_TESTING()
-	ADD_TEST(libgit2_clar libgit2_clar -ionline)
+	ADD_TEST(libgit2_clar libgit2_clar -xonline -xblame::simple::trivial_libgit2 -xnetwork::remote::remotes::single_branch -xnetwork::remote::remotes::restricted_refspecs)
 ENDIF ()
 
 IF (TAGS)
