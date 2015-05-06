@@ -1,4 +1,5 @@
 #include "pool.h"
+#include "posix.h"
 #ifndef GIT_WIN32
 #include <unistd.h>
 #endif
@@ -158,7 +159,7 @@ void *git_pool_malloc(git_pool *pool, uint32_t items)
 		return ptr;
 	}
 
-	/* just add a block if there is no open one to accomodate this */
+	/* just add a block if there is no open one to accommodate this */
 	if (size >= pool->page_size || !scan || scan->avail < size)
 		return pool_alloc_page(pool, size);
 
@@ -305,17 +306,10 @@ uint32_t git_pool__system_page_size(void)
 	static uint32_t size = 0;
 
 	if (!size) {
-#ifdef GIT_WIN32
-		SYSTEM_INFO info;
-		GetSystemInfo(&info);
-		size = (uint32_t)info.dwPageSize;
-#elif defined(__amigaos4__)
-		size = (uint32_t)4096; /* 4K as there is no global value we can query */
-#else
-		size = (uint32_t)sysconf(_SC_PAGE_SIZE);
-#endif
-
-		size -= 2 * sizeof(void *); /* allow space for malloc overhead */
+		size_t page_size;
+		if (git__page_size(&page_size) < 0)
+			page_size = 4096;
+		size = page_size - 2 * sizeof(void *); /* allow space for malloc overhead */
 	}
 
 	return size;
