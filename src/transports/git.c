@@ -50,6 +50,8 @@ static int gen_proto(git_buf *request, const char *cmd, const char *url)
 	}
 
 	repo = delim;
+	if (repo[1] == '~')
+		++repo;
 
 	delim = strchr(url, ':');
 	if (delim == NULL)
@@ -155,7 +157,7 @@ static int git_proto_stream_alloc(
 	if (!stream)
 		return -1;
 
-	s = git__calloc(sizeof(git_proto_stream), 1);
+	s = git__calloc(1, sizeof(git_proto_stream));
 	GITERR_CHECK_ALLOC(s);
 
 	s->parent.subtransport = &t->parent;
@@ -341,14 +343,16 @@ static void _git_free(git_smart_subtransport *subtransport)
 	git__free(t);
 }
 
-int git_smart_subtransport_git(git_smart_subtransport **out, git_transport *owner)
+int git_smart_subtransport_git(git_smart_subtransport **out, git_transport *owner, void *param)
 {
 	git_subtransport *t;
+
+	GIT_UNUSED(param);
 
 	if (!out)
 		return -1;
 
-	t = git__calloc(sizeof(git_subtransport), 1);
+	t = git__calloc(1, sizeof(git_subtransport));
 	GITERR_CHECK_ALLOC(t);
 
 	t->owner = owner;
