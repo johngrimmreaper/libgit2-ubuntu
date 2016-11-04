@@ -689,7 +689,7 @@ IF (BUILD_CLAR)
 
 	ENABLE_TESTING()
 	IF (WINHTTP OR OPENSSL_FOUND OR SECURITY_FOUND)
-		ADD_TEST(libgit2_clar libgit2_clar -ionline)
+		ADD_TEST(libgit2_clar libgit2_clar -xonline -xnetwork::remote::remotes -xobject::cache -xthreads::diff -xthreads::iterator)
 	ELSE ()
 		ADD_TEST(libgit2_clar libgit2_clar -v)
 	ENDIF ()
