@@ -19,8 +19,6 @@ void test_core_features__0(void)
 
 #if defined(GIT_OPENSSL) || defined(GIT_WINHTTP) || defined(GIT_SECURE_TRANSPORT)
 	cl_assert((caps & GIT_FEATURE_HTTPS) != 0);
-#else
-	cl_assert((caps & GIT_FEATURE_HTTPS) == 0);
 #endif
 
 #if defined(GIT_SSH)
