@@ -1257,7 +1257,7 @@ int git_tree_create_updated(git_oid *out, git_repository *repo, git_tree *baseli
 				break;
 			}
 			default:
-				giterr_set(GITERR_TREE, "unkown action for update");
+				giterr_set(GITERR_TREE, "unknown action for update");
 				error = -1;
 				goto cleanup;
 		}
