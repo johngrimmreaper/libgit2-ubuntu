@@ -273,16 +273,7 @@ typedef struct {
 	 */
 	unsigned int recursion_limit;
 
-	/**
-	 * Default merge driver to be used when both sides of a merge have
-	 * changed.  The default is the `text` driver.
-	 */
-	const char *default_driver;
-
-	/**
-	 * Flags for handling conflicting content, to be used with the standard
-	 * (`text`) merge driver.
-	 */
+	/** Flags for handling conflicting content. */
 	git_merge_file_favor_t file_favor;
 
 	/** see `git_merge_file_flag_t` above */

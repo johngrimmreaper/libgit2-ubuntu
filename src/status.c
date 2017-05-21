@@ -19,7 +19,6 @@
 
 #include "git2/diff.h"
 #include "diff.h"
-#include "diff_generate.h"
 
 static unsigned int index_delta2status(const git_diff_delta *head2idx)
 {
