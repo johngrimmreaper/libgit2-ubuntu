@@ -103,8 +103,7 @@
 /**
  * Set the error message for this thread, formatting as needed.
  */
-
-void giterr_set(int error_class, const char *string, ...) GIT_FORMAT_PRINTF(2, 3);
+void giterr_set(int error_class, const char *string, ...);
 
 /**
  * Set the error message for a regex failure, using the internal regex

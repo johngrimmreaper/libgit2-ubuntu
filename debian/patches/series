@@ -1,3 +1,2 @@
 disable_tests.patch
-fix_https_test.patch
-fix_spelling.patch
+fix_gmt14_timzone_bug.patch
