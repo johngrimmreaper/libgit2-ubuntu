@@ -5,7 +5,7 @@ Maintainer: Russell Sim <russell.sim@gmail.com>
 Build-Depends: debhelper (>= 9.20160114),
                python-minimal (>= 2.4.0), pkg-config,
                cmake, libz-dev, libcurl4-gnutls-dev,
-               libssh2-1-dev, libhttp-parser-dev
+               libssh2-1-dev, libhttp-parser-dev, libkrb5-dev
 Standards-Version: 3.9.8
 Homepage: http://libgit2.github.com/
 Vcs-Git: https://anonscm.debian.org/cgit/collab-maint/libgit2.git/
@@ -16,7 +16,7 @@ Package: libgit2-dev
 Architecture: any
 Section: libdevel
 Multi-Arch: same
-Depends: libgit2-24 (= ${binary:Version}), libz-dev,
+Depends: libgit2-26 (= ${binary:Version}), libz-dev,
          libcurl4-gnutls-dev, libssh2-1-dev,
          libhttp-parser-dev, ${shlibs:Depends}, ${misc:Depends}
 Description: low-level Git library (development files)
@@ -26,7 +26,7 @@ Description: low-level Git library (development files)
  .
  This package contains the development files for libgit2.
 
-Package: libgit2-24
+Package: libgit2-26
 Architecture: any
 Multi-Arch: same
 Pre-Depends: ${misc:Pre-Depends}
