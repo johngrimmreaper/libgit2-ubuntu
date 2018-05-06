@@ -1,6 +1,6 @@
 #include "clar_libgit2.h"
 #include "git2/sys/stream.h"
-#include "tls_stream.h"
+#include "streams/tls.h"
 #include "stream.h"
 
 static git_stream test_stream;
@@ -33,12 +33,10 @@ void test_core_stream__register_tls(void)
 	cl_git_pass(git_stream_register_tls(NULL));
 	error = git_tls_stream_new(&stream, "localhost", "443");
 
-	/* We don't have arbitrary TLS stream support on Windows
-	 * or when openssl support is disabled (except on OSX
-	 * with Security framework).
+	/* We don't have TLS support enabled, or we're on Windows,
+	 * which has no arbitrary TLS stream support.
 	 */
-#if defined(GIT_WIN32) || \
-	(!defined(GIT_SECURE_TRANSPORT) && !defined(GIT_OPENSSL))
+#if defined(GIT_WIN32) || !defined(GIT_HTTPS)
 	cl_git_fail_with(-1, error);
 #else
 	cl_git_pass(error);
