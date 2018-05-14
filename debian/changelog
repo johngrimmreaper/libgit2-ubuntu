@@ -1,3 +1,9 @@
+libgit2 (0.26.0+dfsg.1-1.2build1) cosmic; urgency=medium
+
+  * No-change rebuild for http-parser soname change.
+
+ -- Matthias Klose <doko@ubuntu.com>  Mon, 14 May 2018 17:32:31 +0000
+
 libgit2 (0.26.0+dfsg.1-1.2) unstable; urgency=medium
 
   * Non-maintainer upload.
