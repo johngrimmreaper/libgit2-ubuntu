@@ -1,0 +1,651 @@
+Backport of:
+
+From c9fa4f555ad32b2f959eb6af7503ba99b04a97fa Mon Sep 17 00:00:00 2001
+From: Russell Belfer <rb@github.com>
+Date: Wed, 4 Sep 2013 11:42:48 -0700
+Subject: [PATCH 01/10] Update clar
+
+---
+ tests-clar/checkout/checkout_helpers.c |   4 +-
+ tests-clar/clar.c                      | 138 +++++++++++++++++--------
+ tests-clar/clar.h                      |  23 +++--
+ tests-clar/clar/sandbox.h              |   6 +-
+ tests-clar/diff/submodules.c           |   5 +-
+ 5 files changed, 117 insertions(+), 59 deletions(-)
+
+--- a/tests-clar/checkout/checkout_helpers.c
++++ b/tests-clar/checkout/checkout_helpers.c
+@@ -74,8 +74,8 @@ static void check_file_contents_internal
+ 	if (strip_cr)
+ 		strip_cr_from_buf(&buf);
+ 
+-	clar__assert_equal_i((int)expected_len, (int)buf.size, file, line, "strlen(expected_content) != strlen(actual_content)", 1);
+-	clar__assert_equal_s(expected_content, buf.ptr, file, line, msg, 1);
++	clar__assert_equal(file, line, "strlen(expected_content) != strlen(actual_content)", 1, PRIuZ, expected_len, (size_t)buf.size);
++	clar__assert_equal(file, line, msg, 1, "%s", expected_content, buf.ptr);
+ }
+ 
+ void check_file_contents_at_line(
+--- a/tests-clar/clar.c
++++ b/tests-clar/clar.c
+@@ -24,28 +24,59 @@
+ 
+ #	define _MAIN_CC __cdecl
+ 
+-#	define stat(path, st) _stat(path, st)
+-#	define mkdir(path, mode) _mkdir(path)
+-#	define chdir(path) _chdir(path)
+-#	define access(path, mode) _access(path, mode)
+-#	define strdup(str) _strdup(str)
+-#	define strcasecmp(a,b) _stricmp(a,b)
++#	ifndef stat
++#		define stat(path, st) _stat(path, st)
++#	endif
++#	ifndef mkdir
++#		define mkdir(path, mode) _mkdir(path)
++#	endif
++#	ifndef chdir
++#		define chdir(path) _chdir(path)
++#	endif
++#	ifndef access
++#		define access(path, mode) _access(path, mode)
++#	endif
++#	ifndef strdup
++#		define strdup(str) _strdup(str)
++#	endif
++#	ifndef strcasecmp
++#		define strcasecmp(a,b) _stricmp(a,b)
++#	endif
+ 
+ #	ifndef __MINGW32__
+ #		pragma comment(lib, "shell32")
+-#		define strncpy(to, from, to_size) strncpy_s(to, to_size, from, _TRUNCATE)
+-#		define W_OK 02
+-#		define S_ISDIR(x) ((x & _S_IFDIR) != 0)
+-#		define snprint_eq(buf,sz,fmt,a,b) _snprintf_s(buf,sz,_TRUNCATE,fmt,a,b)
++#		ifndef strncpy
++#			define strncpy(to, from, to_size) strncpy_s(to, to_size, from, _TRUNCATE)
++#		endif
++#		ifndef W_OK
++#			define W_OK 02
++#		endif
++#		ifndef S_ISDIR
++#			define S_ISDIR(x) ((x & _S_IFDIR) != 0)
++#		endif
++#		define p_snprintf(buf,sz,fmt,...) _snprintf_s(buf,sz,_TRUNCATE,fmt,__VA_ARGS__)
+ #	else
+-#		define snprint_eq snprintf
++#		define p_snprintf snprintf
++#	endif
++
++#	ifndef PRIuZ
++#		define PRIuZ "Iu"
++#	endif
++#	ifndef PRIxZ
++#		define PRIxZ "Ix"
+ #	endif
+ 	typedef struct _stat STAT_T;
+ #else
+ #	include <sys/wait.h> /* waitpid(2) */
+ #	include <unistd.h>
+ #	define _MAIN_CC
+-#	define snprint_eq snprintf
++#	define p_snprintf snprintf
++#	ifndef PRIuZ
++#		define PRIuZ "zu"
++#	endif
++#	ifndef PRIxZ
++#		define PRIxZ "zx"
++#	endif
+ 	typedef struct stat STAT_T;
+ #endif
+ 
+@@ -406,45 +437,66 @@ void clar__assert(
+ 	clar__fail(file, line, error_msg, description, should_abort);
+ }
+ 
+-void clar__assert_equal_s(
+-	const char *s1,
+-	const char *s2,
++void clar__assert_equal(
+ 	const char *file,
+ 	int line,
+ 	const char *err,
+-	int should_abort)
++	int should_abort,
++	const char *fmt,
++	...)
+ {
+-	int match = (s1 == NULL || s2 == NULL) ? (s1 == s2) : (strcmp(s1, s2) == 0);
+-
+-	if (!match) {
+-		char buf[4096];
+-
+-		if (s1 && s2) {
+-			int pos;
+-			for (pos = 0; s1[pos] == s2[pos] && s1[pos] && s2[pos]; ++pos)
+-				/* find differing byte offset */;
+-			snprint_eq(buf, sizeof(buf), "'%s' != '%s' (at byte %d)", s1, s2, pos);
+-		} else {
+-			snprint_eq(buf, sizeof(buf), "'%s' != '%s'", s1, s2);
++	va_list args;
++	char buf[4096];
++	int is_equal = 1;
++
++	va_start(args, fmt);
++
++	if (!strcmp("%s", fmt)) {
++		const char *s1 = va_arg(args, const char *);
++		const char *s2 = va_arg(args, const char *);
++		is_equal = (!s1 || !s2) ? (s1 == s2) : !strcmp(s1, s2);
++
++		if (!is_equal) {
++			if (s1 && s2) {
++				int pos;
++				for (pos = 0; s1[pos] == s2[pos] && s1[pos] && s2[pos]; ++pos)
++					/* find differing byte offset */;
++				p_snprintf(buf, sizeof(buf), "'%s' != '%s' (at byte %d)",
++					s1, s2, pos);
++			} else {
++				p_snprintf(buf, sizeof(buf), "'%s' != '%s'", s1, s2);
++			}
++		}
++	}
++	else if (!strcmp(PRIuZ, fmt) || !strcmp(PRIxZ, fmt)) {
++		size_t sz1 = va_arg(args, size_t), sz2 = va_arg(args, size_t);
++		is_equal = (sz1 == sz2);
++		if (!is_equal) {
++			int offset = p_snprintf(buf, sizeof(buf), fmt, sz1);
++			strncat(buf, " != ", sizeof(buf) - offset);
++			p_snprintf(buf + offset + 4, sizeof(buf) - offset - 4, fmt, sz2);
++		}
++	}
++	else if (!strcmp("%p", fmt)) {
++		void *p1 = va_arg(args, void *), *p2 = va_arg(args, void *);
++		is_equal = (p1 == p2);
++		if (!is_equal)
++			p_snprintf(buf, sizeof(buf), "%p != %p", p1, p2);
++	}
++	else {
++		int i1 = va_arg(args, int), i2 = va_arg(args, int);
++		is_equal = (i1 == i2);
++		if (!is_equal) {
++			int offset = p_snprintf(buf, sizeof(buf), fmt, i1);
++			strncat(buf, " != ", sizeof(buf) - offset);
++			p_snprintf(buf + offset + 4, sizeof(buf) - offset - 4, fmt, i2);
+ 		}
+-
+-		clar__fail(file, line, err, buf, should_abort);
+ 	}
+-}
+ 
+-void clar__assert_equal_i(
+-	int i1,
+-	int i2,
+-	const char *file,
+-	int line,
+-	const char *err,
+-	int should_abort)
+-{
+-	if (i1 != i2) {
+-		char buf[128];
+-		snprint_eq(buf, sizeof(buf), "%d != %d", i1, i2);
++	va_end(args);
++
++	if (!is_equal)
+ 		clar__fail(file, line, err, buf, should_abort);
+-	}
+ }
+ 
+ void cl_set_cleanup(void (*cleanup)(void *), void *opaque)
+--- a/tests-clar/clar.h
++++ b/tests-clar/clar.h
+@@ -57,15 +57,17 @@ void cl_fixture_cleanup(const char *fixt
+ /**
+  * Typed assertion macros
+  */
+-#define cl_assert_equal_s(s1,s2) clar__assert_equal_s((s1),(s2),__FILE__,__LINE__,"String mismatch: " #s1 " != " #s2, 1)
+-#define cl_assert_equal_s_(s1,s2,note) clar__assert_equal_s((s1),(s2),__FILE__,__LINE__,"String mismatch: " #s1 " != " #s2 " (" #note ")", 1)
++#define cl_assert_equal_s(s1,s2) clar__assert_equal(__FILE__,__LINE__,"String mismatch: " #s1 " != " #s2, 1, "%s", (s1), (s2))
++#define cl_assert_equal_s_(s1,s2,note) clar__assert_equal(__FILE__,__LINE__,"String mismatch: " #s1 " != " #s2 " (" #note ")", 1, "%s", (s1), (s2))
+ 
+-#define cl_assert_equal_i(i1,i2) clar__assert_equal_i((i1),(i2),__FILE__,__LINE__,#i1 " != " #i2, 1)
+-#define cl_assert_equal_i_(i1,i2,note) clar__assert_equal_i((i1),(i2),__FILE__,__LINE__,#i1 " != " #i2 " (" #note ")", 1)
++#define cl_assert_equal_i(i1,i2) clar__assert_equal(__FILE__,__LINE__,#i1 " != " #i2, 1, "%d", (int)(i1), (int)(i2))
++#define cl_assert_equal_i_(i1,i2,note) clar__assert_equal(__FILE__,__LINE__,#i1 " != " #i2 " (" #note ")", 1, "%d", (i1), (i2))
++#define cl_assert_equal_i_fmt(i1,i2,fmt) clar__assert_equal(__FILE__,__LINE__,#i1 " != " #i2, 1, (fmt), (int)(i1), (int)(i2))
+ 
+-#define cl_assert_equal_b(b1,b2) clar__assert_equal_i(!!(b1),!!(b2),__FILE__,__LINE__,#b1 " != " #b2, 1)
++#define cl_assert_equal_b(b1,b2) clar__assert_equal(__FILE__,__LINE__,#b1 " != " #b2, 1, "%d", (int)((b1) != 0),(int)((b2) != 0))
++
++#define cl_assert_equal_p(p1,p2) clar__assert_equal(__FILE__,__LINE__,"Pointer mismatch: " #p1 " != " #p2, 1, "%p", (p1), (p2))
+ 
+-#define cl_assert_equal_p(p1,p2) cl_assert((p1) == (p2))
+ 
+ void clar__fail(
+ 	const char *file,
+@@ -82,7 +84,12 @@ void clar__assert(
+ 	const char *description,
+ 	int should_abort);
+ 
+-void clar__assert_equal_s(const char *,const char *,const char *,int,const char *,int);
+-void clar__assert_equal_i(int,int,const char *,int,const char *,int);
++void clar__assert_equal(
++	const char *file,
++	int line,
++	const char *err,
++	int should_abort,
++	const char *fmt,
++	...);
+ 
+ #endif
+--- a/tests-clar/clar/sandbox.h
++++ b/tests-clar/clar/sandbox.h
+@@ -43,10 +43,8 @@ find_tmp_path(char *buffer, size_t lengt
+ 	}
+ 
+ #else
+-	DWORD env_len;
+-
+-	if ((env_len = GetEnvironmentVariable("CLAR_TMP", buffer, length)) > 0 &&
+-		env_len < length)
++	DWORD env_len = GetEnvironmentVariable("CLAR_TMP", buffer, (DWORD)length);
++	if (env_len > 0 && env_len < (DWORD)length)
+ 		return 0;
+ 
+ 	if (GetTempPath((DWORD)length, buffer))
+--- a/tests-clar/checkout/index.c
++++ b/tests-clar/checkout/index.c
+@@ -229,6 +229,7 @@ void test_checkout_index__options_dir_mo
+ 	struct stat st;
+ 	git_oid oid;
+ 	git_commit *commit;
++	mode_t um;
+ 
+ 	cl_git_pass(git_reference_name_to_id(&oid, g_repo, "refs/heads/dir"));
+ 	cl_git_pass(git_commit_lookup(&commit, g_repo, &oid));
+@@ -240,12 +241,15 @@ void test_checkout_index__options_dir_mo
+ 
+ 	cl_git_pass(git_checkout_index(g_repo, NULL, &opts));
+ 
++	/* umask will influence actual directory creation mode */
++	(void)p_umask(um = p_umask(022));
++
+ 	cl_git_pass(p_stat("./testrepo/a", &st));
+-	cl_assert_equal_i(st.st_mode & 0777, 0701);
++	cl_assert_equal_i_fmt(st.st_mode, (GIT_FILEMODE_TREE | 0701) & ~um, "%07o");
+ 
+ 	/* File-mode test, since we're on the 'dir' branch */
+ 	cl_git_pass(p_stat("./testrepo/a/b.txt", &st));
+-	cl_assert_equal_i(st.st_mode & 0777, 0755);
++	cl_assert_equal_i_fmt(st.st_mode, GIT_FILEMODE_BLOB_EXECUTABLE, "%07o");
+ 
+ 	git_commit_free(commit);
+ #endif
+@@ -263,7 +267,7 @@ void test_checkout_index__options_overri
+ 	cl_git_pass(git_checkout_index(g_repo, NULL, &opts));
+ 
+ 	cl_git_pass(p_stat("./testrepo/new.txt", &st));
+-	cl_assert_equal_i(st.st_mode & 0777, 0700);
++	cl_assert_equal_i_fmt(st.st_mode & GIT_MODE_PERMS_MASK, 0700, "%07o");
+ #endif
+ }
+ 
+--- a/tests-clar/clar_libgit2.h
++++ b/tests-clar/clar_libgit2.h
+@@ -29,7 +29,7 @@
+ 
+ void cl_git_report_failure(int, const char *, int, const char *);
+ 
+-#define cl_assert_equal_sz(sz1,sz2) cl_assert_equal_i((int)sz1, (int)(sz2))
++#define cl_assert_equal_sz(sz1,sz2) clar__assert_equal(__FILE__,__LINE__,#sz1 " != " #sz2, 1, PRIuZ, (size_t)(sz1), (size_t)(sz2))
+ 
+ /*
+  * Some utility macros for building long strings
+@@ -71,5 +71,6 @@ int cl_git_remove_placeholders(const cha
+ 
+ /* config setting helpers */
+ void cl_repo_set_bool(git_repository *repo, const char *cfg, int value);
++int cl_repo_get_bool(git_repository *repo, const char *cfg);
+ 
+ #endif
+--- a/tests-clar/repo/init.c
++++ b/tests-clar/repo/init.c
+@@ -10,10 +10,17 @@ enum repo_mode {
+ };
+ 
+ static git_repository *_repo = NULL;
++static mode_t g_umask = 0;
+ 
+ void test_repo_init__initialize(void)
+ {
+ 	_repo = NULL;
++
++	/* load umask if not already loaded */
++	if (!g_umask) {
++		g_umask = p_umask(022);
++		(void)p_umask(g_umask);
++	}
+ }
+ 
+ static void cleanup_repository(void *path)
+@@ -263,7 +270,6 @@ void test_repo_init__reinit_doesnot_over
+ 
+ void test_repo_init__reinit_overwrites_filemode(void)
+ {
+-	git_config *config;
+ 	int expected, current_value;
+ 
+ #ifdef GIT_WIN32
+@@ -284,13 +290,10 @@ void test_repo_init__reinit_overwrites_f
+ 
+ 	/* Reinit the repository */
+ 	cl_git_pass(git_repository_init(&_repo, "overwrite.git", 1));
+-	git_repository_config(&config, _repo);
+ 
+ 	/* Ensure the "core.filemode" config value has been reset */
+-	cl_git_pass(git_config_get_bool(&current_value, config, "core.filemode"));
++	current_value = cl_repo_get_bool(_repo, "core.filemode");
+ 	cl_assert_equal_i(expected, current_value);
+-
+-	git_config_free(config);
+ }
+ 
+ void test_repo_init__sets_logAllRefUpdates_according_to_type_of_repository(void)
+@@ -361,6 +364,8 @@ void test_repo_init__extended_1(void)
+ 	cl_fixture_cleanup("root");
+ }
+ 
++#define CLEAR_FOR_CORE_FILEMODE(M) ((M) &= ~0177)
++
+ static void assert_hooks_match(
+ 	const char *template_dir,
+ 	const char *repo_dir,
+@@ -377,14 +382,20 @@ static void assert_hooks_match(
+ 	cl_git_pass(git_buf_joinpath(&actual, repo_dir, hook_path));
+ 	cl_git_pass(git_path_lstat(actual.ptr, &st));
+ 
+-	cl_assert(expected_st.st_size == st.st_size);
++	cl_assert_equal_sz(expected_st.st_size, st.st_size);
+ 
+-	if (!core_filemode) {
+-		expected_st.st_mode = expected_st.st_mode & ~0111;
+-		st.st_mode = st.st_mode & ~0111;
+-	}
++	if (GIT_MODE_TYPE(expected_st.st_mode) != GIT_FILEMODE_LINK) {
++		mode_t expected_mode =
++			GIT_MODE_TYPE(expected_st.st_mode) |
++			(GIT_PERMS_FOR_WRITE(expected_st.st_mode) & ~g_umask);
++
++		if (!core_filemode) {
++			CLEAR_FOR_CORE_FILEMODE(expected_mode);
++			CLEAR_FOR_CORE_FILEMODE(st.st_mode);
++		}
+ 
+-	cl_assert_equal_i((int)expected_st.st_mode, (int)st.st_mode);
++		cl_assert_equal_i_fmt(expected_mode, st.st_mode, "%07o");
++	}
+ 
+ 	git_buf_free(&expected);
+ 	git_buf_free(&actual);
+@@ -402,24 +413,19 @@ static void assert_mode_seems_okay(
+ 	git_buf_free(&full);
+ 
+ 	if (!core_filemode) {
+-		expect_mode = expect_mode & ~0111;
+-		st.st_mode = st.st_mode & ~0111;
++		CLEAR_FOR_CORE_FILEMODE(expect_mode);
++		CLEAR_FOR_CORE_FILEMODE(st.st_mode);
+ 		expect_setgid = false;
+ 	}
+ 
+-	if (S_ISGID != 0) {
+-		if (expect_setgid)
+-			cl_assert((st.st_mode & S_ISGID) != 0);
+-		else
+-			cl_assert((st.st_mode & S_ISGID) == 0);
+-	}
++	if (S_ISGID != 0)
++		cl_assert_equal_b(expect_setgid, (st.st_mode & S_ISGID) != 0);
+ 
+-	if ((expect_mode & 0111) != 0)
+-		cl_assert((st.st_mode & 0111) != 0);
+-	else
+-		cl_assert((st.st_mode & 0111) == 0);
++	cl_assert_equal_b(
++		GIT_PERMS_IS_EXEC(expect_mode), GIT_PERMS_IS_EXEC(st.st_mode));
+ 
+-	cl_assert((expect_mode & 0170000) == (st.st_mode & 0170000));
++	cl_assert_equal_i_fmt(
++		GIT_MODE_TYPE(expect_mode), GIT_MODE_TYPE(st.st_mode), "%07o");
+ }
+ 
+ void test_repo_init__extended_with_template(void)
+@@ -427,6 +433,7 @@ void test_repo_init__extended_with_templ
+ 	git_buf expected = GIT_BUF_INIT;
+ 	git_buf actual = GIT_BUF_INIT;
+ 	git_repository_init_options opts = GIT_REPOSITORY_INIT_OPTIONS_INIT;
++	int filemode;
+ 
+ 	cl_set_cleanup(&cleanup_repository, "templated.git");
+ 
+@@ -450,13 +457,15 @@ void test_repo_init__extended_with_templ
+ 	git_buf_free(&expected);
+ 	git_buf_free(&actual);
+ 
++	filemode = cl_repo_get_bool(_repo, "core.filemode");
++
+ 	assert_hooks_match(
+ 		cl_fixture("template"), git_repository_path(_repo),
+-		"hooks/update.sample", true);
++		"hooks/update.sample", filemode);
+ 
+ 	assert_hooks_match(
+ 		cl_fixture("template"), git_repository_path(_repo),
+-		"hooks/link.sample", true);
++		"hooks/link.sample", filemode);
+ }
+ 
+ void test_repo_init__extended_with_template_and_shared_mode(void)
+@@ -464,7 +473,6 @@ void test_repo_init__extended_with_templ
+ 	git_buf expected = GIT_BUF_INIT;
+ 	git_buf actual = GIT_BUF_INIT;
+ 	git_repository_init_options opts = GIT_REPOSITORY_INIT_OPTIONS_INIT;
+-	git_config *config;
+ 	int filemode = true;
+ 	const char *repo_path = NULL;
+ 
+@@ -480,9 +488,7 @@ void test_repo_init__extended_with_templ
+ 	cl_assert(!git_repository_is_bare(_repo));
+ 	cl_assert(!git__suffixcmp(git_repository_path(_repo), "/init_shared_from_tpl/.git/"));
+ 
+-	cl_git_pass(git_repository_config(&config, _repo));
+-	cl_git_pass(git_config_get_bool(&filemode, config, "core.filemode"));
+-	git_config_free(config);
++	filemode = cl_repo_get_bool(_repo, "core.filemode");
+ 
+ 	cl_git_pass(git_futils_readbuffer(
+ 		&expected, cl_fixture("template/description")));
+--- a/tests-clar/core/mkdir.c
++++ b/tests-clar/core/mkdir.c
+@@ -115,9 +115,9 @@ static void check_mode(mode_t expected,
+ {
+ #ifdef GIT_WIN32
+ 	/* chmod on Win32 doesn't support exec bit, not group/world bits */
+-	cl_assert((expected & 0600) == (actual & 0777));
++	cl_assert_equal_i_fmt((expected & 0600), (actual & 0777), "%07o");
+ #else
+-	cl_assert(expected == (actual & 0777));
++	cl_assert_equal_i_fmt(expected, (actual & 0777), "%07o");
+ #endif
+ }
+ 
+--- a/tests-clar/clar_libgit2.c
++++ b/tests-clar/clar_libgit2.c
+@@ -343,3 +343,13 @@ void cl_repo_set_bool(git_repository *re
+ 	cl_git_pass(git_config_set_bool(config, cfg, value != 0));
+ 	git_config_free(config);
+ }
++
++int cl_repo_get_bool(git_repository *repo, const char *cfg)
++{
++	int val = 0;
++	git_config *config;
++	cl_git_pass(git_repository_config(&config, repo));
++	cl_git_pass(git_config_get_bool(&val, config, cfg));;
++	git_config_free(config);
++	return val;
++}
+--- a/src/checkout.c
++++ b/src/checkout.c
+@@ -693,17 +693,14 @@ static int buffer_to_file(
+ 			buffer, path, file_open_flags, file_mode)) < 0)
+ 		return error;
+ 
+-	if (st != NULL && (error = p_stat(path, st)) < 0) {
+-		giterr_set(GITERR_OS, "Error while statting '%s'", path);
+-		return error;
+-	}
++	if (st != NULL && (error = p_stat(path, st)) < 0)
++		giterr_set(GITERR_OS, "Error statting '%s'", path);
+ 
+-	if ((file_mode & 0100) != 0 && (error = p_chmod(path, file_mode)) < 0) {
++	else if (GIT_PERMS_IS_EXEC(file_mode) &&
++			(error = p_chmod(path, file_mode)) < 0)
+ 		giterr_set(GITERR_OS, "Failed to set permissions on '%s'", path);
+-		return error;
+-	}
+ 
+-	return 0;
++	return error;
+ }
+ 
+ static int blob_content_to_file(
+--- a/src/diff_print.c
++++ b/src/diff_print.c
+@@ -7,7 +7,7 @@
+ #include "common.h"
+ #include "diff.h"
+ #include "diff_patch.h"
+-#include "buffer.h"
++#include "fileops.h"
+ 
+ typedef struct {
+ 	git_diff_list *diff;
+@@ -46,7 +46,7 @@ static char diff_pick_suffix(int mode)
+ {
+ 	if (S_ISDIR(mode))
+ 		return '/';
+-	else if (mode & 0100) /* -V536 */
++	else if (GIT_PERMS_IS_EXEC(mode)) /* -V536 */
+ 		/* in git, modes are very regular, so we must have 0100755 mode */
+ 		return '*';
+ 	else
+--- a/src/fileops.c
++++ b/src/fileops.c
+@@ -110,7 +110,7 @@ git_off_t git_futils_filesize(git_file f
+ mode_t git_futils_canonical_mode(mode_t raw_mode)
+ {
+ 	if (S_ISREG(raw_mode))
+-		return S_IFREG | GIT_CANONICAL_PERMS(raw_mode);
++		return S_IFREG | GIT_PERMS_CANONICAL(raw_mode);
+ 	else if (S_ISLNK(raw_mode))
+ 		return S_IFLNK;
+ 	else if (S_ISGITLINK(raw_mode))
+@@ -953,7 +953,7 @@ static int _cp_r_callback(void *ref, git
+ 		mode_t usemode = from_st.st_mode;
+ 
+ 		if ((info->flags & GIT_CPDIR_SIMPLE_TO_MODE) != 0)
+-			usemode = (usemode & 0111) ? 0777 : 0666;
++			usemode = GIT_PERMS_FOR_WRITE(usemode);
+ 
+ 		error = git_futils_cp(from->ptr, info->to.ptr, usemode);
+ 	}
+--- a/src/fileops.h
++++ b/src/fileops.h
+@@ -223,9 +223,13 @@ extern int git_futils_open_ro(const char
+  */
+ extern git_off_t git_futils_filesize(git_file fd);
+ 
++#define GIT_PERMS_IS_EXEC(MODE)		(((MODE) & 0111) != 0)
++#define GIT_PERMS_CANONICAL(MODE)	(GIT_PERMS_IS_EXEC(MODE) ? 0755 : 0644)
++#define GIT_PERMS_FOR_WRITE(MODE)   (GIT_PERMS_IS_EXEC(MODE) ? 0777 : 0666)
++
+ #define GIT_MODE_PERMS_MASK			0777
+-#define GIT_CANONICAL_PERMS(MODE)	(((MODE) & 0100) ? 0755 : 0644)
+-#define GIT_MODE_TYPE(MODE)			((MODE) & ~GIT_MODE_PERMS_MASK)
++#define GIT_MODE_TYPE_MASK			0170000
++#define GIT_MODE_TYPE(MODE)			((MODE) & GIT_MODE_TYPE_MASK)
+ #define GIT_MODE_ISBLOB(MODE)		(GIT_MODE_TYPE(MODE) == GIT_MODE_TYPE(GIT_FILEMODE_BLOB))
+ 
+ /**
+--- a/src/index.c
++++ b/src/index.c
+@@ -269,7 +269,7 @@ static unsigned int index_create_mode(un
+ 	if (S_ISDIR(mode) || (mode & S_IFMT) == (S_IFLNK | S_IFDIR))
+ 		return (S_IFLNK | S_IFDIR);
+ 
+-	return S_IFREG | ((mode & 0100) ? 0755 : 0644);
++	return S_IFREG | GIT_PERMS_CANONICAL(mode);
+ }
+ 
+ static unsigned int index_merge_mode(
+--- a/src/tree.c
++++ b/src/tree.c
+@@ -10,7 +10,7 @@
+ #include "tree.h"
+ #include "git2/repository.h"
+ #include "git2/object.h"
+-#include "path.h"
++#include "fileops.h"
+ #include "tree-cache.h"
+ #include "index.h"
+ 
+@@ -29,19 +29,19 @@ static bool valid_filemode(const int fil
+ GIT_INLINE(git_filemode_t) normalize_filemode(git_filemode_t filemode)
+ {
+ 	/* Tree bits set, but it's not a commit */
+-	if (filemode & GIT_FILEMODE_TREE && !(filemode & 0100000))
++	if (GIT_MODE_TYPE(filemode) == GIT_FILEMODE_TREE)
+ 		return GIT_FILEMODE_TREE;
+ 
+-	/* If any of the x bits is set */
+-	if (filemode & 0111)
++	/* If any of the x bits are set */
++	if (GIT_PERMS_IS_EXEC(filemode))
+ 		return GIT_FILEMODE_BLOB_EXECUTABLE;
+ 
+ 	/* 16XXXX means commit */
+-	if ((filemode & GIT_FILEMODE_COMMIT) == GIT_FILEMODE_COMMIT)
++	if (GIT_MODE_TYPE(filemode) == GIT_FILEMODE_COMMIT)
+ 		return GIT_FILEMODE_COMMIT;
+ 
+ 	/* 12XXXX means commit */
+-	if ((filemode & GIT_FILEMODE_LINK) == GIT_FILEMODE_LINK)
++	if (GIT_MODE_TYPE(filemode) == GIT_FILEMODE_LINK)
+ 		return GIT_FILEMODE_LINK;
+ 
+ 	/* Otherwise, return a blob */
+--- a/tests-clar/index/addall.c
++++ b/tests-clar/index/addall.c
+@@ -1,6 +1,7 @@
+ #include "clar_libgit2.h"
+ #include "../status/status_helpers.h"
+ #include "posix.h"
++#include "fileops.h"
+ 
+ git_repository *g_repo = NULL;
+ 
+@@ -108,8 +109,10 @@ static void check_stat_data(git_index *i
+ 		cl_assert(st.st_size == entry->file_size);
+ 		cl_assert(st.st_uid  == entry->uid);
+ 		cl_assert(st.st_gid  == entry->gid);
+-		cl_assert_equal_b(st.st_mode & ~0777, entry->mode & ~0777);
+-		cl_assert_equal_b(st.st_mode &  0111, entry->mode &  0111);
++		cl_assert_equal_i_fmt(
++			GIT_MODE_TYPE(st.st_mode), GIT_MODE_TYPE(entry->mode), "%07o");
++		cl_assert_equal_b(
++			GIT_PERMS_IS_EXEC(st.st_mode), GIT_PERMS_IS_EXEC(entry->mode));
+ 	} else {
+ 		/* most things will still match */
+ 		cl_assert(st.st_size != entry->file_size);
