@@ -29,7 +29,7 @@
 
 void cl_git_report_failure(int, const char *, int, const char *);
 
-#define cl_assert_equal_sz(sz1,sz2) cl_assert_equal_i((int)sz1, (int)(sz2))
+#define cl_assert_equal_sz(sz1,sz2) clar__assert_equal(__FILE__,__LINE__,#sz1 " != " #sz2, 1, PRIuZ, (size_t)(sz1), (size_t)(sz2))
 
 /*
  * Some utility macros for building long strings
@@ -71,5 +71,6 @@ int cl_git_remove_placeholders(const char *directory_path, const char *filename)
 
 /* config setting helpers */
 void cl_repo_set_bool(git_repository *repo, const char *cfg, int value);
+int cl_repo_get_bool(git_repository *repo, const char *cfg);
 
 #endif
