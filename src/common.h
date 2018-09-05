@@ -10,6 +10,11 @@
 #include "git2/common.h"
 #include "cc-compat.h"
 
+/** Support for gcc/clang __has_builtin intrinsic */
+#ifndef __has_builtin
+# define __has_builtin(x) 0
+#endif
+
 #include <assert.h>
 #include <errno.h>
 #include <limits.h>
@@ -101,6 +106,10 @@ GIT_INLINE(void) git__init_structure(void *structure, size_t len, unsigned int v
 	*((int*)structure) = version;
 }
 #define GIT_INIT_STRUCTURE(S,V) git__init_structure(S, sizeof(*S), V)
+
+/** Check for additive overflow, setting an error if would occur. */
+#define GIT_ADD_SIZET_OVERFLOW(out, one, two) \
+	(git__add_sizet_overflow(out, one, two) ? (giterr_set_oom(), 1) : 0)
 
 /* NOTE: other giterr functions are in the public errors.h header file */
 

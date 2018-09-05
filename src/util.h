@@ -339,4 +339,43 @@ GIT_INLINE(void) git__memzero(void *data, size_t size)
 #endif
 }
 
+/* Use clang/gcc compiler intrinsics whenever possible */
+#if (SIZE_MAX == UINT_MAX) && __has_builtin(__builtin_uadd_overflow)
+# define git__add_sizet_overflow(out, one, two) \
+	__builtin_uadd_overflow(one, two, out)
+# define git__multiply_sizet_overflow(out, one, two) \
+	__builtin_umul_overflow(one, two, out)
+#elif (SIZE_MAX == ULONG_MAX) && __has_builtin(__builtin_uaddl_overflow)
+# define git__add_sizet_overflow(out, one, two) \
+	__builtin_uaddl_overflow(one, two, out)
+# define git__multiply_sizet_overflow(out, one, two) \
+	__builtin_umull_overflow(one, two, out)
+#else
+
+/**
+ * Sets `one + two` into `out`, unless the arithmetic would overflow.
+ * @return true if the result fits in a `size_t`, false on overflow.
+ */
+GIT_INLINE(bool) git__add_sizet_overflow(size_t *out, size_t one, size_t two)
+{
+	if (SIZE_MAX - one < two)
+		return true;
+	*out = one + two;
+	return false;
+}
+
+/**
+ * Sets `one * two` into `out`, unless the arithmetic would overflow.
+ * @return true if the result fits in a `size_t`, false on overflow.
+ */
+GIT_INLINE(bool) git__multiply_sizet_overflow(size_t *out, size_t one, size_t two)
+{
+	if (one && SIZE_MAX / one < two)
+		return true;
+	*out = one * two;
+	return false;
+}
+
+#endif
+
 #endif /* INCLUDE_util_h__ */
