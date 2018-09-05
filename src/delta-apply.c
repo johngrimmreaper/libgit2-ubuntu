@@ -60,7 +60,8 @@ int git__delta_apply(
 	size_t base_sz, res_sz, alloc_sz;
 	unsigned char *res_dp;
 
-	/* Check that the base size matches the data we were given;
+	/*
+	 * Check that the base size matches the data we were given;
 	 * if not we would underflow while accessing data from the
 	 * base object, resulting in data corruption or segfault.
 	 */
@@ -85,28 +86,28 @@ int git__delta_apply(
 	while (delta < delta_end) {
 		unsigned char cmd = *delta++;
 		if (cmd & 0x80) {
-			/* cmd is a copy instruction; copy from the base.
-			 */
+			/* cmd is a copy instruction; copy from the base. */
 			size_t off = 0, len = 0;
 
 			if (cmd & 0x01) off = *delta++;
 			if (cmd & 0x02) off |= *delta++ << 8;
 			if (cmd & 0x04) off |= *delta++ << 16;
-			if (cmd & 0x08) off |= *delta++ << 24;
+			if (cmd & 0x08) off |= ((unsigned) *delta++ << 24UL);
 
 			if (cmd & 0x10) len = *delta++;
 			if (cmd & 0x20) len |= *delta++ << 8;
 			if (cmd & 0x40) len |= *delta++ << 16;
-			if (!len)		len = 0x10000;
+			if (!len)       len = 0x10000;
 
-			if (base_len < off + len || res_sz < len)
+            if (base_len < off + len || res_sz < len)
 				goto fail;
 			memcpy(res_dp, base + off, len);
 			res_dp += len;
 			res_sz -= len;
 
 		} else if (cmd) {
-			/* cmd is a literal insert instruction; copy from
+			/*
+			 * cmd is a literal insert instruction; copy from
 			 * the delta stream itself.
 			 */
 			if (delta_end - delta < cmd || res_sz < cmd)
@@ -117,8 +118,7 @@ int git__delta_apply(
 			res_sz -= cmd;
 
 		} else {
-			/* cmd == 0 is reserved for future encodings.
-			 */
+			/* cmd == 0 is reserved for future encodings. */
 			goto fail;
 		}
 	}
