@@ -1,2 +1,5 @@
 revert-curl-no-encrypt.patch
 use-curl-stream.patch
+CVE-2018-10887-1.patch
+CVE-2018-10887-2.patch
+CVE-2018-10888.patch
