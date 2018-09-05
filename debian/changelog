@@ -1,3 +1,14 @@
+libgit2 (0.26.0+dfsg.1-1.1ubuntu0.2) bionic-security; urgency=medium
+
+  * SECURITY UPDATE: Out of bounds read
+    - debian/patches/CVE-2018-10887-1.patch: delta: Fix sign-extension of big
+      left-shift
+    - debian/patches/CVE-2018-10887-2.patch: delta: fix overflow when
+      computing limit
+    - CVE-2018-10887, CVE-2018-10888
+
+ -- Mike Salvatore <mike.salvatore@canonical.com>  Wed, 05 Sep 2018 10:59:40 -0400
+
 libgit2 (0.26.0+dfsg.1-1.1build1) bionic; urgency=medium
 
   * No-change rebuild for http-parser soname change.
