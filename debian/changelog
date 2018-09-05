@@ -1,3 +1,14 @@
+libgit2 (0.24.1-2ubuntu0.2) xenial-security; urgency=medium
+
+  * SECURITY UPDATE: Out of bounds read
+    - debian/patches/CVE-2018-10887-1.patch: delta: Fix sign-extension of big
+      left-shift
+    - debian/patches/CVE-2018-10887-2.patch: delta: fix overflow when
+      computing limit
+    - CVE-2018-10887, CVE-2018-10888
+
+ -- Mike Salvatore <mike.salvatore@canonical.com>  Wed, 05 Sep 2018 12:15:48 -0400
+
 libgit2 (0.24.1-2) unstable; urgency=medium
 
   * Team upload.
