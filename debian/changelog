@@ -1,3 +1,9 @@
+libgit2 (0.27.4+dfsg.1-0.1build1) disco; urgency=medium
+
+  * No-change rebuild against mbedtls.
+
+ -- Simon Quigley <tsimonq2@ubuntu.com>  Sun, 11 Nov 2018 16:26:21 -0600
+
 libgit2 (0.27.4+dfsg.1-0.1) unstable; urgency=medium
 
   * Non-maintainer upload.
