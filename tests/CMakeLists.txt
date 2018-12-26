@@ -52,12 +52,3 @@ IF (MSVC_IDE)
 	SET_SOURCE_FILES_PROPERTIES("precompiled.c" COMPILE_FLAGS "/Ycprecompiled.h")
 ENDIF ()
 
-IF (USE_HTTPS)
-	ADD_TEST(libgit2_clar "${libgit2_BINARY_DIR}/libgit2_clar" -xonline -xclone::local::git_style_unc_paths -xclone::local::standard_unc_paths_are_written_git_style)
-ELSE ()
-	ADD_TEST(libgit2_clar "${libgit2_BINARY_DIR}/libgit2_clar" -v -xclone::local::git_style_unc_paths -xclone::local::standard_unc_paths_are_written_git_style)
-ENDIF ()
-
-# Add additional test targets that require special setup
-ADD_TEST(libgit2_clar-proxy_credentials "${libgit2_BINARY_DIR}/libgit2_clar" -v -xonline::clone::proxy_credentials_in_url -xonline::clone::proxy_credentials_request)
-ADD_TEST(libgit2_clar-ssh "${libgit2_BINARY_DIR}/libgit2_clar" -v -xonline::push -xonline::clone::ssh_cert -xonline::clone::ssh_with_paths)
