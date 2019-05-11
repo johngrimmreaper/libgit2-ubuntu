@@ -1,3 +1,13 @@
+libgit2 (0.28.1+dfsg.1-0.1) experimental; urgency=medium
+
+  * Non-maintainer upload
+  * New upstream version 0.28.1+dfsg.1
+  * Library transition from 27 to 28
+  * Remove resolved patches with new upstream version
+  * Remove nonexistent document
+
+ -- Jongmin Kim <jmkim@pukyong.ac.kr>  Sun, 12 May 2019 02:53:10 +0900
+
 libgit2 (0.27.7+dfsg.1-0.1) unstable; urgency=high
 
   * Non-maintainer upload.
