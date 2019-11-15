@@ -1,3 +1,42 @@
+v0.28.3
+-------
+
+This is a security release fixing the following issues:
+
+* A carefully constructed commit object with a very large number
+  of parents may lead to potential out-of-bounds writes or
+  potential denial of service.
+
+* The ProgramData configuration file is always read for compatibility
+  with Git for Windows and Portable Git installations.  The ProgramData
+  location is not necessarily writable only by administrators, so we
+  now ensure that the configuration file is owned by the administrator
+  or the current user.
+
+v0.28.2
+-------
+
+This is a bugfix release with the following changes:
+
+* Fix include directory ordering when using bundled dependencies.
+
+* Fix infinite loop when searching for a non-existing repository with
+  Windows-style paths including drive prefixes.
+
+* Fix paths with a trailing "/" not always being treated as
+  directories when computing ignores.
+
+* Fix false negatives when computing ignores where ignore rules
+  that are a prefix to a negative ignore rule exist.
+
+* Fix patches with CRLF line endings not being parsed correctly.
+
+* Fix segfault when parsing patches with file addition (deletion)
+  where the added (deleted) file name contains a space.
+
+* Fix assertion failure when trying to write to a non-existent
+  locked configuration file.
+
 v0.28.1
 -------
 
