@@ -1,3 +1,12 @@
+libgit2 (0.28.3+dfsg.1-1) unstable; urgency=medium
+
+  * Reupload to unstable (transition: #934927)
+  * Add myself and Russel as Uploaders and Jongmin as Maintainer
+    (Closes: #928971)
+  * Bump Standards-Version to 4.4.1 (no changes needed)
+
+ -- Pirate Praveen <praveen@debian.org>  Sat, 16 Nov 2019 11:21:02 +0530
+
 libgit2 (0.28.3+dfsg.1-0.1) experimental; urgency=medium
 
   * Non-maintainer upload
