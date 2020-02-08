@@ -1,3 +1,9 @@
+libgit2 (0.28.3+dfsg.1-1build1) focal; urgency=medium
+
+  * No-change rebuild with fixed binutils on arm64.
+
+ -- Matthias Klose <doko@ubuntu.com>  Sat, 08 Feb 2020 11:06:31 +0000
+
 libgit2 (0.28.3+dfsg.1-1) unstable; urgency=medium
 
   * Reupload to unstable (transition: #934927)
