@@ -1,3 +1,9 @@
+libgit2 (0.28.3+dfsg.1-1ubuntu1) focal; urgency=medium
+
+  * Build-depend on python2-minimal instead of python-minimal
+
+ -- Gianfranco Costamagna <locutusofborg@debian.org>  Sat, 08 Feb 2020 19:31:26 +0100
+
 libgit2 (0.28.3+dfsg.1-1) unstable; urgency=medium
 
   * Reupload to unstable (transition: #934927)
