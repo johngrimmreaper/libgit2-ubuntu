@@ -1,3 +1,22 @@
+libgit2 (0.28.4+dfsg.1-2) unstable; urgency=medium
+
+  * Re-upload to unstable
+
+ -- Utkarsh Gupta <utkarsh@debian.org>  Fri, 14 Feb 2020 05:17:15 +0530
+
+libgit2 (0.28.4+dfsg.1-1) experimental; urgency=medium
+
+  * New upstream version 0.28.4+dfsg.1
+  * Replace libz-dev with zlib1g-dev
+  * Replace python-minimal with python3-minimal (Closes: #936866)
+  * Make libgit2 cross buildable (Closes: #913241)
+  * Add myself as the maintainer
+  * Beautify d/control
+  * Bump debhelper-compat to 12
+  * Bump Standards-Version to 4.5.0
+
+ -- Utkarsh Gupta <utkarsh@debian.org>  Fri, 14 Feb 2020 02:43:40 +0530
+
 libgit2 (0.28.3+dfsg.1-1) unstable; urgency=medium
 
   * Reupload to unstable (transition: #934927)

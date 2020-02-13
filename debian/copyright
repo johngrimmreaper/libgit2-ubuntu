@@ -13,6 +13,7 @@ License: BSD-2-clause
 
 Files: debian/*
 Copyright: 2011-2015, Russell Sim <russell.sim@gmail.com>
+           2020, Utkarsh Gupta <utkarsh@debian.org>
 License: GPL-2+
 
 Files: examples/*
