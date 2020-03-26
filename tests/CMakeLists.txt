@@ -42,12 +42,7 @@ ADD_EXECUTABLE(libgit2_clar ${SRC_CLAR} ${SRC_TEST} ${LIBGIT2_OBJECTS})
 SET_TARGET_PROPERTIES(libgit2_clar PROPERTIES C_STANDARD 90)
 SET_TARGET_PROPERTIES(libgit2_clar PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${libgit2_BINARY_DIR})
 
-IF (${CMAKE_VERSION} VERSION_LESS 2.8.12)
-	# Already handled by a global INCLUDE_DIRECTORY()
-ELSE()
-	TARGET_INCLUDE_DIRECTORIES(libgit2_clar PRIVATE ../src PUBLIC ../include)
-ENDIF()
-
+TARGET_INCLUDE_DIRECTORIES(libgit2_clar PRIVATE ../src PUBLIC ../include)
 TARGET_LINK_LIBRARIES(libgit2_clar ${LIBGIT2_LIBS})
 IDE_SPLIT_SOURCES(libgit2_clar)
 
@@ -57,4 +52,12 @@ IF (MSVC_IDE)
 	SET_SOURCE_FILES_PROPERTIES("precompiled.c" COMPILE_FLAGS "/Ycprecompiled.h")
 ENDIF ()
 
-ADD_TEST(invasive  "${libgit2_BINARY_DIR}/libgit2_clar" -v -score::ftruncate -sfilter::stream::bigfile -sodb::largefiles -siterator::workdir::filesystem_gunk -srepo::init -srepo::init::at_filesystem_root)
+FUNCTION(ADD_CLAR_TEST name)
+	IF (NOT USE_LEAK_CHECKER STREQUAL "OFF")
+		ADD_TEST(${name} "${libgit2_SOURCE_DIR}/script/${USE_LEAK_CHECKER}.sh" "${libgit2_BINARY_DIR}/libgit2_clar" ${ARGN})
+	ELSE()
+		ADD_TEST(${name} "${libgit2_BINARY_DIR}/libgit2_clar" ${ARGN})
+	ENDIF()
+ENDFUNCTION(ADD_CLAR_TEST)
+
+ADD_CLAR_TEST(invasive            -v -score::ftruncate -sfilter::stream::bigfile -sodb::largefiles -siterator::workdir::filesystem_gunk -srepo::init -srepo::init::at_filesystem_root)
