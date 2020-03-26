@@ -1,5 +1,5 @@
 #include "clar_libgit2.h"
-#include "fileops.h"
+#include "futils.h"
 #include "pack.h"
 #include "hash.h"
 #include "iterator.h"
@@ -12,7 +12,9 @@ static git_packbuilder *_packbuilder;
 static git_indexer *_indexer;
 static git_vector _commits;
 static int _commits_is_initialized;
-static git_transfer_progress _stats;
+static git_indexer_progress _stats;
+
+extern bool git_disable_pack_keep_file_checks;
 
 void test_pack_packbuilder__initialize(void)
 {
@@ -32,6 +34,7 @@ void test_pack_packbuilder__cleanup(void)
 	unsigned int i;
 
 	cl_git_pass(git_libgit2_opts(GIT_OPT_ENABLE_FSYNC_GITDIR, 0));
+	cl_git_pass(git_libgit2_opts(GIT_OPT_DISABLE_PACK_KEEP_FILE_CHECKS, false));
 
 	if (_commits_is_initialized) {
 		_commits_is_initialized = 0;
@@ -85,14 +88,14 @@ static void seed_packbuilder(void)
 
 static int feed_indexer(void *ptr, size_t len, void *payload)
 {
-	git_transfer_progress *stats = (git_transfer_progress *)payload;
+	git_indexer_progress *stats = (git_indexer_progress *)payload;
 
 	return git_indexer_append(_indexer, ptr, len, stats);
 }
 
 void test_pack_packbuilder__create_pack(void)
 {
-	git_transfer_progress stats;
+	git_indexer_progress stats;
 	git_buf buf = GIT_BUF_INIT, path = GIT_BUF_INIT;
 	git_hash_ctx ctx;
 	git_oid hash;
@@ -142,7 +145,7 @@ void test_pack_packbuilder__get_hash(void)
 
 	seed_packbuilder();
 
-	git_packbuilder_write(_packbuilder, ".", 0, NULL, NULL);
+	cl_git_pass(git_packbuilder_write(_packbuilder, ".", 0, NULL, NULL));
 	git_oid_fmt(hex, git_packbuilder_hash(_packbuilder));
 
 	cl_assert_equal_s(hex, "7f5fa362c664d68ba7221259be1cbd187434b2f0");
@@ -155,7 +158,7 @@ static void test_write_pack_permission(mode_t given, mode_t expected)
 
 	seed_packbuilder();
 
-	git_packbuilder_write(_packbuilder, ".", given, NULL, NULL);
+	cl_git_pass(git_packbuilder_write(_packbuilder, ".", given, NULL, NULL));
 
 	/* Windows does not return group/user bits from stat,
 	* files are never executable.
@@ -194,7 +197,7 @@ void test_pack_packbuilder__permissions_readwrite(void)
 void test_pack_packbuilder__does_not_fsync_by_default(void)
 {
 	seed_packbuilder();
-	git_packbuilder_write(_packbuilder, ".", 0666, NULL, NULL);
+	cl_git_pass(git_packbuilder_write(_packbuilder, ".", 0666, NULL, NULL));
 	cl_assert_equal_sz(0, p_fsync__cnt);
 }
 
@@ -212,7 +215,7 @@ void test_pack_packbuilder__fsync_global_setting(void)
 	cl_git_pass(git_libgit2_opts(GIT_OPT_ENABLE_FSYNC_GITDIR, 1));
 	p_fsync__cnt = 0;
 	seed_packbuilder();
-	git_packbuilder_write(_packbuilder, ".", 0666, NULL, NULL);
+	cl_git_pass(git_packbuilder_write(_packbuilder, ".", 0666, NULL, NULL));
 	cl_assert_equal_sz(expected_fsyncs, p_fsync__cnt);
 }
 
@@ -221,7 +224,7 @@ void test_pack_packbuilder__fsync_repo_setting(void)
 	cl_repo_set_bool(_repo, "core.fsyncObjectFiles", true);
 	p_fsync__cnt = 0;
 	seed_packbuilder();
-	git_packbuilder_write(_packbuilder, ".", 0666, NULL, NULL);
+	cl_git_pass(git_packbuilder_write(_packbuilder, ".", 0666, NULL, NULL));
 	cl_assert_equal_sz(expected_fsyncs, p_fsync__cnt);
 }
 
@@ -259,4 +262,11 @@ void test_pack_packbuilder__foreach_with_cancel(void)
 	cl_git_fail_with(
 		git_packbuilder_foreach(_packbuilder, foreach_cancel_cb, idx), -1111);
 	git_indexer_free(idx);
+}
+
+void test_pack_packbuilder__keep_file_check(void)
+{
+	assert(!git_disable_pack_keep_file_checks);
+	cl_git_pass(git_libgit2_opts(GIT_OPT_DISABLE_PACK_KEEP_FILE_CHECKS, true));
+	assert(git_disable_pack_keep_file_checks);
 }

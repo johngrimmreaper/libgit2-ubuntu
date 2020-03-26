@@ -12,18 +12,20 @@ Build-Depends: debhelper-compat (= 12),
                libmbedtls-dev,
                libssh2-1-dev,
                libhttp-parser-dev,
-               libkrb5-dev
+               libpcre3-dev,
+               libkrb5-dev,
+               ca-certificates
 Standards-Version: 4.5.0
 Homepage: https://libgit2.github.com/
 Vcs-Git: https://salsa.debian.org/debian/libgit2.git
 Vcs-Browser: https://salsa.debian.org/debian/libgit2
-
+Rules-Requires-Root: no
 
 Package: libgit2-dev
 Architecture: any
 Section: libdevel
 Multi-Arch: same
-Depends: libgit2-28 (= ${binary:Version}),
+Depends: libgit2-0.99 (= ${binary:Version}),
          zlib1g-dev,
          libmbedtls-dev,
          libssh2-1-dev,
@@ -37,7 +39,7 @@ Description: low-level Git library (development files)
  .
  This package contains the development files for libgit2.
 
-Package: libgit2-28
+Package: libgit2-0.99
 Architecture: any
 Multi-Arch: same
 Pre-Depends: ${misc:Pre-Depends}

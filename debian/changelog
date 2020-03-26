@@ -1,3 +1,24 @@
+libgit2 (0.99.0+dfsg.1-1) experimental; urgency=medium
+
+  [ Utkarsh Gupta ]
+  * New upstream version 0.99.0+dfsg.1
+  * Use pcre2 as REGEX_BACKEND
+  * Add patch to fix installation in wrong location
+  * Add BD on libpcre2-dev
+  * Add -DUSE_NTLMCLIENT and -DUSE_HTTP_PARSER flags to CMake
+  * Library transition from 28 to 99
+  * Fix package-name-doesnt-match-sonames
+  * Fix d/copyright wrt the new release
+  * Add Rules-Requires-Root: no
+
+  [ Sudip Mukherjee ]
+  * Revert "Use pcre2 as REGEX_BACKEND"
+  * Add dependency on ca-certificates and libpcre3-dev
+  * Add ci
+  * fix symbols file
+
+ -- Utkarsh Gupta <utkarsh@debian.org>  Thu, 26 Mar 2020 18:25:16 +0530
+
 libgit2 (0.28.4+dfsg.1-3) unstable; urgency=medium
 
   [ Dan Nicholson ]
