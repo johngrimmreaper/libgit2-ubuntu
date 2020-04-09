@@ -1,3 +1,11 @@
+libgit2 (1.0.0+dfsg.1-1) experimental; urgency=medium
+
+  * New upstream version 1.0.0+dfsg.1
+  * Library transition to 1.0.0
+  * Drop patch as it is merged upstream
+
+ -- Utkarsh Gupta <utkarsh@debian.org>  Fri, 10 Apr 2020 02:21:10 +0530
+
 libgit2 (0.99.0+dfsg.1-1) experimental; urgency=medium
 
   [ Utkarsh Gupta ]
