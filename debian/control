@@ -25,7 +25,7 @@ Package: libgit2-dev
 Architecture: any
 Section: libdevel
 Multi-Arch: same
-Depends: libgit2-0.99 (= ${binary:Version}),
+Depends: libgit2-1.0 (= ${binary:Version}),
          zlib1g-dev,
          libmbedtls-dev,
          libssh2-1-dev,
@@ -39,7 +39,7 @@ Description: low-level Git library (development files)
  .
  This package contains the development files for libgit2.
 
-Package: libgit2-0.99
+Package: libgit2-1.0
 Architecture: any
 Multi-Arch: same
 Pre-Depends: ${misc:Pre-Depends}
