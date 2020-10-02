@@ -66,4 +66,6 @@ ELSE()
 	MESSAGE(FATAL_ERROR "Asked for unknown SHA1 backend: ${SHA1_BACKEND}")
 ENDIF()
 
+list(SORT SRC_SHA1)
+
 ADD_FEATURE_INFO(SHA ON "using ${SHA1_BACKEND}")
