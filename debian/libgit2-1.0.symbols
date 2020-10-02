@@ -1,4 +1,5 @@
 libgit2.so.1.0 libgit2-1.0 #MINVER#
+* Build-Depends-Package: libgit2-dev
  git_annotated_commit_free@Base 1.0.0
  git_annotated_commit_from_fetchhead@Base 1.0.0
  git_annotated_commit_from_ref@Base 1.0.0

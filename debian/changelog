@@ -1,3 +1,13 @@
+libgit2 (1.0.0+dfsg.1-2) experimental; urgency=medium
+
+  [ Utkarsh Gupta ]
+  * Add Build-Depends-Package: libgit2-dev to libgit2-1.0.symbols
+
+  [ Ximin Luo ]
+  * Add missing libgit2-dev: Depends: libpcre3-dev. (Closes: #961952)
+
+ -- Ximin Luo <infinity0@debian.org>  Fri, 02 Oct 2020 03:30:36 +0100
+
 libgit2 (1.0.0+dfsg.1-1) experimental; urgency=medium
 
   * New upstream version 1.0.0+dfsg.1
