@@ -880,6 +880,7 @@ libgit2.so.1.0 libgit2-1.0 #MINVER#
  git_worktree_open_from_repository@Base 1.0.0
  git_worktree_path@Base 1.0.0
  git_worktree_prune@Base 1.0.0
+ git_worktree_prune_init_options@Base 1.0.1
  git_worktree_prune_options_init@Base 1.0.0
  git_worktree_unlock@Base 1.0.0
  git_worktree_validate@Base 1.0.0
