@@ -1,3 +1,10 @@
+libgit2 (1.0.1+dfsg.1-3) unstable; urgency=medium
+
+  * Upload to unstable.
+    - Transition v1.x. (cf: #971571)
+
+ -- Utkarsh Gupta <utkarsh@debian.org>  Fri, 04 Dec 2020 23:34:22 +0530
+
 libgit2 (1.0.1+dfsg.1-1) experimental; urgency=medium
 
   [ Utkarsh Gupta ]
@@ -50,6 +57,13 @@ libgit2 (0.99.0+dfsg.1-1) experimental; urgency=medium
   * fix symbols file
 
  -- Utkarsh Gupta <utkarsh@debian.org>  Thu, 26 Mar 2020 18:25:16 +0530
+
+libgit2 (0.28.4+dfsg.1-4) unstable; urgency=medium
+
+  * Add BD on ca-certificates to fix FTBFS (Closes: #954529)
+    (Thanks to Sudip Mukherjee for his help :))
+
+ -- Utkarsh Gupta <utkarsh@debian.org>  Mon, 23 Mar 2020 19:52:32 +0530
 
 libgit2 (0.28.4+dfsg.1-3) unstable; urgency=medium
 
