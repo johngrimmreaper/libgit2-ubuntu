@@ -1,2 +1,3 @@
 disable-online-tests.patch
 reprotest.patch
+enable-repro-builds.patch
