@@ -1,3 +1,16 @@
+libgit2 (1.1.0+dfsg.1-1) experimental; urgency=medium
+
+  * New upstream version 1.1.0+dfsg.1
+  * Update branching information in d/gbp.conf
+  * Refresh d/patches
+  * Drop patch that has been merged upstream
+  * Library transition from 1.0 to 1.1
+  * Update symbols file
+  * Drop Russell Sim from uploaders' field
+    - Thank you, Russell Sim, for all your work so far!
+
+ -- Utkarsh Gupta <utkarsh@debian.org>  Mon, 07 Dec 2020 14:21:42 +0530
+
 libgit2 (1.0.1+dfsg.1-3) unstable; urgency=medium
 
   * Upload to unstable.
