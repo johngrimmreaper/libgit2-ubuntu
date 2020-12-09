@@ -1,3 +1,11 @@
+libgit2 (1.1.0+dfsg.1-2) unstable; urgency=medium
+
+  * Upload to unstable.
+    - Transition v1.x. (cf: #971571)
+  * Bump Standards-Version to 4.5.1
+
+ -- Utkarsh Gupta <utkarsh@debian.org>  Wed, 09 Dec 2020 15:09:10 +0530
+
 libgit2 (1.1.0+dfsg.1-1) experimental; urgency=medium
 
   * New upstream version 1.1.0+dfsg.1
