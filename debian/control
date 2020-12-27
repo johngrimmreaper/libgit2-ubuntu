@@ -50,3 +50,17 @@ Description: low-level Git library
  libgit2 is a portable, pure C implementation of the Git
  distributed version control system core methods provided as a
  re-entrant link-able library with a solid API.
+
+Package: libgit2-fixtures
+Architecture: all
+Pre-Depends: ${misc:Pre-Depends}
+Depends: ${shlibs:Depends},
+         ${misc:Depends}
+Description: low-level Git library - test suite examples
+ libgit2 is a portable, pure C implementation of the Git
+ distributed version control system core methods provided as a
+ re-entrant link-able library with a solid API.
+ .
+ This package provides the test examples of the library, which
+ can be useful for other pieces of software relying on libgit2,
+ for testing purposes.
