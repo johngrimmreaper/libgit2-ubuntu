@@ -231,7 +231,7 @@ static int update_head_to_remote(
 
 	/* We know we have HEAD, let's see where it points */
 	remote_head = refs[0];
-	assert(remote_head);
+	GIT_ASSERT(remote_head);
 
 	remote_head_id = &remote_head->oid;
 
@@ -259,29 +259,41 @@ cleanup:
 
 static int update_head_to_branch(
 		git_repository *repo,
-		const char *remote_name,
+		git_remote *remote,
 		const char *branch,
 		const char *reflog_message)
 {
 	int retcode;
 	git_buf remote_branch_name = GIT_BUF_INIT;
-	git_reference* remote_ref = NULL;
+	git_reference *remote_ref = NULL;
+	git_buf default_branch = GIT_BUF_INIT;
 
-	assert(remote_name && branch);
+	GIT_ASSERT_ARG(remote);
+	GIT_ASSERT_ARG(branch);
 
 	if ((retcode = git_buf_printf(&remote_branch_name, GIT_REFS_REMOTES_DIR "%s/%s",
-		remote_name, branch)) < 0 )
+		git_remote_name(remote), branch)) < 0 )
 		goto cleanup;
 
 	if ((retcode = git_reference_lookup(&remote_ref, repo, git_buf_cstr(&remote_branch_name))) < 0)
 		goto cleanup;
 
-	retcode = update_head_to_new_branch(repo, git_reference_target(remote_ref), branch,
-			reflog_message);
+	if ((retcode = update_head_to_new_branch(repo, git_reference_target(remote_ref), branch,
+			reflog_message)) < 0)
+		goto cleanup;
+
+	if ((retcode = git_remote_default_branch(&default_branch, remote)) < 0)
+		goto cleanup;
+
+	if (!git_remote__matching_refspec(remote, git_buf_cstr(&default_branch)))
+		goto cleanup;
+
+	retcode = update_remote_head(repo, remote, &default_branch, reflog_message);
 
 cleanup:
 	git_reference_free(remote_ref);
 	git_buf_dispose(&remote_branch_name);
+	git_buf_dispose(&default_branch);
 	return retcode;
 }
 
@@ -366,8 +378,7 @@ static int checkout_branch(git_repository *repo, git_remote *remote, const git_c
 	int error;
 
 	if (branch)
-		error = update_head_to_branch(repo, git_remote_name(remote), branch,
-				reflog_message);
+		error = update_head_to_branch(repo, remote, branch, reflog_message);
 	/* Point HEAD to the same ref as the remote's head */
 	else
 		error = update_head_to_remote(repo, remote, reflog_message);
@@ -385,7 +396,8 @@ static int clone_into(git_repository *repo, git_remote *_remote, const git_fetch
 	git_fetch_options fetch_opts;
 	git_remote *remote;
 
-	assert(repo && _remote);
+	GIT_ASSERT_ARG(repo);
+	GIT_ASSERT_ARG(_remote);
 
 	if (!git_repository_is_empty(repo)) {
 		git_error_set(GIT_ERROR_INVALID, "the repository is not empty");
@@ -452,7 +464,9 @@ static int git__clone(
 	uint32_t rmdir_flags = GIT_RMDIR_REMOVE_FILES;
 	git_repository_create_cb repository_cb;
 
-	assert(out && url && local_path);
+	GIT_ASSERT_ARG(out);
+	GIT_ASSERT_ARG(url);
+	GIT_ASSERT_ARG(local_path);
 
 	if (_options)
 		memcpy(&options, _options, sizeof(git_clone_options));
@@ -575,7 +589,8 @@ static int clone_local_into(git_repository *repo, git_remote *remote, const git_
 	git_buf src_odb = GIT_BUF_INIT, dst_odb = GIT_BUF_INIT, src_path = GIT_BUF_INIT;
 	git_buf reflog_message = GIT_BUF_INIT;
 
-	assert(repo && remote);
+	GIT_ASSERT_ARG(repo);
+	GIT_ASSERT_ARG(remote);
 
 	if (!git_repository_is_empty(repo)) {
 		git_error_set(GIT_ERROR_INVALID, "the repository is not empty");

@@ -44,8 +44,9 @@ void test_worktree_worktree__list_with_invalid_worktree_dirs(void)
 	git_strarray wts;
 	size_t i, j, len;
 
-	cl_git_pass(git_buf_printf(&path, "%s/worktrees/invalid",
-		    fixture.repo->commondir));
+	cl_git_pass(git_buf_joinpath(&path,
+	            fixture.repo->commondir,
+	            "worktrees/invalid"));
 	cl_git_pass(p_mkdir(path.ptr, 0755));
 
 	len = path.size;
@@ -145,9 +146,9 @@ void test_worktree_worktree__open_invalid_commondir(void)
 	git_buf buf = GIT_BUF_INIT, path = GIT_BUF_INIT;
 
 	cl_git_pass(git_buf_sets(&buf, "/path/to/nonexistent/commondir"));
-	cl_git_pass(git_buf_printf(&path,
-		    "%s/worktrees/testrepo-worktree/commondir",
-		    fixture.repo->commondir));
+	cl_git_pass(git_buf_joinpath(&path,
+	            fixture.repo->commondir,
+	            "worktrees/testrepo-worktree/commondir"));
 	cl_git_pass(git_futils_writebuffer(&buf, path.ptr, O_RDWR, 0644));
 
 	cl_git_pass(git_worktree_lookup(&wt, fixture.repo, "testrepo-worktree"));
@@ -165,9 +166,9 @@ void test_worktree_worktree__open_invalid_gitdir(void)
 	git_buf buf = GIT_BUF_INIT, path = GIT_BUF_INIT;
 
 	cl_git_pass(git_buf_sets(&buf, "/path/to/nonexistent/gitdir"));
-	cl_git_pass(git_buf_printf(&path,
-		    "%s/worktrees/testrepo-worktree/gitdir",
-		    fixture.repo->commondir));
+	cl_git_pass(git_buf_joinpath(&path,
+	            fixture.repo->commondir,
+	            "worktrees/testrepo-worktree/gitdir"));
 	cl_git_pass(git_futils_writebuffer(&buf, path.ptr, O_RDWR, 0644));
 
 	cl_git_pass(git_worktree_lookup(&wt, fixture.repo, "testrepo-worktree"));
@@ -609,4 +610,16 @@ void test_worktree_worktree__foreach_worktree_lists_all_worktrees(void)
 {
 	int counter = 0;
 	cl_git_pass(git_repository_foreach_worktree(fixture.repo, foreach_worktree_cb, &counter));
+}
+
+void test_worktree_worktree__validate_invalid_worktreedir(void)
+{
+	git_worktree *wt;
+
+	cl_git_pass(git_worktree_lookup(&wt, fixture.repo, "testrepo-worktree"));
+	p_rename("testrepo-worktree", "testrepo-worktree-tmp");
+	cl_git_fail(git_worktree_validate(wt));
+	p_rename("testrepo-worktree-tmp", "testrepo-worktree");
+
+	git_worktree_free(wt);
 }
