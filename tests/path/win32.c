@@ -1,40 +1,31 @@
 
 #include "clar_libgit2.h"
-#include "path.h"
 
 #ifdef GIT_WIN32
 #include "win32/path_w32.h"
 #endif
 
-void test_utf8_to_utf16(const char *utf8_in, const wchar_t *utf16_expected)
-{
 #ifdef GIT_WIN32
+static void test_utf8_to_utf16(const char *utf8_in, const wchar_t *utf16_expected)
+{
 	git_win32_path path_utf16;
 	int path_utf16len;
 
 	cl_assert((path_utf16len = git_win32_path_from_utf8(path_utf16, utf8_in)) >= 0);
 	cl_assert_equal_wcs(utf16_expected, path_utf16);
 	cl_assert_equal_i(wcslen(utf16_expected), path_utf16len);
-#else
-	GIT_UNUSED(utf8_in);
-	GIT_UNUSED(utf16_expected);
-#endif
 }
 
-void test_utf8_to_utf16_relative(const char* utf8_in, const wchar_t* utf16_expected)
+static void test_utf8_to_utf16_relative(const char* utf8_in, const wchar_t* utf16_expected)
 {
-#ifdef GIT_WIN32
 	git_win32_path path_utf16;
 	int path_utf16len;
 
 	cl_assert((path_utf16len = git_win32_path_relative_from_utf8(path_utf16, utf8_in)) >= 0);
 	cl_assert_equal_wcs(utf16_expected, path_utf16);
 	cl_assert_equal_i(wcslen(utf16_expected), path_utf16len);
-#else
-	GIT_UNUSED(utf8_in);
-	GIT_UNUSED(utf16_expected);
-#endif
 }
+#endif
 
 void test_path_win32__utf8_to_utf16(void)
 {
@@ -278,7 +269,7 @@ void test_path_win32__8dot3_name(void)
 	cl_assert_equal_s("WINDOWS", (shortname = git_win32_path_8dot3_name("C:\\WINDOWS")));
 	git__free(shortname);
 
-	/* Create some predictible short names */
+	/* Create some predictable short names */
 	cl_must_pass(p_mkdir(".foo", 0777));
 	cl_assert_equal_s("FOO~1", (shortname = git_win32_path_8dot3_name(".foo")));
 	git__free(shortname);
