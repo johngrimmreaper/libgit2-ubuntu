@@ -54,7 +54,7 @@ if(UNIX)
 		option(USE_NTLMCLIENT  "Enable NTLM support on Unix."                   ON)
 	endif()
 
-	option(ENABLE_REPRODUCIBLE_BUILDS "Enable reproducible builds"                 OFF)
+	option(ENABLE_REPRODUCIBLE_BUILDS "Enable reproducible builds"                 ON)
 endif()
 
 if(APPLE)
