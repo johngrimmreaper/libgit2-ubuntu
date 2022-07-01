@@ -1,7 +1,8 @@
 Source: libgit2
 Section: libs
 Priority: optional
-Maintainer: Utkarsh Gupta <utkarsh@debian.org>
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+XSBC-Original-Maintainer: Utkarsh Gupta <utkarsh@debian.org>
 Uploaders: Pirate Praveen <praveen@debian.org>
 Build-Depends: debhelper-compat (= 13),
                python3-minimal:any,
@@ -9,7 +10,7 @@ Build-Depends: debhelper-compat (= 13),
                ca-certificates,
                cmake,
                zlib1g-dev,
-               libmbedtls-dev,
+               libssl-dev,
                libssh2-1-dev,
                libhttp-parser-dev,
                libpcre3-dev,
@@ -27,7 +28,7 @@ Section: libdevel
 Multi-Arch: same
 Depends: libgit2-1.3 (= ${binary:Version}),
          zlib1g-dev,
-         libmbedtls-dev,
+         libssl-dev,
          libssh2-1-dev,
          libhttp-parser-dev,
          libpcre3-dev,
