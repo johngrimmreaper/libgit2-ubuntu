@@ -1,3 +1,16 @@
+libgit2 (1.5.0+ds-1) experimental; urgency=medium
+
+  * Team upload.
+  * Update d/watch
+  * Bump Standards-Version to 4.6.1
+  * New upstream version 1.5.0+ds (Closes: #1016800)
+  * Explicitly set USE_SSH=ON (Closes: #1015965)
+  * Bump SONAME to libgit2.so.1.5
+  * Add lintian overrides for fixture data
+  * Switch to PCRE2 (Closes: #1000045)
+
+ -- Timo Röhling <roehling@debian.org>  Sun, 28 Aug 2022 19:56:46 +0200
+
 libgit2 (1.4.3+dfsg.1-1) experimental; urgency=medium
 
   * New upstream version 1.4.3+dfsg.1
