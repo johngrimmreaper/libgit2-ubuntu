@@ -1,2 +1,2 @@
-tests/.clarcache
-tests/clar.suite
+build-debian-devel/
+build-debian-release/
