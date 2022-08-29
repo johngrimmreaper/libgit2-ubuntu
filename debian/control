@@ -53,6 +53,7 @@ Description: low-level Git library
 
 Package: libgit2-fixtures
 Architecture: all
+Multi-Arch: foreign
 Pre-Depends: ${misc:Pre-Depends}
 Depends: ${misc:Depends},
 Description: low-level Git library - test suite examples

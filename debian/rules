@@ -25,6 +25,9 @@ COMMON_CMAKE_FLAGS = \
 	-DUSE_SSH=ON
 
 
+# The stat() in the Git fs layer has some issues
+export GITTEST_FLAKY_STAT = true
+
 %:
 	dh $@ --buildsystem=cmake
 
