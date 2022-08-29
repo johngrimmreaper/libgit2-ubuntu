@@ -1,3 +1,11 @@
+libgit2 (1.5.0+ds-2) experimental; urgency=medium
+
+  * Team upload.
+  * Enable GITTEST_FLAKY_STAT workaround for unit tests
+  * Apply M-A hint to libgit2-fixtures
+
+ -- Timo Röhling <roehling@debian.org>  Mon, 29 Aug 2022 23:04:36 +0200
+
 libgit2 (1.5.0+ds-1) experimental; urgency=medium
 
   * Team upload.
