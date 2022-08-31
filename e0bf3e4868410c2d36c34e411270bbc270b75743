@@ -1,0 +1,7 @@
+  [ Russell Sim ]
+  * Added examples to dev package.
+  [ Carlos Martín Nieto ]
+  * Build-Depend on python-minimal instead of -all
+  * BUILD_TESTS isn't used in this project
+  [ Russell Sim ]
+  * New upstream release 0.18.0.
