@@ -1,0 +1,5 @@
+  * Non-maintainer upload
+  * New upstream version 0.28.1+dfsg.1
+  * Library transition from 27 to 28
+  * Remove resolved patches with new upstream version
+  * Remove nonexistent document
