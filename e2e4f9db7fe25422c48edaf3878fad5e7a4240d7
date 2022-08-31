@@ -1,0 +1,15 @@
+  [ Utkarsh Gupta ]
+  * New upstream version 0.99.0+dfsg.1
+  * Use pcre2 as REGEX_BACKEND
+  * Add patch to fix installation in wrong location
+  * Add BD on libpcre2-dev
+  * Add -DUSE_NTLMCLIENT and -DUSE_HTTP_PARSER flags to CMake
+  * Library transition from 28 to 99
+  * Fix package-name-doesnt-match-sonames
+  * Fix d/copyright wrt the new release
+  * Add Rules-Requires-Root: no
+  [ Sudip Mukherjee ]
+  * Revert "Use pcre2 as REGEX_BACKEND"
+  * Add dependency on ca-certificates and libpcre3-dev
+  * Add ci
+  * fix symbols file
