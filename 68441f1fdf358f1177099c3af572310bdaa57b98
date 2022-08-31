@@ -1,0 +1,3 @@
+  * Non-maintainer upload.
+  * Upload to unstable.
+  * Use git_curl_stream_new for HTTPS because we don't link against openssl.
