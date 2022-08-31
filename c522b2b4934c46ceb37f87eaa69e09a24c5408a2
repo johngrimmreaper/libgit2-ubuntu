@@ -1,0 +1,2 @@
+  * debian/control: Added dependency on pkg-config (Closes: #786494)
+  * debian/rules: Manually cleanup clar files (Closes: #786491)
