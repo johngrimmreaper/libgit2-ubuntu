@@ -1,0 +1,3 @@
+  * debian/control:
+    - Add pkg-config as a build-dep as it's required to detect
+      available libraries like libssh2
