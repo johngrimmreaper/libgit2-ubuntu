@@ -1,0 +1,9 @@
+  * New upstream release 0.23.1.
+  * debian/control: Added build dependency on libcurl4-openssl-dev.
+  * debian/control: Updated VCS URL.
+  * debian/copyright: Added winhttp copyright.
+  * debian/docs: Added missing development documentation.
+  * debian/libgit2-23.symbols: Updated with latest symbols.
+  * debian/libgit2-dev.lintian-overrides: Override comment
+    stripping, should work once it's supported by dh_strip.
+  * debian/patches/disable_tests.patch: Updated for 0.23.0.
