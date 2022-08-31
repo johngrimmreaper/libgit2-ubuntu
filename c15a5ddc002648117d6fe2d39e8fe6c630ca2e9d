@@ -1,0 +1,4 @@
+  * Reupload to unstable (transition: #934927)
+  * Add myself and Russel as Uploaders and Jongmin as Maintainer
+    (Closes: #928971)
+  * Bump Standards-Version to 4.4.1 (no changes needed)
