@@ -1,0 +1,5 @@
+  [ Cédric Boutillier ]
+  * Provide binary package for libgit2 fixtures (Closes: #972574)
+  * install as examples
+  [ Utkarsh Gupta ]
+  * Wrap description wrt line length limitation
