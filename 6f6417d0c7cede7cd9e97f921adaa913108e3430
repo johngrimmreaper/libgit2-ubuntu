@@ -1,0 +1,6 @@
+  * Non-maintainer upload.
+  * New upstream version 0.27.0 (Closes: #869665)
+  * Switch to mbedTLS with upstream patch
+    (Thanks to Nicolas Braud-Santoni for his efforts to update curl support
+    patch)
+  * Library transition libgit2-26 to libgit2-27
