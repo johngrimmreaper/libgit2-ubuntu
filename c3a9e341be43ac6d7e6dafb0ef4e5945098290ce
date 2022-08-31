@@ -1,0 +1,6 @@
+  * Team upload.
+  * New upstream release. (Closes: #798338)
+  * Rename packages for new upstream so version -24
+  * Update debian/libgit2-24.symbols
+  * Bump Standards-Version to 3.9.7
+  * Update Vcs-* for new collab-maint repo
