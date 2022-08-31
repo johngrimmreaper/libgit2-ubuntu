@@ -1,0 +1,3 @@
+  * Non-maintainer upload.
+  * Use CURDIR instead of PWD to fix the previous upload (Closes: #761539).
+  * Fix buildd errors. (Closes: #761539)
