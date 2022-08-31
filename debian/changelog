@@ -1,3 +1,10 @@
+libgit2 (1.5.0+ds-4) experimental; urgency=medium
+
+  * Team upload.
+  * Disable even more flaky lstat() tests
+
+ -- Timo Röhling <roehling@debian.org>  Wed, 31 Aug 2022 15:54:12 +0200
+
 libgit2 (1.5.0+ds-3) experimental; urgency=medium
 
   * Team upload.
