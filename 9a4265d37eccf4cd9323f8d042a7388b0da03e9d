@@ -1,0 +1,8 @@
+  [ Utkarsh Gupta ]
+  * New upstream version 1.0.1+dfsg.1.
+  * Update symbols file to add git_worktree_prune_init_options@Base.
+  [ Debian Janitor ]
+  * Set upstream metadata fields: Bug-Database, Bug-Submit, Repository,
+    Repository-Browse.
+  * Drop transition for old debug package migration.
+  * Fix day-of-week for changelog entry 0.19.0-2.
