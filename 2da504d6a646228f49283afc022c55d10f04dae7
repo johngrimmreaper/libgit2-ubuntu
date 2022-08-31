@@ -1,0 +1,4 @@
+  * New upstream version 1.4.3+dfsg.1
+  * Update symbols file and create libgit2-1.4 binary package
+  * d/p/: Refresh patches
+  * Add myself to uploaders
