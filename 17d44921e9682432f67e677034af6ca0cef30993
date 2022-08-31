@@ -1,0 +1,3 @@
+  * New upstream release.
+  * debian/patch/fix_gmt14_timzone_bug.patch (Closes: #841532)
+  * Correcty address CVE-2016-8568
