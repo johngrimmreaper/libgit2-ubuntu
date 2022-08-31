@@ -7,11 +7,10 @@
 
 #ifdef GIT_SSL
 
-#include <openssl/ssl.h>
-#include <openssl/err.h>
-#include <openssl/x509v3.h>
-
 #include <ctype.h>
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
 
 #include "global.h"
 #include "posix.h"
@@ -19,6 +18,10 @@
 #include "socket_stream.h"
 #include "netops.h"
 #include "git2/transport.h"
+
+#include <openssl/ssl.h>
+#include <openssl/err.h>
+#include <openssl/x509v3.h>
 
 static int ssl_set_error(SSL *ssl, int error)
 {

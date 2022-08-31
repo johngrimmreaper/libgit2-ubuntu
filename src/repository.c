@@ -808,7 +808,8 @@ const char *git_repository__8dot3_name(git_repository *repo)
 
 			/* We anticipate the 8.3 name is "GIT~1", so use a static for
 			 * easy testing in the common case */
-			if (strcasecmp(repo->name_8dot3, git_repository__8dot3_default) == 0)
+			if (repo->name_8dot3 &&
+				strcasecmp(repo->name_8dot3, git_repository__8dot3_default) == 0)
 				repo->has_8dot3_default = 1;
 		}
 #endif
@@ -1723,7 +1724,7 @@ int git_repository_set_bare(git_repository *repo)
 	if ((error = git_repository_config__weakptr(&config, repo)) < 0)
 		return error;
 
-	if ((error = git_config_set_bool(config, "core.bare", false)) < 0)
+	if ((error = git_config_set_bool(config, "core.bare", true)) < 0)
 		return error;
 
 	if ((error = git_config__update_entry(config, "core.worktree", NULL, true, true)) < 0)

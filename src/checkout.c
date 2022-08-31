@@ -1190,7 +1190,7 @@ static int checkout_verify_paths(
 
 	if (action & ~CHECKOUT_ACTION__REMOVE) {
 		if (!git_path_isvalid(repo, delta->new_file.path, flags)) {
-			giterr_set(GITERR_CHECKOUT, "Cannot checkout to invalid path '%s'", delta->old_file.path);
+			giterr_set(GITERR_CHECKOUT, "Cannot checkout to invalid path '%s'", delta->new_file.path);
 			return -1;
 		}
 	}
@@ -2212,6 +2212,7 @@ static void checkout_data_clear(checkout_data *data)
 	git__free(data->pfx);
 	data->pfx = NULL;
 
+	git_buf_free(&data->last_mkdir);
 	git_buf_free(&data->path);
 	git_buf_free(&data->tmp);
 
