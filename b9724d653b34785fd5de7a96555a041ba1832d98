@@ -1,0 +1,11 @@
+  * SECURITY UPDATE: Out of bounds read
+    - debian/patches/CVE-2018-10887-1.patch: delta: Fix sign-extension of big
+      left-shift
+    - debian/patches/CVE-2018-10887-2.patch: delta: fix overflow when
+      computing limit
+    - debian/patches/CVE-2018-10888.patch fix out-of-bounds read of delta
+    - debian/patches/fix-umask-fragility.patch: Fix umask issues in unit tests
+      so that build can complete successfully. (needed to successfully build)
+    - debian/patches/pool_alloc_sizes.patch: Round up pool alloc sizes for
+      alignment (needed to successfully build on armhf)
+    - CVE-2018-10887, CVE-2018-10888
