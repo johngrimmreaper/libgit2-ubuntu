@@ -1,0 +1,4 @@
+  * Non-maintainer upload.
+  * Use CURDIR instead of PWD to fix the previous upload (Closes: #761539).
+  * New upstream release 0.21.3 (CVE-2014-9390) (Closes: #774048).
+  * debian/rules: Run tests in a local tmpdir to fix FTBFS (Closes: #761539).
