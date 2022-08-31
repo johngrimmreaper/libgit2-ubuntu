@@ -1,0 +1,3 @@
+  * Non-maintainer upload.
+  * Fix random segfaults in threads::diff. (Closes: #904004)
+  * Don't specifically use gcc-8 now that it's already the Debian default.
