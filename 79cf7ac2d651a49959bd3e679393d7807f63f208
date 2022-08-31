@@ -1,0 +1,3 @@
+  * New upstream release.
+  * Enable GSS authentication support.
+  * Remove unused deps (Closes: #861752)
