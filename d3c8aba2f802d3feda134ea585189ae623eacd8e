@@ -1,0 +1,6 @@
+  * New upstream release.
+  * Bump Standards-Version to 3.9.8
+  * Add commit-always-initialize-commit-message.patch fixes CVE-2016-8568,
+    CVE-2016-8569
+  * debian/rules: Set debian hardening compile flags.
+  * debian/rules: When testing package force timezone to GMT.
