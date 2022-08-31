@@ -1,0 +1,2 @@
+  [ Dan Nicholson ]
+  * Use mbedTLS with standard CA certificate location (Closes: #927889)
