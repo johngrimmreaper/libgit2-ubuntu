@@ -1,0 +1,6 @@
+  * Team upload.
+  * New upstream release.
+  * Drop git_tests-fix-core-stream-test-when-built-with-openssl-o.patch
+    - merged upstream.
+  * Revert "Disable fakeroot emulation when running tests"
+    - no longer needed thanks to upstream fix.
