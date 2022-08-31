@@ -1,0 +1,4 @@
+  * Added correct dependencies to development package. (Closes: #715173)
+  * Standards upgrade to version 3.9.4.
+  * Multi-arch support.
+  * Manually specified symbols instead of relying on regex.
