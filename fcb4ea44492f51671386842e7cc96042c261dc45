@@ -1,0 +1,1 @@
+  * debian/control: Added missing dependencies. (Closes: #768482)
