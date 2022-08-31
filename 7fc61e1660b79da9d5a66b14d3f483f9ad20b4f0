@@ -1,0 +1,4 @@
+  * Non-maintainer upload.
+  * Don't depend on OpenSSL, either directly or indirectly. Build with and
+    depend on libcurl4-gnutls-dev instead. (Closes: #798421)
+  * Drop associated Build-Depends on ca-certificates.
