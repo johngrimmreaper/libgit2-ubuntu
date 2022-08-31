@@ -1,0 +1,8 @@
+  * New upstream version 1.1.0+dfsg.1
+  * Update branching information in d/gbp.conf
+  * Refresh d/patches
+  * Drop patch that has been merged upstream
+  * Library transition from 1.0 to 1.1
+  * Update symbols file
+  * Drop Russell Sim from uploaders' field
+    - Thank you, Russell Sim, for all your work so far!
