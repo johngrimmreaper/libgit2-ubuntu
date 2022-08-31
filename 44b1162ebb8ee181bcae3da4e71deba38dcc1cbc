@@ -1,0 +1,4 @@
+  [ Utkarsh Gupta ]
+  * Add Build-Depends-Package: libgit2-dev to libgit2-1.0.symbols
+  [ Ximin Luo ]
+  * Add missing libgit2-dev: Depends: libpcre3-dev. (Closes: #961952)
