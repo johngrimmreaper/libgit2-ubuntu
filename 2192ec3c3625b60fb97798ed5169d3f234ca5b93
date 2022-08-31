@@ -1,0 +1,4 @@
+  * Revert 0.25.1 in unstable, 0.24.5 was already in unstable 0.25.1 was
+    uploaded after the freeze.
+  * Release 0.24.6 (CVE-2016-10128, CVE-2016-10129, CVE-2016-10130)
+    (Closes: #851406)
