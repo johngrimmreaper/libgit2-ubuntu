@@ -1,0 +1,8 @@
+  * Team upload.
+  * Update d/watch
+  * Bump Standards-Version to 4.6.1
+  * New upstream version 1.5.0+ds (Closes: #1016800)
+  * Explicitly set USE_SSH=ON (Closes: #1015965)
+  * Bump SONAME to libgit2.so.1.5
+  * Add lintian overrides for fixture data
+  * Switch to PCRE2 (Closes: #1000045)
