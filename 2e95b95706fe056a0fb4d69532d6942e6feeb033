@@ -1,0 +1,6 @@
+  * SECURITY UPDATE: Out of bounds read
+    - debian/patches/CVE-2018-10887-1.patch: delta: Fix sign-extension of big
+      left-shift
+    - debian/patches/CVE-2018-10887-2.patch: delta: fix overflow when
+      computing limit
+    - CVE-2018-10887, CVE-2018-10888
