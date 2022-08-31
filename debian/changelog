@@ -1,3 +1,10 @@
+libgit2 (1.5.0+ds-3) experimental; urgency=medium
+
+  * Team upload.
+  * Guard more lstat() asserts with GITTEST_FLAKY_STAT
+
+ -- Timo Röhling <roehling@debian.org>  Wed, 31 Aug 2022 13:36:51 +0200
+
 libgit2 (1.5.0+ds-2) experimental; urgency=medium
 
   * Team upload.

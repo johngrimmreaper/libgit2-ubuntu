@@ -276,16 +276,19 @@ void test_mkdir__mkdir_path_inside_unwriteable_parent(void)
 	cl_git_pass(git_futils_mkdir("r", 0777, 0));
 	cl_git_pass(git_futils_mkdir_relative("mode/is/important", "r", 0777, GIT_MKDIR_PATH, NULL));
 	cl_git_pass(git_fs_path_lstat("r/mode", &st));
-	check_mode(0755, st.st_mode);
+	if (!cl_is_env_set("GITTEST_FLAKY_STAT"))
+		check_mode(0755, st.st_mode);
 
 	cl_must_pass(p_chmod("r/mode", 0111));
 	cl_git_pass(git_fs_path_lstat("r/mode", &st));
-	check_mode(0111, st.st_mode);
+	if (!cl_is_env_set("GITTEST_FLAKY_STAT"))
+		check_mode(0111, st.st_mode);
 
 	cl_git_pass(
 		git_futils_mkdir_relative("mode/is/okay/inside", "r", 0777, GIT_MKDIR_PATH, NULL));
 	cl_git_pass(git_fs_path_lstat("r/mode/is/okay/inside", &st));
-	check_mode(0755, st.st_mode);
+	if (!cl_is_env_set("GITTEST_FLAKY_STAT"))
+		check_mode(0755, st.st_mode);
 
 	cl_must_pass(p_chmod("r/mode", 0777));
 }

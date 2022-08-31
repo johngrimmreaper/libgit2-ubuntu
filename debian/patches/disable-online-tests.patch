@@ -1,5 +1,14 @@
-Skip tests that needs an active internet connection
+From: Utkarsh Gupta <utkarsh@debian.org>
+Date: Sun, 28 Aug 2022 17:12:49 +0200
+Subject: disable-online-tests
 
+Skip tests that needs an active internet connection
+---
+ tests/libgit2/CMakeLists.txt | 16 +++++++++-------
+ 1 file changed, 9 insertions(+), 7 deletions(-)
+
+diff --git a/tests/libgit2/CMakeLists.txt b/tests/libgit2/CMakeLists.txt
+index 27f421a..213076f 100644
 --- a/tests/libgit2/CMakeLists.txt
 +++ b/tests/libgit2/CMakeLists.txt
 @@ -66,10 +66,12 @@ endif()
