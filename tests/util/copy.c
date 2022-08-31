@@ -114,7 +114,8 @@ void test_copy__tree(void)
 #ifndef GIT_WIN32
 	memset(&st, 0, sizeof(struct stat));
 	cl_git_pass(git_fs_path_lstat("t1/c/d/l1", &st));
-	cl_assert(S_ISLNK(st.st_mode));
+	if (!cl_is_env_set("GITTEST_FLAKY_STAT"))
+		cl_assert(S_ISLNK(st.st_mode));
 #endif
 
 	cl_git_pass(git_futils_rmdir_r("t1", NULL, GIT_RMDIR_REMOVE_FILES));
