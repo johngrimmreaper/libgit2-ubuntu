@@ -1,0 +1,5 @@
+  * New Upstream Release.
+  * debian/patches/build_static.patch: Enables building as both
+    static and dynamic library.
+  * debian/rules: Added CMAKE_BUILD_TYPE=RelWithDebInfo to rules file.
+  * debian/compat: Updated to 9, adds support for hardening.
