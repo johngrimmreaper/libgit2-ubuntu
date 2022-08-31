@@ -1,0 +1,2 @@
+  * Backported fix for case insensitive filesystems (CVE-2014-9390).
+    (Closes: #774048)
