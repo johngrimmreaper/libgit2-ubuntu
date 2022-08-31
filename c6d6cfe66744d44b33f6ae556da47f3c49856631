@@ -1,0 +1,3 @@
+  * Team upload.
+  * Enable GITTEST_FLAKY_STAT workaround for unit tests
+  * Apply M-A hint to libgit2-fixtures
