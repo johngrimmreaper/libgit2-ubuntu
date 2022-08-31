@@ -1,0 +1,2 @@
+  * Add BD on ca-certificates to fix FTBFS (Closes: #954529)
+    (Thanks to Sudip Mukherjee for his help :))
