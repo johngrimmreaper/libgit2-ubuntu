@@ -1,0 +1,2 @@
+  * Non-maintainer upload.
+  * Fix stack smashing error on 32-bit targets (Closes: #900126)
