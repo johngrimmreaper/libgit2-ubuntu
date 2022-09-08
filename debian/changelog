@@ -1,3 +1,10 @@
+libgit2 (1.5.0+ds-5) experimental; urgency=medium
+
+  * Team upload.
+  * Fix libpcre2-dev dependency of libgit2-dev
+
+ -- Timo Röhling <roehling@debian.org>  Thu, 08 Sep 2022 22:17:22 +0200
+
 libgit2 (1.5.0+ds-4) experimental; urgency=medium
 
   * Team upload.

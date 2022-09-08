@@ -31,7 +31,7 @@ Depends: libgit2-1.5 (= ${binary:Version}),
          libmbedtls-dev,
          libssh2-1-dev,
          libhttp-parser-dev,
-         libpcre3-dev,
+         libpcre2-dev,
          ${misc:Depends},
 Description: low-level Git library (development files)
  libgit2 is a portable, pure C implementation of the Git
