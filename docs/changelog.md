@@ -1,3 +1,33 @@
+v1.3.2
+------
+
+🔒 This is a security release with multiple changes.
+
+* This provides compatibility with git's changes to address CVE 2022-29187. As a follow up to [CVE 2022-24765](https://github.blog/2022-04-12-git-security-vulnerability-announced/), now not only is the working directory of a non-bare repository examined for its ownership, but the `.git` directory and the `.git` file (if present) are also examined for their ownership.
+
+* A fix for compatibility with git's (new) behavior for CVE 2022-24765 allows users on POSIX systems to access a git repository that is owned by them when they are running in `sudo`.
+
+* A fix for further compatibility with git's (existing) behavior for CVE 2022-24765 allows users on Windows to access a git repository that is owned by the Administrator when running with escalated privileges (using `runas Administrator`).
+
+* The bundled zlib is updated to v1.2.12, as prior versions had memory corruption bugs. It is not known that there is a security vulnerability in libgit2 based on these bugs, but we are updating to be cautious.
+
+All users of the v1.3 release line are recommended to upgrade.
+
+v1.3.1
+------
+
+🔒 This is a security release to provide compatibility with git's changes to address [CVE 2022-24765](https://github.blog/2022-04-12-git-security-vulnerability-announced/).
+
+**libgit2 is not directly affected** by this vulnerability, because libgit2 does not directly invoke any executable. But we are providing these changes as a security release for any users that use libgit2 for repository discovery and then _also_ use git on that repository. In this release, we will now validate that the user opening the repository is the same user that owns the on-disk repository. This is to match git's behavior.
+
+In addition, we are providing several correctness fixes where invalid input can lead to a crash. These may prevent possible denial of service attacks. At this time there are not known exploits to these issues.
+
+Full list of changes:
+
+* Validate repository directory ownership (v1.3) by @ethomson in https://github.com/libgit2/libgit2/pull/6268
+
+All users of the v1.3 release line are recommended to upgrade.
+
 v1.3
 ----
 

@@ -722,16 +722,54 @@ int git_path_normalize_slashes(git_buf *out, const char *path);
 
 bool git_path_supports_symlinks(const char *dir);
 
+typedef enum {
+	GIT_PATH_OWNER_NONE = 0,
+
+	/** The file must be owned by the current user. */
+	GIT_PATH_OWNER_CURRENT_USER = (1 << 0),
+
+	/** The file must be owned by the system account. */
+	GIT_PATH_OWNER_ADMINISTRATOR = (1 << 1),
+
+	/**
+	 * The file may be owned by a system account if the current
+	 * user is in an administrator group. Windows only; this is
+	 * a noop on non-Windows systems.
+	 */
+	GIT_PATH_USER_IS_ADMINISTRATOR = (1 << 2),
+
+	/**
+	 * The file is owned by the current user, who is running `sudo`.
+	 */
+	GIT_PATH_OWNER_RUNNING_SUDO = (1 << 3),
+
+	/** The file may be owned by another user. */
+	GIT_PATH_OWNER_OTHER = (1 << 4)
+} git_path_owner_t;
+
 /**
- * Validate a system file's ownership
- *
- * Verify that the file in question is owned by an administrator or system
- * account, or at least by the current user.
- *
- * This function returns 0 if successful. If the file is not owned by any of
- * these, or any other if there have been problems determining the file
- * ownership, it returns -1.
+ * Sets the mock ownership for files; subsequent calls to
+ * `git_path_owner_is_*` functions will return this data until
+ * cleared with `GIT_FS_PATH_OWNER_NONE`.
  */
-int git_path_validate_system_file_ownership(const char *path);
+void git_path__set_owner(git_path_owner_t owner);
+
+/** Verify that the file in question is owned by the given owner. */
+int git_path_owner_is(
+	bool *out,
+	const char *path,
+	git_path_owner_t owner_type);
+
+/**
+ * Verify that the file in question is owned by an administrator or system
+ * account.
+ */
+int git_path_owner_is_system(bool *out, const char *path);
+
+/**
+ * Verify that the file in question is owned by the current user;
+ */
+
+int git_path_owner_is_current_user(bool *out, const char *path);
 
 #endif
