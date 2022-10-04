@@ -38,6 +38,7 @@
 # include "win32/w32_util.h"
 #endif
 
+bool git_repository__validate_ownership = true;
 bool git_repository__fsync_gitdir = false;
 
 static const struct {
@@ -64,6 +65,7 @@ static const struct {
 
 static int check_repositoryformatversion(int *version, git_config *config);
 static int check_extensions(git_config *config, int version);
+static int load_global_config(git_config **config);
 
 #define GIT_COMMONDIR_FILE "commondir"
 #define GIT_GITDIR_FILE "gitdir"
@@ -479,6 +481,116 @@ static int read_gitfile(git_buf *path_out, const char *file_path)
 	}
 
 	git_buf_dispose(&file);
+	return error;
+}
+
+typedef struct {
+	const char *repo_path;
+	git_buf tmp;
+	bool *is_safe;
+} validate_ownership_data;
+
+static int validate_ownership_cb(const git_config_entry *entry, void *payload)
+{
+	validate_ownership_data *data = payload;
+
+	if (strcmp(entry->value, "") == 0)
+		*data->is_safe = false;
+
+	if (git_path_prettify_dir(&data->tmp, entry->value, NULL) == 0 &&
+	    strcmp(data->tmp.ptr, data->repo_path) == 0)
+		*data->is_safe = true;
+
+	return 0;
+}
+
+static int validate_ownership_config(bool *is_safe, const char *path)
+{
+	validate_ownership_data ownership_data = {
+		path, GIT_BUF_INIT, is_safe
+	};
+	git_config *config;
+	int error;
+
+	if (load_global_config(&config) != 0)
+		return 0;
+
+	error = git_config_get_multivar_foreach(config,
+		"safe.directory", NULL,
+		validate_ownership_cb,
+		&ownership_data);
+
+	git_config_free(config);
+	git_buf_dispose(&ownership_data.tmp);
+
+	return error;
+}
+
+static int validate_ownership_path(bool *is_safe, const char *path)
+{
+	git_path_owner_t owner_level =
+		GIT_PATH_OWNER_CURRENT_USER |
+		GIT_PATH_USER_IS_ADMINISTRATOR |
+		GIT_PATH_OWNER_RUNNING_SUDO;
+	int error = 0;
+
+	if (path)
+		error = git_path_owner_is(is_safe, path, owner_level);
+
+	if (error == GIT_ENOTFOUND) {
+		*is_safe = true;
+		error = 0;
+	}
+
+	return error;
+}
+
+static int validate_ownership(git_repository *repo)
+{
+	const char *validation_paths[3] = { NULL }, *path;
+	size_t validation_len = 0, i;
+	bool is_safe = false;
+	int error = 0;
+
+	/*
+	 * If there's a worktree, validate the permissions to it *and*
+	 * the git directory, and use the worktree as the configuration
+	 * key for allowlisting the directory. In a bare setup, only
+	 * look at the gitdir and use that as the allowlist. So we
+	 * examine all `validation_paths` but use only the first as
+	 * the configuration lookup.
+	 */
+
+	if (repo->workdir)
+		validation_paths[validation_len++] = repo->workdir;
+
+	if (repo->gitlink)
+		validation_paths[validation_len++] = repo->gitlink;
+
+	validation_paths[validation_len++] = repo->gitdir;
+
+	for (i = 0; i < validation_len; i++) {
+		path = validation_paths[i];
+
+		if ((error = validate_ownership_path(&is_safe, path)) < 0)
+			goto done;
+
+		if (!is_safe)
+			break;
+	}
+
+	if (is_safe ||
+	    (error = validate_ownership_config(&is_safe, validation_paths[0])) < 0)
+		goto done;
+
+	if (!is_safe) {
+		git_error_set(GIT_ERROR_CONFIG,
+			"repository path '%s' is not owned by current user",
+			path);
+		error = GIT_EOWNER;
+	}
+
+done:
 	return error;
 }
 
@@ -903,15 +1015,22 @@ int git_repository_open_ext(
 	if ((error = check_extensions(config, version)) < 0)
 		goto cleanup;
 
-	if ((flags & GIT_REPOSITORY_OPEN_BARE) != 0)
+	if ((flags & GIT_REPOSITORY_OPEN_BARE) != 0) {
 		repo->is_bare = 1;
-	else {
-
+	} else {
 		if (config &&
 		    ((error = load_config_data(repo, config)) < 0 ||
 		     (error = load_workdir(repo, config, &workdir)) < 0))
 			goto cleanup;
 	}
+
+	/*
+	 * Ensure that the git directory and worktree are
+	 * owned by the current user.
+	 */
+	if (git_repository__validate_ownership &&
+	    (error = validate_ownership(repo)) < 0)
+		goto cleanup;
 
 cleanup:
 	git_buf_dispose(&gitdir);
@@ -1609,13 +1728,40 @@ static bool is_filesystem_case_insensitive(const char *gitdir_path)
 	return is_insensitive;
 }
 
-static bool are_symlinks_supported(const char *wd_path)
+/*
+ * Return a configuration object with only the global and system
+ * configurations; no repository-level configuration.
+ */
+static int load_global_config(git_config **config)
 {
-	git_config *config = NULL;
 	git_buf global_buf = GIT_BUF_INIT;
 	git_buf xdg_buf = GIT_BUF_INIT;
 	git_buf system_buf = GIT_BUF_INIT;
 	git_buf programdata_buf = GIT_BUF_INIT;
+	int error;
+
+	git_config_find_global(&global_buf);
+	git_config_find_xdg(&xdg_buf);
+	git_config_find_system(&system_buf);
+	git_config_find_programdata(&programdata_buf);
+
+	error = load_config(config, NULL,
+	                    path_unless_empty(&global_buf),
+	                    path_unless_empty(&xdg_buf),
+	                    path_unless_empty(&system_buf),
+	                    path_unless_empty(&programdata_buf));
+
+	git_buf_dispose(&global_buf);
+	git_buf_dispose(&xdg_buf);
+	git_buf_dispose(&system_buf);
+	git_buf_dispose(&programdata_buf);
+
+	return error;
+}
+
+static bool are_symlinks_supported(const char *wd_path)
+{
+	git_config *config = NULL;
 	int symlinks = 0;
 
 	/*
@@ -1626,19 +1772,9 @@ static bool are_symlinks_supported(const char *wd_path)
 	 * _not_ set, then we do not test or enable symlink support.
 	 */
 #ifdef GIT_WIN32
-	git_config_find_global(&global_buf);
-	git_config_find_xdg(&xdg_buf);
-	git_config_find_system(&system_buf);
-	git_config_find_programdata(&programdata_buf);
-
-	if (load_config(&config, NULL,
-	    path_unless_empty(&global_buf),
-	    path_unless_empty(&xdg_buf),
-	    path_unless_empty(&system_buf),
-	    path_unless_empty(&programdata_buf)) < 0)
-		goto done;
-
-	if (git_config_get_bool(&symlinks, config, "core.symlinks") < 0 || !symlinks)
+	if (load_global_config(&config) < 0 ||
+	    git_config_get_bool(&symlinks, config, "core.symlinks") < 0 ||
+	    !symlinks)
 		goto done;
 #endif
 
@@ -1646,10 +1782,6 @@ static bool are_symlinks_supported(const char *wd_path)
 		goto done;
 
 done:
-	git_buf_dispose(&global_buf);
-	git_buf_dispose(&xdg_buf);
-	git_buf_dispose(&system_buf);
-	git_buf_dispose(&programdata_buf);
 	git_config_free(config);
 	return symlinks != 0;
 }

@@ -1,2 +1,3 @@
 disable-online-tests.patch
 enable-repro-builds.patch
+fix-warnings-atomic-exchange.patch

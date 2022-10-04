@@ -1,0 +1,44 @@
+From 5675312e5aeb0c8b438df3ba9da7542673b2e0e7 Mon Sep 17 00:00:00 2001
+From: lhchavez <lhchavez@lhchavez.com>
+Date: Sun, 14 Nov 2021 02:27:10 -0800
+Subject: [PATCH] Fix a gcc 11 warning in src/thread.h
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+When building under gcc 11, there is a warning about an incompatible pointer
+type, since
+[`__atomic_exchange`](https://gcc.gnu.org/onlinedocs/gcc/_005f_005fatomic-Builtins.html)
+does not take `volatile` pointers:
+
+```
+In file included from ../src/common.h:81,
+                 from ../src/transports/winhttp.c:8:
+../src/thread-utils.h: In function ‘git___swap’:
+../src/thread-utils.h:168:9: warning: argument 3 of ‘__atomic_exchange’ discards ‘volatile’ qualifier [-Wincompatible-pointer-types]
+  168 |         __atomic_exchange(ptr, &newval, &foundval, __ATOMIC_SEQ_CST);
+      |         ^~~~~~~~~~~~~~~~~
+```
+
+This change drops the `volatile` qualifier so that the pointer type matches
+what `__atomic_exchange` expects.
+
+Origin: upstream, https://github.com/libgit2/libgit2/commit/5675312e5aeb0c8b438df3ba9da7542673b2e0e7
+Applied-Upstream: 1.4.0
+---
+ src/thread.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/thread.h b/src/thread.h
+index 82eb7fcab03..4bbac9fd870 100644
+--- a/src/thread.h
++++ b/src/thread.h
+@@ -180,7 +180,7 @@ GIT_INLINE(volatile void *) git_atomic__swap(
+ #if defined(GIT_WIN32)
+ 	return InterlockedExchangePointer(ptr, newval);
+ #elif defined(GIT_BUILTIN_ATOMIC)
+-	void * volatile foundval = NULL;
++	void * foundval = NULL;
+ 	__atomic_exchange(ptr, &newval, &foundval, __ATOMIC_SEQ_CST);
+ 	return foundval;
+ #elif defined(GIT_BUILTIN_SYNC)
