@@ -1,0 +1,5 @@
+  * New upstream bugfix version (LP: #1991636)
+  * d/watch: switch to the GH tags page as the release page broke
+    tarball links
+  * d/p/fix-warnings-atomic-exchange.patch: cherry-picked from upstream
+    to silence a particularly loud warning
