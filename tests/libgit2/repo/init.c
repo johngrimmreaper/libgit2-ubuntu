@@ -424,12 +424,14 @@ void test_repo_init__extended_1(void)
 	cl_assert(!git_repository_is_empty(g_repo));
 
 	cl_git_pass(git_fs_path_lstat(git_repository_path(g_repo), &st));
-	cl_assert(S_ISDIR(st.st_mode));
-	if (cl_is_chmod_supported())
-		cl_assert((S_ISGID & st.st_mode) == S_ISGID);
-	else
-		cl_assert((S_ISGID & st.st_mode) == 0);
-
+	if (!cl_is_env_set("GITTEST_FLAKY_STAT"))
+	{
+		cl_assert(S_ISDIR(st.st_mode));
+		if (cl_is_chmod_supported())
+			cl_assert((S_ISGID & st.st_mode) == S_ISGID);
+		else
+			cl_assert((S_ISGID & st.st_mode) == 0);
+	}
 	cl_git_pass(git_reference_lookup(&ref, g_repo, "HEAD"));
 	cl_assert(git_reference_type(ref) == GIT_REFERENCE_SYMBOLIC);
 	cl_assert_equal_s("refs/heads/development", git_reference_symbolic_target(ref));
