@@ -1,3 +1,11 @@
+libgit2 (1.5.0+ds-6ubuntu1) lunar; urgency=medium
+
+  * Merge from Debian unstable. Remaining changes:
+    - Use OpenSSL as the crypto backend
+    - Use cmake:native in d/tests/control
+
+ -- Gianfranco Costamagna <locutusofborg@debian.org>  Fri, 04 Nov 2022 12:25:02 +0100
+
 libgit2 (1.5.0+ds-6) unstable; urgency=medium
 
   * Team upload.
@@ -55,6 +63,22 @@ libgit2 (1.4.3+dfsg.1-1) experimental; urgency=medium
   * Add myself to uploaders
 
  -- Mohammed Bilal <mdbilal@disroot.org>  Thu, 05 May 2022 17:17:21 +0530
+
+libgit2 (1.3.2+dfsg.1-0ubuntu1) kinetic; urgency=medium
+
+  * New upstream bugfix version (LP: #1991636)
+  * d/watch: switch to the GH tags page as the release page broke
+    tarball links
+  * d/p/fix-warnings-atomic-exchange.patch: cherry-picked from upstream
+    to silence a particularly loud warning
+
+ -- Simon Chopin <schopin@ubuntu.com>  Tue, 04 Oct 2022 09:55:21 +0200
+
+libgit2 (1.3.0+dfsg.1-3ubuntu1) kinetic; urgency=medium
+
+  * d/control: Use OpenSSL as the crypto backend
+
+ -- Simon Chopin <schopin@ubuntu.com>  Fri, 01 Jul 2022 12:05:54 +0200
 
 libgit2 (1.3.0+dfsg.1-3) unstable; urgency=medium
 
