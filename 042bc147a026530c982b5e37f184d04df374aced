@@ -1,0 +1,4 @@
+  * Team upload.
+  * New upstream version 1.5.1+ds
+    - Fix CVE-2023-22742: No certificate checking for SSH remotes
+  * Bump Standards-Version to 4.6.2
