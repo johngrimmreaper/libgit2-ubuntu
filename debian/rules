@@ -19,11 +19,15 @@ COMMON_CMAKE_FLAGS = \
 	-DENABLE_REPRODUCIBLE_BUILDS=ON \
 	-DREGEX_BACKEND=pcre2 \
 	-DUSE_GSSAPI=ON \
-	-DUSE_HTTPS=mbedTLS \
+	-DUSE_HTTPS=OpenSSL \
 	-DUSE_HTTP_PARSER=system \
 	-DUSE_NTLMCLIENT=OFF \
 	-DUSE_SSH=ON
 
+
+ifeq ($(DEB_HOST_ARCH),ppc64el)
+  export DEB_CFLAGS_MAINT_APPEND = -O2
+endif
 
 # The stat() in the Git fs layer has some issues
 export GITTEST_FLAKY_STAT = true
