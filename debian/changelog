@@ -1,3 +1,10 @@
+libgit2 (1.1.0+dfsg.1-4+deb11u1) bullseye; urgency=high
+
+  * Non-maintainer upload by the Security Team
+  * Backport patch for CVE-2023-22742 (Closes: #1029368)
+
+ -- Tobias Frost <tobi@debian.org>  Sun, 02 Apr 2023 12:28:08 +0200
+
 libgit2 (1.1.0+dfsg.1-4) unstable; urgency=medium
 
   * Source-only upload for migration.

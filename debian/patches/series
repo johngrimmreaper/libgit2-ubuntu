@@ -1,2 +1,3 @@
 disable-online-tests.patch
 enable-repro-builds.patch
+CVE-2023-22742.patch
