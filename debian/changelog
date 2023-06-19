@@ -1,3 +1,14 @@
+libgit2 (1.6.4+ds-1) experimental; urgency=medium
+
+  * New upstream version 1.6.4+ds
+  * Refresh patches
+    - Drop fix-unit-tests.patch (no longer needed)
+  * Bump SONAME to 1.6
+  * Add myself to uploaders
+  * Update d/symbols
+
+ -- Timo Röhling <roehling@debian.org>  Mon, 19 Jun 2023 20:45:38 +0200
+
 libgit2 (1.5.1+ds-1) unstable; urgency=high
 
   * Team upload.
