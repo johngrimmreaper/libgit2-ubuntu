@@ -1,0 +1,6 @@
+  * New upstream version 1.6.4+ds
+  * Refresh patches
+    - Drop fix-unit-tests.patch (no longer needed)
+  * Bump SONAME to 1.6
+  * Add myself to uploaders
+  * Update d/symbols
