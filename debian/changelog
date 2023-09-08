@@ -1,3 +1,11 @@
+libgit2 (1.7.1+ds-1) experimental; urgency=medium
+
+  * Update d/copyright
+  * New upstream version 1.7.1+ds
+  * Bump SONAME to 1.7
+
+ -- Timo Röhling <roehling@debian.org>  Fri, 08 Sep 2023 10:45:39 +0200
+
 libgit2 (1.6.4+ds-1) experimental; urgency=medium
 
   * New upstream version 1.6.4+ds
