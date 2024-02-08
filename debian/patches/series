@@ -2,3 +2,5 @@ disable-online-tests.patch
 fix-unit-tests.patch
 handle-bashism.patch
 disable-flaky-stat-tests.patch
+backports/CVE-2024-24575.patch
+backports/CVE-2024-24577.patch

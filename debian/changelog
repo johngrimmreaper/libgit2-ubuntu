@@ -1,3 +1,13 @@
+libgit2 (1.5.1+ds-1+deb12u1) bookworm-security; urgency=high
+
+  * Team upload.
+  * Fix CVE-2024-24575: Denial of service attack in git_revparse_single
+    (Closes: #1063415)
+  * Fix CVE-2024-24577: Use-after-free in git_index_add
+    (Closes: #1063416)
+
+ -- Timo Röhling <roehling@debian.org>  Thu, 08 Feb 2024 12:31:43 +0100
+
 libgit2 (1.5.1+ds-1) unstable; urgency=high
 
   * Team upload.
