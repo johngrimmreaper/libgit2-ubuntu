@@ -1,3 +1,14 @@
+libgit2 (1.7.2+ds-1) unstable; urgency=medium
+
+  * New upstream version 1.7.2+ds
+    - Fix CVE-2024-24575: Denial of service in git_revparse_single
+      (Closes: #1063415)
+    - Fix CVE-2024-24577: Use-after-free in git_index_add
+      (Closes: #1063416)
+  * Build-depend on pkgconf instead of pkg-config
+
+ -- Timo Röhling <roehling@debian.org>  Thu, 08 Feb 2024 09:10:45 +0100
+
 libgit2 (1.7.1+ds-2) unstable; urgency=medium
 
   * Upload to unstable.
