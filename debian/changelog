@@ -1,3 +1,11 @@
+libgit2 (1.1.0+dfsg.1-4+deb11u2) bullseye-security; urgency=medium
+
+  * Team upload.
+  * Fix CVE-2024-24577: Use-after-free in git_index_add
+    (Closes: #1063416)
+
+ -- Timo Röhling <roehling@debian.org>  Thu, 08 Feb 2024 18:22:27 +0100
+
 libgit2 (1.1.0+dfsg.1-4+deb11u1) bullseye; urgency=high
 
   * Non-maintainer upload by the Security Team
