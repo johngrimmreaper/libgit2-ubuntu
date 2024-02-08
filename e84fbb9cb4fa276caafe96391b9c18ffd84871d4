@@ -1,0 +1,6 @@
+  * New upstream version 1.7.2+ds
+    - Fix CVE-2024-24575: Denial of service in git_revparse_single
+      (Closes: #1063415)
+    - Fix CVE-2024-24577: Use-after-free in git_index_add
+      (Closes: #1063416)
+  * Build-depend on pkgconf instead of pkg-config
