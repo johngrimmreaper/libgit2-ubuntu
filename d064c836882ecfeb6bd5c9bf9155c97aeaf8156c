@@ -1,0 +1,4 @@
+  * Merge from Debian unstable. Remaining changes:
+    - Use OpenSSL as the crypto backend
+    - Use cmake:native in d/tests/control
+    - Lower optimization level to O2 on ppc64el to fix a test failure
