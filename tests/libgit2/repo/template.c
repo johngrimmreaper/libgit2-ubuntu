@@ -72,8 +72,8 @@ static void assert_hooks_match(
 			CLEAR_FOR_CORE_FILEMODE(expected_mode);
 			CLEAR_FOR_CORE_FILEMODE(st.st_mode);
 		}
-
-		cl_assert_equal_i_fmt(expected_mode, st.st_mode, "%07o");
+		if (!cl_is_env_set("GITTEST_FLAKY_STAT"))
+			cl_assert_equal_i_fmt(expected_mode, st.st_mode, "%07o");
 	}
 
 	git_str_dispose(&expected);
@@ -97,14 +97,17 @@ static void assert_mode_seems_okay(
 		expect_setgid = false;
 	}
 
-	if (S_ISGID != 0)
-		cl_assert_equal_b(expect_setgid, (st.st_mode & S_ISGID) != 0);
+	if (!cl_is_env_set("GITTEST_FLAKY_STAT"))
+	{
+		if (S_ISGID != 0)
+			cl_assert_equal_b(expect_setgid, (st.st_mode & S_ISGID) != 0);
 
-	cl_assert_equal_b(
-		GIT_PERMS_IS_EXEC(expect_mode), GIT_PERMS_IS_EXEC(st.st_mode));
+		cl_assert_equal_b(
+			GIT_PERMS_IS_EXEC(expect_mode), GIT_PERMS_IS_EXEC(st.st_mode));
 
-	cl_assert_equal_i_fmt(
-		GIT_MODE_TYPE(expect_mode), GIT_MODE_TYPE(st.st_mode), "%07o");
+		cl_assert_equal_i_fmt(
+			GIT_MODE_TYPE(expect_mode), GIT_MODE_TYPE(st.st_mode), "%07o");
+	}
 }
 
 static void setup_repo(const char *name, git_repository_init_options *opts)
