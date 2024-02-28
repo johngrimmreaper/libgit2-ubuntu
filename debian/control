@@ -1,7 +1,8 @@
 Source: libgit2
 Section: libs
 Priority: optional
-Maintainer: Utkarsh Gupta <utkarsh@debian.org>
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+XSBC-Original-Maintainer: Utkarsh Gupta <utkarsh@debian.org>
 Uploaders: Russell Sim <russell.sim@gmail.com>,
            Pirate Praveen <praveen@debian.org>
 Build-Depends: debhelper-compat (= 12),

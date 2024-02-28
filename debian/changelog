@@ -1,3 +1,16 @@
+libgit2 (0.28.4+dfsg.1-2ubuntu0.1) focal-security; urgency=medium
+
+  * SECURITY UPDATE: Improper Verification of Cryptographic Signature
+    - debian/patches/CVE-2023-22742.patch: perform host key checking
+      by default when using ssh.
+    - CVE-2023-22742
+  * SECURITY UPDATE: use-after-free
+    - debian/patches/CVE-2024-24577.patch: correct index check in
+      has_dir_name function used by git_index_add.
+    - CVE-2024-24577
+
+ -- Fabian Toepfer <fabian.toepfer@canonical.com>  Wed, 28 Feb 2024 08:18:43 +0100
+
 libgit2 (0.28.4+dfsg.1-2) unstable; urgency=medium
 
   * Re-upload to unstable
