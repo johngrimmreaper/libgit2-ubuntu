@@ -1,3 +1,16 @@
+libgit2 (1.1.0+dfsg.1-4.1ubuntu0.1) jammy-security; urgency=medium
+
+  * SECURITY UPDATE: Improper Verification of Cryptographic Signature
+    - debian/patches/CVE-2023-22742.patch: perform host key checking
+      by default when using ssh.
+    - CVE-2023-22742
+  * SECURITY UPDATE: use-after-free
+    - debian/patches/CVE-2024-24577.patch: correct index check in
+      has_dir_name function used by git_index_add.
+    - CVE-2024-24577
+
+ -- Fabian Toepfer <fabian.toepfer@canonical.com>  Wed, 28 Feb 2024 08:11:53 +0100
+
 libgit2 (1.1.0+dfsg.1-4.1build1) jammy; urgency=medium
 
   * No-change rebuild against libmbedcrypto7
