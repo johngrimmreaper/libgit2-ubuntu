@@ -1,3 +1,16 @@
+libgit2 (1.5.1+ds-1ubuntu1.1) mantic-security; urgency=medium
+
+  * SECURITY UPDATE: denial-of-service
+    - debian/patches/CVE-2024-24575.patch: fix parsing bug for trailing @
+    in revparse function used by git_revparse_single.
+    - CVE-2024-24575
+  * SECURITY UPDATE: use-after-free
+    - debian/patches/CVE-2024-24577.patch: correct index check in
+      has_dir_name function used by git_index_add.
+    - CVE-2024-24577
+
+ -- Fabian Toepfer <fabian.toepfer@canonical.com>  Wed, 28 Feb 2024 07:50:24 +0100
+
 libgit2 (1.5.1+ds-1ubuntu1) lunar; urgency=low
 
   * Merge from Debian unstable. Remaining changes:
