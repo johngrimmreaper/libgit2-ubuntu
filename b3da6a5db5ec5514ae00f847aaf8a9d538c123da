@@ -1,0 +1,8 @@
+  * SECURITY UPDATE: denial-of-service
+    - debian/patches/CVE-2024-24575.patch: fix parsing bug for trailing @
+    in revparse function used by git_revparse_single.
+    - CVE-2024-24575
+  * SECURITY UPDATE: use-after-free
+    - debian/patches/CVE-2024-24577.patch: correct index check in
+      has_dir_name function used by git_index_add.
+    - CVE-2024-24577
