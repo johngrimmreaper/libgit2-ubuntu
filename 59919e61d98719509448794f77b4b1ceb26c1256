@@ -1,0 +1,8 @@
+  * SECURITY UPDATE: Improper Verification of Cryptographic Signature
+    - debian/patches/CVE-2023-22742.patch: perform host key checking
+      by default when using ssh.
+    - CVE-2023-22742
+  * SECURITY UPDATE: use-after-free
+    - debian/patches/CVE-2024-24577.patch: correct index check in
+      has_dir_name function used by git_index_add.
+    - CVE-2024-24577
