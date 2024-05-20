@@ -1,0 +1,6 @@
+  * Update Files-Excluded for newly vendored HTTP parser
+  * New upstream version 1.8.1+ds
+  * Update patches
+    - Drop handle-bashim.patch (merged upstream)
+  * Bump SONAME to 1.8
+  * Migrate from http-parser to llhttp
