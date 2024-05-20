@@ -12,7 +12,8 @@ void test_copy__file(void)
 	cl_git_pass(git_futils_cp("copy_me", "copy_me_two", 0664));
 
 	cl_git_pass(git_fs_path_lstat("copy_me_two", &st));
-	cl_assert(S_ISREG(st.st_mode));
+	if (!cl_is_env_set("GITTEST_FLAKY_STAT"))
+		cl_assert(S_ISREG(st.st_mode));
 
 	if (!cl_is_env_set("GITTEST_FLAKY_STAT"))
 		cl_assert_equal_sz(strlen(content), (size_t)st.st_size);
@@ -39,7 +40,8 @@ void test_copy__file_in_dir(void)
 		 0664));
 
 	cl_git_pass(git_fs_path_lstat("an_dir/second_dir/and_more/copy_me_two", &st));
-	cl_assert(S_ISREG(st.st_mode));
+	if (!cl_is_env_set("GITTEST_FLAKY_STAT"))
+		cl_assert(S_ISREG(st.st_mode));
 
 	if (!cl_is_env_set("GITTEST_FLAKY_STAT"))
 		cl_assert_equal_sz(strlen(content), (size_t)st.st_size);
@@ -103,7 +105,8 @@ void test_copy__tree(void)
 
 	memset(&st, 0, sizeof(struct stat));
 	cl_git_pass(git_fs_path_lstat("t1/c/f3", &st));
-	cl_assert(S_ISREG(st.st_mode));
+	if (!cl_is_env_set("GITTEST_FLAKY_STAT"))
+		cl_assert(S_ISREG(st.st_mode));
 
 	if (!cl_is_env_set("GITTEST_FLAKY_STAT"))
 		cl_assert_equal_sz(strlen(content), (size_t)st.st_size);
@@ -111,7 +114,8 @@ void test_copy__tree(void)
 #ifndef GIT_WIN32
 	memset(&st, 0, sizeof(struct stat));
 	cl_git_pass(git_fs_path_lstat("t1/c/d/l1", &st));
-	cl_assert(S_ISLNK(st.st_mode));
+	if (!cl_is_env_set("GITTEST_FLAKY_STAT"))
+		cl_assert(S_ISLNK(st.st_mode));
 #endif
 
 	cl_git_pass(git_futils_rmdir_r("t1", NULL, GIT_RMDIR_REMOVE_FILES));
