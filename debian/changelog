@@ -1,3 +1,14 @@
+libgit2 (1.8.1+ds-1) experimental; urgency=medium
+
+  * Update Files-Excluded for newly vendored HTTP parser
+  * New upstream version 1.8.1+ds
+  * Update patches
+    - Drop handle-bashim.patch (merged upstream)
+  * Bump SONAME to 1.8
+  * Migrate from http-parser to llhttp
+
+ -- Timo Röhling <roehling@debian.org>  Mon, 20 May 2024 11:21:07 +0200
+
 libgit2 (1.7.2+ds-1) unstable; urgency=medium
 
   * New upstream version 1.7.2+ds

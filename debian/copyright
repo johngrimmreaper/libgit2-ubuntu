@@ -2,7 +2,7 @@ Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
 Upstream-Name: libgit2
 Source: https://libgit2.github.com/
 Files-Excluded: deps/chromium-zlib
-                deps/http-parser
+                deps/llhttp
 		deps/ntlmclient
 		deps/pcre
 		deps/winhttp
