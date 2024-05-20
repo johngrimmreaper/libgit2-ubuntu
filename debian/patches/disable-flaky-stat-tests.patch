@@ -11,7 +11,7 @@ Forwarded: not-needed
  4 files changed, 29 insertions(+), 18 deletions(-)
 
 diff --git a/tests/libgit2/repo/init.c b/tests/libgit2/repo/init.c
-index d78ec06..17a0ae2 100644
+index 446ab73..8cf7320 100644
 --- a/tests/libgit2/repo/init.c
 +++ b/tests/libgit2/repo/init.c
 @@ -443,12 +443,14 @@ void test_repo_init__extended_1(void)

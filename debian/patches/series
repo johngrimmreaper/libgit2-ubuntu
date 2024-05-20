@@ -1,3 +1,2 @@
 disable-online-tests.patch
-handle-bashism.patch
 disable-flaky-stat-tests.patch
