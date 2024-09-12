@@ -1,3 +1,12 @@
+libgit2 (1.8.1+ds-2) experimental; urgency=medium
+
+  * Fix version ordering for -rc releases in d/watch
+  * Wrap and sort Debian package files
+  * Bump Standards-Version to 4.7.0
+  * Move back to http-parser from llhttp (Closes: #1081534)
+
+ -- Timo Röhling <roehling@debian.org>  Thu, 12 Sep 2024 16:04:48 +0200
+
 libgit2 (1.8.1+ds-1) experimental; urgency=medium
 
   * Update Files-Excluded for newly vendored HTTP parser
