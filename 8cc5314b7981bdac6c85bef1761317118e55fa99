@@ -1,0 +1,4 @@
+  * Fix version ordering for -rc releases in d/watch
+  * Wrap and sort Debian package files
+  * Bump Standards-Version to 4.7.0
+  * Move back to http-parser from llhttp (Closes: #1081534)
