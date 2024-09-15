@@ -1,3 +1,11 @@
+libgit2 (1.8.2~rc1+ds-1) experimental; urgency=medium
+
+  * New upstream version 1.8.2~rc1+ds
+    - Revert premature const correctness change to
+      git_commit_create() and git_commit_create_buffer()
+
+ -- Timo Röhling <roehling@debian.org>  Sun, 15 Sep 2024 09:52:48 +0200
+
 libgit2 (1.8.1+ds-2) experimental; urgency=medium
 
   * Fix version ordering for -rc releases in d/watch
