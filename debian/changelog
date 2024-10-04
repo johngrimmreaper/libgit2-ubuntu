@@ -1,3 +1,9 @@
+libgit2 (1.8.2~rc1+ds-2) unstable; urgency=medium
+
+  * Upload to unstable.
+
+ -- Timo Röhling <roehling@debian.org>  Sat, 05 Oct 2024 01:02:23 +0200
+
 libgit2 (1.8.2~rc1+ds-1) experimental; urgency=medium
 
   * New upstream version 1.8.2~rc1+ds
