@@ -2,7 +2,6 @@ Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
 Upstream-Name: libgit2
 Source: https://libgit2.github.com/
 Files-Excluded: deps/chromium-zlib
-                deps/llhttp
 		deps/ntlmclient
 		deps/pcre
 		deps/winhttp
@@ -23,6 +22,10 @@ License: CC0-1.0
 
 Files: tests/clar/*
 Copyright: 2011, Vicent Marti
+License: MIT
+
+Files: deps/llhttp/*
+Copyright: 2018, Fedor Indutny
 License: MIT
 
 Files: deps/xdiff/*

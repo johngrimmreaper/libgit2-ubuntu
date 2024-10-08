@@ -1,3 +1,12 @@
+libgit2 (1.8.2~rc1+ds2-1) unstable; urgency=medium
+
+  * Keep vendored llhttp for ports architectures
+  * New upstream version 1.8.2~rc1+ds2
+  * Update d/copyright
+  * Use vendored llhttp on architectures without nodejs (Closes: #1084223)
+
+ -- Timo Röhling <roehling@debian.org>  Tue, 08 Oct 2024 22:45:48 +0200
+
 libgit2 (1.8.2~rc1+ds-2) unstable; urgency=medium
 
   * Upload to unstable.
