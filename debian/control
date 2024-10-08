@@ -11,7 +11,7 @@ Build-Depends:
  cmake,
  debhelper-compat (= 13),
  libkrb5-dev,
- libhttp-parser-dev,
+ libllhttp-dev [amd64 arm64 armel armhf i386 mips64el ppc64el riscv64 s390x loong64 ppc64],
  libmbedtls-dev,
  libpcre2-dev,
  libssh2-1-dev,
@@ -30,7 +30,7 @@ Section: libdevel
 Multi-Arch: same
 Depends:
  libgit2-1.8 (= ${binary:Version}),
- libllhttp-dev,
+ libllhttp-dev [amd64 arm64 armel armhf i386 mips64el ppc64el riscv64 s390x loong64 ppc64],
  libmbedtls-dev,
  libpcre2-dev,
  libssh2-1-dev,
