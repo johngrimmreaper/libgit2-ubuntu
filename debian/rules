@@ -13,7 +13,7 @@ include /usr/share/dpkg/architecture.mk
 export DEB_BUILD_MAINT_OPTIONS = hardening=+all
 
 
-ARCH_WITH_LLHTTP = amd64 arm64 armel armhf i386 mips64el ppc64el riscv64 s390x loong64 ppc64
+ARCH_WITH_LLHTTP = amd64 arm64 armel armhf mips64el ppc64el riscv64 s390x loong64 ppc64
 
 BUILD_TESTS = $(if $(filter nocheck,$(DEB_BUILD_OPTIONS)),OFF,ON)
 COMMON_CMAKE_FLAGS = \
