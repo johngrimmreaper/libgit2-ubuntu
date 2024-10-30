@@ -24,13 +24,17 @@ COMMON_CMAKE_FLAGS = \
 	-DENABLE_REPRODUCIBLE_BUILDS=ON \
 	-DREGEX_BACKEND=pcre2 \
 	-DUSE_GSSAPI=ON \
-	-DUSE_HTTPS=mbedTLS \
+	-DUSE_HTTPS=OpenSSL \
 	-DUSE_NTLMCLIENT=OFF \
 	-DUSE_SSH=ON
 
 ifneq (,$(filter $(ARCH_WITH_LLHTTP),$(DEB_HOST_ARCH)))
 COMMON_CMAKE_FLAGS += \
 	-DUSE_HTTP_PARSER=llhttp
+endif
+
+ifeq ($(DEB_HOST_ARCH),ppc64el)
+  export DEB_CFLAGS_MAINT_APPEND = -O2
 endif
 
 # The stat() in the Git fs layer has some issues
