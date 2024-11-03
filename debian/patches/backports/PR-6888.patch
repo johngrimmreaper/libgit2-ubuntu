@@ -1,0 +1,142 @@
+From: =?utf-8?q?Timo_R=C3=B6hling?= <roehling@debian.org>
+Date: Sun, 3 Nov 2024 00:42:47 +0100
+Subject: Fix GIT_DIFF_FORMAT_PATCH_HEADER output
+
+In diff_print_patch_file we try to avoid printing the file if we're not
+sure
+that there will be some content. This works fine if we have any later
+functions
+that might get called as part of printing. But when given the format
+GIT_DIFF_FORMAT_PATCH_HEADER, this is the only function to get called.
+
+Add the binary and hunk functions to those to be called when given this
+option
+and have them exit after printing the header. This takes care of
+printing the
+header if we would be issuing a hunk, but we skip that part.
+
+Origin: upstream, https://github.com/libgit2/libgit2/pull/6888
+Bug-Debian: https://bugs.debian.org/1086494
+Forwarded: not-needed
+---
+ src/libgit2/diff_print.c    | 16 +++++++++++
+ tests/libgit2/diff/header.c | 69 +++++++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 85 insertions(+)
+ create mode 100644 tests/libgit2/diff/header.c
+
+diff --git a/src/libgit2/diff_print.c b/src/libgit2/diff_print.c
+index daeefca..96950cc 100644
+--- a/src/libgit2/diff_print.c
++++ b/src/libgit2/diff_print.c
+@@ -667,6 +667,13 @@ static int diff_print_patch_binary(
+ 	if ((error = flush_file_header(delta, pi)) < 0)
+ 		return error;
+ 
++	/*
++	 * If the caller only wants the header, we just needed to make sure to
++	 * call flush_file_header
++	 */
++	if (pi->format == GIT_DIFF_FORMAT_PATCH_HEADER)
++		return 0;
++
+ 	git_str_clear(pi->buf);
+ 
+ 	if ((error = diff_print_patch_file_binary(
+@@ -694,6 +701,13 @@ static int diff_print_patch_hunk(
+ 	if ((error = flush_file_header(d, pi)) < 0)
+ 		return error;
+ 
++	/*
++	 * If the caller only wants the header, we just needed to make sure to
++	 * call flush_file_header
++	 */
++	if (pi->format == GIT_DIFF_FORMAT_PATCH_HEADER)
++		return 0;
++
+ 	pi->line.origin      = GIT_DIFF_LINE_HUNK_HDR;
+ 	pi->line.content     = h->header;
+ 	pi->line.content_len = h->header_len;
+@@ -748,6 +762,8 @@ int git_diff_print(
+ 		break;
+ 	case GIT_DIFF_FORMAT_PATCH_HEADER:
+ 		print_file = diff_print_patch_file;
++		print_binary = diff_print_patch_binary;
++		print_hunk = diff_print_patch_hunk;
+ 		break;
+ 	case GIT_DIFF_FORMAT_RAW:
+ 		print_file = diff_print_one_raw;
+diff --git a/tests/libgit2/diff/header.c b/tests/libgit2/diff/header.c
+new file mode 100644
+index 0000000..b5b7369
+--- /dev/null
++++ b/tests/libgit2/diff/header.c
+@@ -0,0 +1,69 @@
++#include "clar_libgit2.h"
++#include "git2/sys/repository.h"
++
++#include "diff_helpers.h"
++#include "diff.h"
++#include "repository.h"
++
++static git_repository *g_repo = NULL;
++
++void test_diff_header__initialize(void)
++{
++}
++
++void test_diff_header__cleanup(void)
++{
++	cl_git_sandbox_cleanup();
++}
++
++#define EXPECTED_HEADER "diff --git a/subdir.txt b/subdir.txt\n"	\
++	"deleted file mode 100644\n"					\
++	"index e8ee89e..0000000\n"					\
++	"--- a/subdir.txt\n"						\
++	"+++ /dev/null\n"
++
++static int check_header_cb(
++	const git_diff_delta *delta,
++	const git_diff_hunk *hunk,
++	const git_diff_line *line,
++	void *payload)
++{
++	int *counter = (int *) payload;
++
++	GIT_UNUSED(delta);
++
++	switch (line->origin) {
++	case GIT_DIFF_LINE_FILE_HDR:
++		cl_assert(hunk == NULL);
++		(*counter)++;
++		break;
++	default:
++		/* unexpected code path */
++		return -1;
++	}
++
++	return 0;
++}
++
++void test_diff_header__can_print_just_headers(void)
++{
++	const char *one_sha = "26a125e";
++	git_tree *one;
++	git_diff *diff;
++	int counter = 0;
++
++	g_repo = cl_git_sandbox_init("status");
++
++	one = resolve_commit_oid_to_tree(g_repo, one_sha);
++
++	cl_git_pass(git_diff_tree_to_index(&diff, g_repo, one, NULL, NULL));
++
++	cl_git_pass(git_diff_print(
++			    diff, GIT_DIFF_FORMAT_PATCH_HEADER, check_header_cb, &counter));
++
++	cl_assert_equal_i(8, counter);
++
++	git_diff_free(diff);
++
++	git_tree_free(one);
++}
