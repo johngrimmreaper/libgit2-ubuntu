@@ -1,0 +1,4 @@
+  * Unvendor llhttp again
+  * New upstream version 1.8.4+ds
+  * Print the file header on GIT_DIFF_FORMAT_PATCH_HEADER (Closes: #1086494)
+  * Move back to http-parser again
