@@ -1,3 +1,12 @@
+libgit2 (1.8.4+ds-1) unstable; urgency=medium
+
+  * Unvendor llhttp again
+  * New upstream version 1.8.4+ds
+  * Print the file header on GIT_DIFF_FORMAT_PATCH_HEADER (Closes: #1086494)
+  * Move back to http-parser again
+
+ -- Timo Röhling <roehling@debian.org>  Sun, 03 Nov 2024 01:47:58 +0100
+
 libgit2 (1.8.2~rc1+ds2-1) unstable; urgency=medium
 
   * Keep vendored llhttp for ports architectures

@@ -1,2 +1,3 @@
 disable-online-tests.patch
 disable-flaky-stat-tests.patch
+backports/PR-6888.patch
