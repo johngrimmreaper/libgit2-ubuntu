@@ -1,0 +1,1 @@
+  * Bump cmake_minimum_required() for autopkgtest (Closes: #1087860)
