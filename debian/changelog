@@ -1,3 +1,9 @@
+libgit2 (1.8.4+ds-2) unstable; urgency=medium
+
+  * Bump cmake_minimum_required() for autopkgtest (Closes: #1087860)
+
+ -- Timo Röhling <roehling@debian.org>  Thu, 21 Nov 2024 11:46:53 +0100
+
 libgit2 (1.8.4+ds-1) unstable; urgency=medium
 
   * Unvendor llhttp again
