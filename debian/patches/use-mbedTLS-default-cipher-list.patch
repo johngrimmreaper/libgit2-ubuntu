@@ -1,0 +1,28 @@
+From: =?utf-8?q?Timo_R=C3=B6hling?= <roehling@debian.org>
+Date: Wed, 27 Nov 2024 23:25:53 +0100
+Subject: use mbedTLS default cipher list
+
+---
+ src/libgit2/streams/mbedtls.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/src/libgit2/streams/mbedtls.c b/src/libgit2/streams/mbedtls.c
+index 1b27807..662686f 100644
+--- a/src/libgit2/streams/mbedtls.c
++++ b/src/libgit2/streams/mbedtls.c
+@@ -104,6 +104,7 @@ int git_mbedtls_stream_global_init(void)
+ 	 * is made, so we can never see the certificate and override it. */
+ 	mbedtls_ssl_conf_authmode(&mbedtls_config, MBEDTLS_SSL_VERIFY_OPTIONAL);
+ 
++#if 0
+ 	/* set the list of allowed ciphersuites */
+ 	ciphers_known = 0;
+ 	cipher_string = cipher_string_tmp = git__strdup(GIT_SSL_DEFAULT_CIPHERS);
+@@ -127,6 +128,7 @@ int git_mbedtls_stream_global_init(void)
+ 		goto cleanup;
+ 	}
+ 	mbedtls_ssl_conf_ciphersuites(&mbedtls_config, ciphers_list);
++#endif
+ 
+ 	/* Seeding the random number generator */
+ 
