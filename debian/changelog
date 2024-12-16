@@ -1,3 +1,16 @@
+libgit2 (1.8.4+ds-3ubuntu2) plucky; urgency=medium
+
+  [ Zixing Liu ]
+  * d/copyright: re-add llhttp for vendoring
+  * deps/llhttp: re-vendors llhttp v9.2.1
+  * d/rules,control: use vendored llhttp and writes llhttp vendor tag
+    (LP: #2080872)
+
+  [ Simon Quigley ]
+  * Add use-vendored-llhttp.patch to satisfy dpkg-source.
+
+ -- Zixing Liu <zixing.liu@canonical.com>  Mon, 16 Dec 2024 11:50:41 -0700
+
 libgit2 (1.8.4+ds-3ubuntu1) plucky; urgency=low
 
   * Merge from Debian unstable. Remaining changes:
