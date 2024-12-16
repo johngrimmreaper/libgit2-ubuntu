@@ -2,7 +2,6 @@ Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
 Upstream-Name: libgit2
 Source: https://libgit2.github.com/
 Files-Excluded: deps/chromium-zlib
-                deps/llhttp
 		deps/ntlmclient
 		deps/pcre
 		deps/winhttp
@@ -29,6 +28,11 @@ Files: deps/xdiff/*
 Copyright: 2003, Davide Libenzi
            2003-2016, Davide Libenzi, Johannes E. Schindelin
 License: LGPL-2.1+
+
+Files: deps/llhttp/*
+Copyright: 2018, Fedor Indutny
+           2018-2024, Node.js contributors
+License: MIT
 
 Files: deps/xdiff/xhistogram.c
 Copyright: 2009-2010, Google Inc
