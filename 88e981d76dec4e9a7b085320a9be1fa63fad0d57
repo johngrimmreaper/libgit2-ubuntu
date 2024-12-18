@@ -1,0 +1,7 @@
+  [ Zixing Liu ]
+  * d/copyright: re-add llhttp for vendoring
+  * deps/llhttp: re-vendors llhttp v9.2.1
+  * d/rules,control: use vendored llhttp and writes llhttp vendor tag
+    (LP: #2080872)
+  [ Simon Quigley ]
+  * Add use-vendored-llhttp.patch to satisfy dpkg-source.
