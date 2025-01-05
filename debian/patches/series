@@ -1,7 +1,7 @@
 disable-online-tests.patch
 disable-flaky-stat-tests.patch
-backports/PR-6888.patch
 use-mbedTLS-default-cipher-list.patch
 
 # Should be reverted once https://bugs.debian.org/1081636 is fixed
-use-vendored-llhttp.patch
+# temporary revert of the patch, UNCOMMENT ON NEXT DEBIAN MERGE!
+#use-vendored-llhttp.patch
