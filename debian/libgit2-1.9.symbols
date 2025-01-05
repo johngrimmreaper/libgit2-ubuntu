@@ -1,4 +1,4 @@
-libgit2.so.1.8 libgit2-1.8 #MINVER#
+libgit2.so.1.9 libgit2-1.9 #MINVER#
 * Build-Depends-Package: libgit2-dev
  git_annotated_commit_free@Base 1.8.0
  git_annotated_commit_from_fetchhead@Base 1.8.0
@@ -25,7 +25,12 @@ libgit2.so.1.8 libgit2-1.8 #MINVER#
  git_blame_get_hunk_byindex@Base 1.8.0
  git_blame_get_hunk_byline@Base 1.8.0
  git_blame_get_hunk_count@Base 1.8.0
+ git_blame_hunk_byindex@Base 1.9.0
+ git_blame_hunk_byline@Base 1.9.0
+ git_blame_hunkcount@Base 1.9.0
  git_blame_init_options@Base 1.8.0
+ git_blame_line_byindex@Base 1.9.0
+ git_blame_linecount@Base 1.9.0
  git_blame_options_init@Base 1.8.0
  git_blob_create_from_buffer@Base 1.8.0
  git_blob_create_from_disk@Base 1.8.0
@@ -356,6 +361,7 @@ libgit2.so.1.8 libgit2-1.8 #MINVER#
  git_indexer_name@Base 1.8.0
  git_indexer_new@Base 1.8.0
  git_indexer_options_init@Base 1.8.0
+ git_libgit2_feature_backend@Base 1.9.0
  git_libgit2_features@Base 1.8.0
  git_libgit2_init@Base 1.8.0
  git_libgit2_opts@Base 1.8.0
@@ -371,7 +377,9 @@ libgit2.so.1.8 libgit2-1.8 #MINVER#
  git_mailmap_resolve_signature@Base 1.8.0
  git_mempack_dump@Base 1.8.0
  git_mempack_new@Base 1.8.0
+ git_mempack_object_count@Base 1.9.0
  git_mempack_reset@Base 1.8.0
+ git_mempack_write_thin_pack@Base 1.9.0
  git_merge@Base 1.8.0
  git_merge_analysis@Base 1.8.0
  git_merge_analysis_for_ref@Base 1.8.0
@@ -625,7 +633,7 @@ libgit2.so.1.8 libgit2-1.8 #MINVER#
  git_reflog_append@Base 1.8.0
  git_reflog_delete@Base 1.8.0
  git_reflog_drop@Base 1.8.0
- git_reflog_entry__free@Base 1.8.0
+#MISSING: 1.9.0# git_reflog_entry__free@Base 1.8.0
  git_reflog_entry_byindex@Base 1.8.0
  git_reflog_entry_committer@Base 1.8.0
  git_reflog_entry_id_new@Base 1.8.0
@@ -645,6 +653,7 @@ libgit2.so.1.8 libgit2-1.8 #MINVER#
  git_refspec_rtransform@Base 1.8.0
  git_refspec_src@Base 1.8.0
  git_refspec_src_matches@Base 1.8.0
+ git_refspec_src_matches_negative@Base 1.9.0
  git_refspec_string@Base 1.8.0
  git_refspec_transform@Base 1.8.0
  git_remote_add_fetch@Base 1.8.0
@@ -781,6 +790,7 @@ libgit2.so.1.8 libgit2-1.8 #MINVER#
  git_revwalk_simplify_first_parent@Base 1.8.0
  git_revwalk_sorting@Base 1.8.0
  git_signature_default@Base 1.8.0
+ git_signature_default_from_env@Base 1.9.0
  git_signature_dup@Base 1.8.0
  git_signature_free@Base 1.8.0
  git_signature_from_buffer@Base 1.8.0

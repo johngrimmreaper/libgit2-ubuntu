@@ -1,3 +1,9 @@
+libgit2 (1.9.0~ds-0ubuntu1) plucky; urgency=medium
+
+  * New upstream release.
+
+ -- Simon Quigley <tsimonq2@ubuntu.com>  Sat, 04 Jan 2025 22:54:01 -0600
+
 libgit2 (1.8.4+ds-3ubuntu2) plucky; urgency=medium
 
   [ Zixing Liu ]
