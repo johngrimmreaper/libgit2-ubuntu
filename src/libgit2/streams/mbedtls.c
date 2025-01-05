@@ -104,6 +104,7 @@ int git_mbedtls_stream_global_init(void)
 	 * is made, so we can never see the certificate and override it. */
 	mbedtls_ssl_conf_authmode(&mbedtls_config, MBEDTLS_SSL_VERIFY_OPTIONAL);
 
+#if 0
 	/* set the list of allowed ciphersuites */
 	ciphers_known = 0;
 	cipher_string = cipher_string_tmp = git__strdup(GIT_SSL_DEFAULT_CIPHERS);
@@ -127,6 +128,7 @@ int git_mbedtls_stream_global_init(void)
 		goto cleanup;
 	}
 	mbedtls_ssl_conf_ciphersuites(&mbedtls_config, ciphers_list);
+#endif
 
 	/* Seeding the random number generator */
 
