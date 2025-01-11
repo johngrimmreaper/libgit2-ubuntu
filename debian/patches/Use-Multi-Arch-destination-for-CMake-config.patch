@@ -1,0 +1,26 @@
+From: =?utf-8?q?Timo_R=C3=B6hling?= <roehling@debian.org>
+Date: Sun, 12 Jan 2025 00:29:22 +0100
+Subject: Use Multi-Arch destination for CMake config
+
+---
+ src/libgit2/CMakeLists.txt | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/src/libgit2/CMakeLists.txt b/src/libgit2/CMakeLists.txt
+index a7d3c7c..16b3a23 100644
+--- a/src/libgit2/CMakeLists.txt
++++ b/src/libgit2/CMakeLists.txt
+@@ -119,11 +119,11 @@ configure_file(config.cmake.in
+ install(FILES
+ 	"${PROJECT_BINARY_DIR}/cmake/${PROJECT_NAME}Config.cmake"
+ 	"${PROJECT_BINARY_DIR}/cmake/${PROJECT_NAME}ConfigVersion.cmake"
+-	DESTINATION "lib/cmake/${PROJECT_NAME}")
++	DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}")
+ install(
+ 	EXPORT ${LIBGIT2_TARGETS_EXPORT_NAME}
+ 	NAMESPACE "${PROJECT_NAME}::"
+-	DESTINATION "lib/cmake/${PROJECT_NAME}")
++	DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}")
+ 
+ # Install
+ 

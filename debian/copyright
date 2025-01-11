@@ -13,7 +13,7 @@ Comment: Remove unneeded bundled dependencies
        is released (and Debian packaged) separately.
 
 Files: *
-Copyright: 2009-2023, the libgit2 contributors
+Copyright: 2009-2025, the libgit2 contributors
 License: GPL-2 with linking exception, origin admission
 
 Files: examples/*
@@ -48,10 +48,8 @@ Copyright: 2008, The Android Open Source Project
            the libgit2 contributors
 License: BSD-2-clause
 
-Files: src/util/khash.h
-       src/util/utf8.c
-Copyright: 2008-2011, Attractive Chaos <attractor@live.co.uk>
-           2009, Public Software Group e. V., Berlin, Germany
+Files: src/util/utf8.c
+Copyright: 2009, Public Software Group e. V., Berlin, Germany
            the libgit2 contributors
 License: MIT
 
