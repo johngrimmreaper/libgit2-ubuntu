@@ -11,7 +11,7 @@ Forwarded: not-needed
  4 files changed, 29 insertions(+), 18 deletions(-)
 
 diff --git a/tests/libgit2/repo/init.c b/tests/libgit2/repo/init.c
-index 446ab73..8cf7320 100644
+index e23271d..7b3b343 100644
 --- a/tests/libgit2/repo/init.c
 +++ b/tests/libgit2/repo/init.c
 @@ -443,12 +443,14 @@ void test_repo_init__extended_1(void)
@@ -36,7 +36,7 @@ index 446ab73..8cf7320 100644
  	cl_assert(git_reference_type(ref) == GIT_REFERENCE_SYMBOLIC);
  	cl_assert_equal_s("refs/heads/development", git_reference_symbolic_target(ref));
 diff --git a/tests/libgit2/repo/template.c b/tests/libgit2/repo/template.c
-index e8fe266..f771f4e 100644
+index 2b1ecf8..70b19ab 100644
 --- a/tests/libgit2/repo/template.c
 +++ b/tests/libgit2/repo/template.c
 @@ -72,8 +72,8 @@ static void assert_hooks_match(

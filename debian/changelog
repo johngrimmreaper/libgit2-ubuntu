@@ -1,3 +1,15 @@
+libgit2 (1.9.0+ds-1) experimental; urgency=medium
+
+  * New upstream version 1.9.0+ds
+    (Closes: #1092215)
+  * Drop Debian patch for mbedTLS default cipher list (fixed upstream)
+  * Wrap and sort Debian package files
+  * Bump SONAME to 1.9
+  * Install new CMake config
+  * Update d/copyright
+
+ -- Timo Röhling <roehling@debian.org>  Sun, 12 Jan 2025 00:39:53 +0100
+
 libgit2 (1.8.4+ds-3) unstable; urgency=medium
 
   * Use mbedTLS default cipher list for TLS handshake (Closes: #1088281)
