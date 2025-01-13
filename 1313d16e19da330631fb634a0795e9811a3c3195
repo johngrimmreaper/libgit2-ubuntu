@@ -1,0 +1,7 @@
+  * New upstream version 1.9.0+ds
+    (Closes: #1092215)
+  * Drop Debian patch for mbedTLS default cipher list (fixed upstream)
+  * Wrap and sort Debian package files
+  * Bump SONAME to 1.9
+  * Install new CMake config
+  * Update d/copyright
