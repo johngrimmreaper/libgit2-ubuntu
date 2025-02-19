@@ -1,7 +1,8 @@
 Source: libgit2
 Section: libs
 Priority: optional
-Maintainer: Utkarsh Gupta <utkarsh@debian.org>
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+XSBC-Original-Maintainer: Utkarsh Gupta <utkarsh@debian.org>
 Uploaders:
  Pirate Praveen <praveen@debian.org>,
  Mohammed Bilal <mdbilal@disroot.org>,
@@ -12,7 +13,7 @@ Build-Depends:
  cmake,
  libhttp-parser-dev,
  libkrb5-dev,
- libmbedtls-dev,
+ libssl-dev,
  libpcre2-dev,
  libssh2-1-dev,
  pkgconf,
@@ -31,7 +32,7 @@ Multi-Arch: same
 Depends:
  libgit2-1.9 (= ${binary:Version}),
  libhttp-parser-dev,
- libmbedtls-dev,
+ libssl-dev,
  libpcre2-dev,
  libssh2-1-dev,
  zlib1g-dev,
@@ -51,6 +52,8 @@ Pre-Depends:
 Depends:
  ${misc:Depends},
  ${shlibs:Depends},
+Static-Built-Using: ${misc:Static-Built-Using}
+Built-Using: ${misc:Built-Using}
 Description: low-level Git library
  libgit2 is a portable, pure C implementation of the Git
  distributed version control system core methods provided as a
