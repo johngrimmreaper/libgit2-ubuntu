@@ -1,3 +1,4 @@
 disable-online-tests.patch
 disable-flaky-stat-tests.patch
 Use-Multi-Arch-destination-for-CMake-config.patch
+use-vendored-llhttp.patch
