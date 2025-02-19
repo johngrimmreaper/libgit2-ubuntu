@@ -1,0 +1,8 @@
+  * Merge from Debian Experimental. Remaining changes:
+    - Use OpenSSL as the crypto backend
+    - Use cmake:native in d/tests/control
+    - d/copyright: re-add llhttp for vendoring
+    - deps/llhttp: re-vendors llhttp v9.2.1
+    - d/rules,control: use vendored llhttp and writes llhttp vendor tag
+      (LP: #2080872)
+    - Add use-vendored-llhttp.patch to satisfy dpkg-source.
