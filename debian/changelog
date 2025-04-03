@@ -1,3 +1,11 @@
+libgit2 (1.9.0+ds-2) unstable; urgency=medium
+
+  * Upload to unstable.
+  * Bump Standards-Version to 4.7.2
+  * Replace old FSF address by weblink in d/copyright
+
+ -- Timo Röhling <roehling@debian.org>  Thu, 03 Apr 2025 17:28:22 +0200
+
 libgit2 (1.9.0+ds-1) experimental; urgency=medium
 
   * New upstream version 1.9.0+ds
