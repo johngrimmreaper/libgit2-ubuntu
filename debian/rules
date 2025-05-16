@@ -19,13 +19,16 @@ COMMON_CMAKE_FLAGS = \
 	-DENABLE_REPRODUCIBLE_BUILDS=ON \
 	-DREGEX_BACKEND=pcre2 \
 	-DUSE_GSSAPI=ON \
-	-DUSE_HTTPS=mbedTLS \
-	-DUSE_HTTP_PARSER=http-parser \
+	-DUSE_HTTPS=OpenSSL \
+	-DUSE_HTTP_PARSER=builtin \
 	-DUSE_NTLMCLIENT=OFF \
 	-DUSE_SSH=ON
 
 # The stat() in the Git fs layer has some issues
 export GITTEST_FLAKY_STAT = true
+
+# Added by Ubuntu: get vendored llhttp version
+LLHTTP_VERSION := $(shell echo 'LLHTTP_VERSION_MAJOR . LLHTTP_VERSION_MINOR . LLHTTP_VERSION_PATCH' | $(CC) -E -include deps/llhttp/llhttp.h - | tail -n1 | sed 's|\s||g')
 
 %:
 	dh $@ --buildsystem=cmake
@@ -43,6 +46,7 @@ override_dh_auto_build:
 	dh_auto_build --builddirectory=build-debian-release
 
 override_dh_auto_install:
+	echo 'misc:Static-Built-Using=llhttp (= $(LLHTTP_VERSION))' >> debian/libgit2-1.8.substvars
 	dh_auto_install --builddirectory=build-debian-devel
 	dh_auto_install --builddirectory=build-debian-release
 
