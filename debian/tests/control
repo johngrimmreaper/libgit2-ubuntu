@@ -2,7 +2,7 @@ Test-Command: ./debian/tests/superficial-test git2
 Features: test-name=build-with-libgit2-dev
 Restrictions: superficial
 Depends:
- cmake,
+ cmake:native,
  g++,
  gcc,
  libgit2-dev,
