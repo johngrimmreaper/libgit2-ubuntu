@@ -1,11 +1,12 @@
 libgit2 (1.9.0+ds-2ubuntu1) questing; urgency=medium
 
   * Merge with Debian unstable. Remaining changes:
-Vendor llhttp within package (LP #2080872)
-Added d/p/use-vendored-llhttp.patch and changed d/rules,control to use
-vendored lhttp. Added llhttp to d/copyright.
-Use OpenSSL as the crypto backend
-Use cmake:native in d/tests/control
+    - Vendor llhttp within package (LP #2080872)
+      + Added d/p/use-vendored-llhttp.patch
+      + Changed d/rules,control to use vendored lhttp
+      + Added llhttp to d/copyright
+    - Use OpenSSL as the crypto backend
+    - d/tests/control: use cmake:native
 
  -- Ural Tunaboyu <ural.tunaboyu@canonical.com>  Fri, 16 May 2025 11:06:29 +0200
 
