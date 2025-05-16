@@ -10,7 +10,6 @@ Build-Depends:
  debhelper-compat (= 13),
  ca-certificates,
  cmake,
- libllhttp-dev,
  libkrb5-dev,
  libssl-dev,
  libpcre2-dev,
@@ -34,7 +33,6 @@ Section: libdevel
 Multi-Arch: same
 Depends:
  libgit2-1.9 (= ${binary:Version}),
- libllhttp-dev,
  libssl-dev,
  libpcre2-dev,
  libssh2-1-dev,
@@ -53,6 +51,8 @@ Pre-Depends:
 Depends:
  ${misc:Depends},
  ${shlibs:Depends},
+Static-Built-Using: ${misc:Static-Built-Using}
+Built-Using: ${misc:Built-Using}
 Description: ${source:Synopsis}
  ${source:Extended-Description}
 
@@ -64,7 +64,6 @@ Conflicts:
  libgit2-dev,
 Depends:
  libgit2-experimental1.9 (= ${binary:Version}),
- libllhttp-dev,
  libssl-dev,
  libpcre2-dev,
  libssh2-1-dev,
