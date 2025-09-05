@@ -1,3 +1,9 @@
+libgit2 (1.9.0+ds-2ubuntu2) questing; urgency=medium
+
+  * Rebuild to include updated RISC-V base ISA RVA23
+
+ -- Heinrich Schuchardt <heinrich.schuchardt@canonical.com>  Fri, 05 Sep 2025 17:42:31 +0000
+
 libgit2 (1.9.0+ds-2ubuntu1) questing; urgency=medium
 
   * Merge with Debian unstable. Remaining changes:
