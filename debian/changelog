@@ -1,3 +1,15 @@
+libgit2 (1.9.1+ds-1ubuntu1) resolute; urgency=medium
+
+  * Merge with Debian unstable (LP: #2130163). Remaining changes:
+    - Vendor llhttp within package (LP #2080872)
+      + Added d/p/use-vendored-llhttp.patch
+      + Changed d/{rules,control} to use vendored lhttp
+      + Added llhttp to d/copyright
+    - d/{control,rules}: use OpenSSL as the crypto backend
+    - d/tests/control: use cmake:native
+
+ -- Ural Tunaboyu <ural.tunaboyu@canonical.com>  Tue, 04 Nov 2025 17:04:26 +0100
+
 libgit2 (1.9.1+ds-1) unstable; urgency=medium
 
   * New upstream version 1.9.1+ds
@@ -6,6 +18,24 @@ libgit2 (1.9.1+ds-1) unstable; urgency=medium
 
  -- Timo Röhling <roehling@debian.org>  Wed, 13 Aug 2025 14:27:15 +0200
 
+libgit2 (1.9.0+ds-2ubuntu2) questing; urgency=medium
+
+  * Rebuild to include updated RISC-V base ISA RVA23
+
+ -- Heinrich Schuchardt <heinrich.schuchardt@canonical.com>  Fri, 05 Sep 2025 17:42:31 +0000
+
+libgit2 (1.9.0+ds-2ubuntu1) questing; urgency=medium
+
+  * Merge with Debian unstable. Remaining changes:
+    - Vendor llhttp within package (LP #2080872)
+      + Added d/p/use-vendored-llhttp.patch
+      + Changed d/rules,control to use vendored lhttp
+      + Added llhttp to d/copyright
+    - Use OpenSSL as the crypto backend
+    - d/tests/control: use cmake:native
+
+ -- Ural Tunaboyu <ural.tunaboyu@canonical.com>  Fri, 16 May 2025 11:06:29 +0200
+
 libgit2 (1.9.0+ds-2) unstable; urgency=medium
 
   * Upload to unstable.
@@ -13,6 +43,19 @@ libgit2 (1.9.0+ds-2) unstable; urgency=medium
   * Replace old FSF address by weblink in d/copyright
 
  -- Timo Röhling <roehling@debian.org>  Thu, 03 Apr 2025 17:28:22 +0200
+
+libgit2 (1.9.0+ds-1ubuntu1) plucky; urgency=medium
+
+  * Merge from Debian Experimental. Remaining changes:
+    - Use OpenSSL as the crypto backend
+    - Use cmake:native in d/tests/control
+    - d/copyright: re-add llhttp for vendoring
+    - deps/llhttp: re-vendors llhttp v9.2.1
+    - d/rules,control: use vendored llhttp and writes llhttp vendor tag
+      (LP: #2080872)
+    - Add use-vendored-llhttp.patch to satisfy dpkg-source.
+
+ -- Simon Quigley <tsimonq2@ubuntu.com>  Wed, 19 Feb 2025 11:35:09 -0600
 
 libgit2 (1.9.0+ds-1) experimental; urgency=medium
 
@@ -26,6 +69,27 @@ libgit2 (1.9.0+ds-1) experimental; urgency=medium
 
  -- Timo Röhling <roehling@debian.org>  Sun, 12 Jan 2025 00:39:53 +0100
 
+libgit2 (1.8.4+ds-3ubuntu2) plucky; urgency=medium
+
+  [ Zixing Liu ]
+  * d/copyright: re-add llhttp for vendoring
+  * deps/llhttp: re-vendors llhttp v9.2.1
+  * d/rules,control: use vendored llhttp and writes llhttp vendor tag
+    (LP: #2080872)
+
+  [ Simon Quigley ]
+  * Add use-vendored-llhttp.patch to satisfy dpkg-source.
+
+ -- Zixing Liu <zixing.liu@canonical.com>  Mon, 16 Dec 2024 11:50:41 -0700
+
+libgit2 (1.8.4+ds-3ubuntu1) plucky; urgency=low
+
+  * Merge from Debian unstable. Remaining changes:
+    - Use OpenSSL as the crypto backend
+    - Use cmake:native in d/tests/control
+
+ -- Gianfranco Costamagna <locutusofborg@debian.org>  Tue, 10 Dec 2024 22:35:00 +0100
+
 libgit2 (1.8.4+ds-3) unstable; urgency=medium
 
   * Use mbedTLS default cipher list for TLS handshake (Closes: #1088281)
@@ -37,6 +101,14 @@ libgit2 (1.8.4+ds-2) unstable; urgency=medium
   * Bump cmake_minimum_required() for autopkgtest (Closes: #1087860)
 
  -- Timo Röhling <roehling@debian.org>  Thu, 21 Nov 2024 11:46:53 +0100
+
+libgit2 (1.8.4+ds-1ubuntu1) plucky; urgency=low
+
+  * Merge from Debian unstable. Remaining changes:
+    - Use OpenSSL as the crypto backend
+    - Use cmake:native in d/tests/control
+
+ -- Gianfranco Costamagna <locutusofborg@debian.org>  Thu, 14 Nov 2024 12:59:02 +0100
 
 libgit2 (1.8.4+ds-1) unstable; urgency=medium
 
@@ -90,6 +162,27 @@ libgit2 (1.8.1+ds-1) experimental; urgency=medium
 
  -- Timo Röhling <roehling@debian.org>  Mon, 20 May 2024 11:21:07 +0200
 
+libgit2 (1.7.2+ds-1ubuntu3) noble; urgency=medium
+
+  * No-change rebuild for CVE-2024-3094
+
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Sun, 31 Mar 2024 01:58:30 +0000
+
+libgit2 (1.7.2+ds-1ubuntu2) noble; urgency=medium
+
+  * No-change rebuild against libssl3t64
+
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Mon, 04 Mar 2024 18:24:03 +0000
+
+libgit2 (1.7.2+ds-1ubuntu1) noble; urgency=low
+
+  * Merge from Debian unstable. Remaining changes:
+    - Use OpenSSL as the crypto backend
+    - Use cmake:native in d/tests/control
+    - Lower optimization level to O2 on ppc64el to fix a test failure
+
+ -- Gianfranco Costamagna <locutusofborg@debian.org>  Tue, 13 Feb 2024 09:12:02 +0100
+
 libgit2 (1.7.2+ds-1) unstable; urgency=medium
 
   * New upstream version 1.7.2+ds
@@ -100,6 +193,15 @@ libgit2 (1.7.2+ds-1) unstable; urgency=medium
   * Build-depend on pkgconf instead of pkg-config
 
  -- Timo Röhling <roehling@debian.org>  Thu, 08 Feb 2024 09:10:45 +0100
+
+libgit2 (1.7.1+ds-2ubuntu1) noble; urgency=low
+
+  * Merge from Debian unstable. Remaining changes:
+    - Use OpenSSL as the crypto backend
+    - Use cmake:native in d/tests/control
+    - Lower optimization level to O2 on ppc64el to fix a test failure
+
+ -- Gianfranco Costamagna <locutusofborg@debian.org>  Sun, 03 Dec 2023 09:29:52 +0100
 
 libgit2 (1.7.1+ds-2) unstable; urgency=medium
 
@@ -126,6 +228,15 @@ libgit2 (1.6.4+ds-1) experimental; urgency=medium
 
  -- Timo Röhling <roehling@debian.org>  Mon, 19 Jun 2023 20:45:38 +0200
 
+libgit2 (1.5.1+ds-1ubuntu1) lunar; urgency=low
+
+  * Merge from Debian unstable. Remaining changes:
+    - Use OpenSSL as the crypto backend
+    - Use cmake:native in d/tests/control
+    - Lower optimization level to O2 on ppc64el to fix a test failure
+
+ -- Gianfranco Costamagna <locutusofborg@debian.org>  Thu, 26 Jan 2023 22:12:51 +0100
+
 libgit2 (1.5.1+ds-1) unstable; urgency=high
 
   * Team upload.
@@ -134,6 +245,15 @@ libgit2 (1.5.1+ds-1) unstable; urgency=high
   * Bump Standards-Version to 4.6.2
 
  -- Timo Röhling <roehling@debian.org>  Sun, 22 Jan 2023 22:03:29 +0100
+
+libgit2 (1.5.0+ds-6ubuntu2) lunar; urgency=medium
+
+  * Merge from Debian unstable. Remaining changes:
+    - Use OpenSSL as the crypto backend
+    - Use cmake:native in d/tests/control
+    - Lower optimization level to O2 on ppc64el to fix a test failure
+
+ -- Gianfranco Costamagna <locutusofborg@debian.org>  Fri, 04 Nov 2022 12:25:02 +0100
 
 libgit2 (1.5.0+ds-6) unstable; urgency=medium
 
@@ -192,6 +312,22 @@ libgit2 (1.4.3+dfsg.1-1) experimental; urgency=medium
   * Add myself to uploaders
 
  -- Mohammed Bilal <mdbilal@disroot.org>  Thu, 05 May 2022 17:17:21 +0530
+
+libgit2 (1.3.2+dfsg.1-0ubuntu1) kinetic; urgency=medium
+
+  * New upstream bugfix version (LP: #1991636)
+  * d/watch: switch to the GH tags page as the release page broke
+    tarball links
+  * d/p/fix-warnings-atomic-exchange.patch: cherry-picked from upstream
+    to silence a particularly loud warning
+
+ -- Simon Chopin <schopin@ubuntu.com>  Tue, 04 Oct 2022 09:55:21 +0200
+
+libgit2 (1.3.0+dfsg.1-3ubuntu1) kinetic; urgency=medium
+
+  * d/control: Use OpenSSL as the crypto backend
+
+ -- Simon Chopin <schopin@ubuntu.com>  Fri, 01 Jul 2022 12:05:54 +0200
 
 libgit2 (1.3.0+dfsg.1-3) unstable; urgency=medium
 
