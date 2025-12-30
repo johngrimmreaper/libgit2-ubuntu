@@ -1,3 +1,9 @@
+libgit2 (1.9.2+ds-2) unstable; urgency=medium
+
+  * Source only upload.
+
+ -- Timo Röhling <roehling@debian.org>  Tue, 30 Dec 2025 11:35:58 +0100
+
 libgit2 (1.9.2+ds-1) unstable; urgency=medium
 
   * Migrate debian/watch to version 5 format
