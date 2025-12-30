@@ -1,3 +1,15 @@
+libgit2 (1.9.2+ds-1) unstable; urgency=medium
+
+  * Migrate debian/watch to version 5 format
+  * New upstream version 1.9.2+ds
+    - Fix repository name quoting to prevent SSH arbitrary command
+      execution by rogue Git server
+    - Fix potential buffer overflow in SSH credential creation that
+      could be triggered if the public key is not NUL-terminated.
+  * Bump Standards-Version to 4.7.3
+
+ -- Timo Röhling <roehling@debian.org>  Tue, 30 Dec 2025 11:17:24 +0100
+
 libgit2 (1.9.1+ds-1) unstable; urgency=medium
 
   * New upstream version 1.9.1+ds
