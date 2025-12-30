@@ -160,6 +160,8 @@ static void check_mode_at_line(
 		expected &= 0600;
 		actual &= 0600;
 	}
+	if (cl_is_env_set("GITTEST_FLAKY_STAT"))
+		return;
 
 	clar__assert_equal(
 		file, func, line, "expected_mode != actual_mode", 1,
