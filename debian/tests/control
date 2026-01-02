@@ -1,6 +1,20 @@
-Test-Command: cmake debian/tests;make;./libgit2_test
+Test-Command: ./debian/tests/superficial-test git2
+Features: test-name=build-with-libgit2-dev
+Restrictions: superficial
 Depends:
  cmake,
  g++,
  gcc,
- @,
+ libgit2-dev,
+ pkgconf,
+
+Test-Command: ./debian/tests/superficial-test git2-experimental
+Features: test-name=build-with-libgit2-experimental-dev
+Restrictions: superficial
+Depends:
+ cmake,
+ g++,
+ gcc,
+ libgit2-experimental-dev,
+ pkgconf,
+

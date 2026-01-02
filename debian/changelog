@@ -1,3 +1,10 @@
+libgit2 (1.9.2+ds-3) experimental; urgency=medium
+
+  * Enable experimental SHA-256 support (Closes: #1120588)
+  * Mark autopkgtest as superficial
+
+ -- Timo Röhling <roehling@debian.org>  Fri, 02 Jan 2026 19:57:09 +0100
+
 libgit2 (1.9.2+ds-2) unstable; urgency=medium
 
   * Source only upload.

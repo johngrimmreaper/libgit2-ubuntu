@@ -1,9 +1,11 @@
 #!/usr/bin/make -f
 # -*- makefile -*-
 
-# This rules file has 2 streams, the build-debian-devel stream builds
-# the static library and the build-debian-release builds the dynamic
-# library.
+# This rules file has multiple streams:
+# - build-debian-static: static library, SHA-1 hashes only
+# - build-debian-shared: shared library, SHA-1 hashes only
+# - build-debian-static-experimental: static library, SHA-256 support
+# - build-debian-shared-experimental: shared library, SHA-256 support
 
 # Uncomment this to turn on verbose mode.
 #export DH_VERBOSE=1
@@ -31,22 +33,41 @@ export GITTEST_FLAKY_STAT = true
 	dh $@ --buildsystem=cmake
 
 override_dh_auto_configure:
-	dh_auto_configure --builddirectory=build-debian-devel -- \
+	dh_auto_configure --builddirectory=build-debian-static-experimental -- \
 		-DBUILD_SHARED_LIBS=OFF \
+		-DEXPERIMENTAL_SHA256=ON \
 		$(COMMON_CMAKE_FLAGS)
-	dh_auto_configure --builddirectory=build-debian-release -- \
+	dh_auto_configure --builddirectory=build-debian-static -- \
+		-DBUILD_SHARED_LIBS=OFF \
+		-DEXPERIMENTAL_SHA256=OFF \
+		$(COMMON_CMAKE_FLAGS)
+	dh_auto_configure --builddirectory=build-debian-shared-experimental -- \
 		-DBUILD_SHARED_LIBS=ON \
+		-DEXPERIMENTAL_SHA256=ON \
+		$(COMMON_CMAKE_FLAGS)
+	dh_auto_configure --builddirectory=build-debian-shared -- \
+		-DBUILD_SHARED_LIBS=ON \
+		-DEXPERIMENTAL_SHA256=OFF \
 		$(COMMON_CMAKE_FLAGS)
 
 override_dh_auto_build:
-	dh_auto_build --builddirectory=build-debian-devel
-	dh_auto_build --builddirectory=build-debian-release
+	dh_auto_build --builddirectory=build-debian-static-experimental
+	dh_auto_build --builddirectory=build-debian-static
+	dh_auto_build --builddirectory=build-debian-shared-experimental
+	dh_auto_build --builddirectory=build-debian-shared
 
 override_dh_auto_install:
-	dh_auto_install --builddirectory=build-debian-devel
-	dh_auto_install --builddirectory=build-debian-release
+	dh_auto_install --builddirectory=build-debian-static-experimental --destdir=debian/tmp-experimental
+	dh_auto_install --builddirectory=build-debian-static --destdir=debian/tmp
+	dh_auto_install --builddirectory=build-debian-shared-experimental --destdir=debian/tmp-experimental
+	dh_auto_install --builddirectory=build-debian-shared --destdir=debian/tmp
 
 override_dh_auto_test:
-	dh_auto_test --builddirectory=build-debian-devel
-	dh_auto_test --builddirectory=build-debian-release
+	dh_auto_test --builddirectory=build-debian-static-experimental
+	dh_auto_test --builddirectory=build-debian-static
+	dh_auto_test --builddirectory=build-debian-shared-experimental
+	dh_auto_test --builddirectory=build-debian-shared
 
+override_dh_install:
+	dh_install -plibgit2-dev -plibgit2-1.9 --sourcedir=debian/tmp
+	dh_install -plibgit2-experimental-dev -plibgit2-experimental1.9 --sourcedir=debian/tmp-experimental

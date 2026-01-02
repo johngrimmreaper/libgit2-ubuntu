@@ -1,0 +1,7 @@
+#!/bin/sh
+set -eu
+
+cmake -S debian/tests/superficial-test-src -B "$AUTOPKGTEST_TMP" -DCMAKE_BUILD_TYPE=RelWithDebInfo
+cmake --build "$AUTOPKGTEST_TMP" --verbose
+"$AUTOPKGTEST_TMP"/libgit2_test
+
