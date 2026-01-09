@@ -1,0 +1,2 @@
+  * Enable experimental SHA-256 support (Closes: #1120588)
+  * Mark autopkgtest as superficial
