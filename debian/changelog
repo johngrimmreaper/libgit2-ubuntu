@@ -1,3 +1,9 @@
+libgit2 (1.9.2+ds-4) unstable; urgency=medium
+
+  * Switch to llhttp as HTTP parser backend (Closes: #1125517)
+
+ -- Timo Röhling <roehling@debian.org>  Wed, 21 Jan 2026 18:33:15 +0100
+
 libgit2 (1.9.2+ds-3) experimental; urgency=medium
 
   * Enable experimental SHA-256 support (Closes: #1120588)

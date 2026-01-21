@@ -10,7 +10,7 @@ Build-Depends:
  debhelper-compat (= 13),
  ca-certificates,
  cmake,
- libhttp-parser-dev,
+ libllhttp-dev,
  libkrb5-dev,
  libmbedtls-dev,
  libpcre2-dev,
