@@ -32,7 +32,7 @@ export GITTEST_FLAKY_STAT = true
 %:
 	dh $@ --buildsystem=cmake
 
-override_dh_auto_configure:
+override_dh_auto_configure-arch:
 	dh_auto_configure --builddirectory=build-debian-static-experimental -- \
 		-DBUILD_SHARED_LIBS=OFF \
 		-DEXPERIMENTAL_SHA256=ON \
@@ -50,24 +50,33 @@ override_dh_auto_configure:
 		-DEXPERIMENTAL_SHA256=OFF \
 		$(COMMON_CMAKE_FLAGS)
 
-override_dh_auto_build:
+override_dh_auto_configure-indep:
+
+override_dh_auto_build-arch:
 	dh_auto_build --builddirectory=build-debian-static-experimental
 	dh_auto_build --builddirectory=build-debian-static
 	dh_auto_build --builddirectory=build-debian-shared-experimental
 	dh_auto_build --builddirectory=build-debian-shared
 
-override_dh_auto_install:
+override_dh_auto_build-indep:
+
+override_dh_auto_install-arch:
 	dh_auto_install --builddirectory=build-debian-static-experimental --destdir=debian/tmp-experimental
 	dh_auto_install --builddirectory=build-debian-static --destdir=debian/tmp
 	dh_auto_install --builddirectory=build-debian-shared-experimental --destdir=debian/tmp-experimental
 	dh_auto_install --builddirectory=build-debian-shared --destdir=debian/tmp
 
-override_dh_auto_test:
+override_dh_auto_install-indep:
+
+override_dh_auto_test-arch:
 	dh_auto_test --builddirectory=build-debian-static-experimental
 	dh_auto_test --builddirectory=build-debian-static
 	dh_auto_test --builddirectory=build-debian-shared-experimental
 	dh_auto_test --builddirectory=build-debian-shared
 
+override_dh_auto_test-indep:
+
 override_dh_install:
 	dh_install -plibgit2-dev -plibgit2-1.9 --sourcedir=debian/tmp
 	dh_install -plibgit2-experimental-dev -plibgit2-experimental1.9 --sourcedir=debian/tmp-experimental
+	dh_install --remaining-packages
