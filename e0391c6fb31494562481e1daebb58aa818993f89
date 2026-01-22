@@ -1,0 +1,1 @@
+  * Fix FTBFS for binary:all builds (Closes: #1126146)
