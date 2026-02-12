@@ -44,6 +44,7 @@ override_dh_auto_configure-arch:
 	dh_auto_configure --builddirectory=build-debian-shared-experimental -- \
 		-DBUILD_SHARED_LIBS=ON \
 		-DEXPERIMENTAL_SHA256=ON \
+		-DCMAKE_SHARED_LINKER_FLAGS_NONE=-Wl,--version-script=$(CURDIR)/debian/libgit2-experimental.map \
 		$(COMMON_CMAKE_FLAGS)
 	dh_auto_configure --builddirectory=build-debian-shared -- \
 		-DBUILD_SHARED_LIBS=ON \

@@ -1,3 +1,9 @@
+libgit2 (1.9.2+ds-6) unstable; urgency=medium
+
+  * Use versioned symbols for libgit2-experimental
+
+ -- Timo Röhling <roehling@debian.org>  Thu, 12 Feb 2026 15:43:54 +0100
+
 libgit2 (1.9.2+ds-5) unstable; urgency=medium
 
   * Fix FTBFS for binary:all builds (Closes: #1126146)
