@@ -1,3 +1,9 @@
+libgit2 (1.9.2+ds-8) unstable; urgency=medium
+
+  * libgit2{,-experimental}-dev must depend on libssl-dev now
+
+ -- Timo Röhling <roehling@debian.org>  Fri, 24 Apr 2026 19:18:43 +0200
+
 libgit2 (1.9.2+ds-7) unstable; urgency=medium
 
   [ Bastian Germann ]

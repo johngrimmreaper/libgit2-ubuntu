@@ -35,7 +35,7 @@ Multi-Arch: same
 Depends:
  libgit2-1.9 (= ${binary:Version}),
  libhttp-parser-dev,
- libmbedtls-dev,
+ libssl-dev,
  libpcre2-dev,
  libssh2-1-dev,
  zlib1g-dev,
@@ -65,7 +65,7 @@ Conflicts:
 Depends:
  libgit2-experimental1.9 (= ${binary:Version}),
  libhttp-parser-dev,
- libmbedtls-dev,
+ libssl-dev,
  libpcre2-dev,
  libssh2-1-dev,
  zlib1g-dev,
