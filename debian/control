@@ -12,13 +12,13 @@ Build-Depends:
  cmake,
  libllhttp-dev,
  libkrb5-dev,
- libmbedtls-dev,
+ libssl-dev,
  libpcre2-dev,
  libssh2-1-dev,
  pkgconf,
  python3-minimal:any,
  zlib1g-dev,
-Standards-Version: 4.7.3
+Standards-Version: 4.7.4
 Homepage: https://libgit2.github.com/
 Vcs-Git: https://salsa.debian.org/debian/libgit2.git
 Vcs-Browser: https://salsa.debian.org/debian/libgit2
