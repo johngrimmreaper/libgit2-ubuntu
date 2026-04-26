@@ -1,3 +1,10 @@
+libgit2 (1.9.2+ds-9) unstable; urgency=medium
+
+  * Add more compat symlinks for libgit2-experimental as libgit2
+  * Explain the rationale behind libgit2-experimental in README.Debian
+
+ -- Timo Röhling <roehling@debian.org>  Mon, 27 Apr 2026 00:15:55 +0200
+
 libgit2 (1.9.2+ds-8) unstable; urgency=medium
 
   * libgit2{,-experimental}-dev must depend on libssl-dev now
