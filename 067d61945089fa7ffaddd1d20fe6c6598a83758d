@@ -1,0 +1,5 @@
+  [ Bastian Germann ]
+  * Build with OpenSSL instead of mbedTLS (Closes: #1134164)
+  [ Timo Röhling ]
+  * Change the libgit2-experimental symbol version to LIBGIT2_SHA256.
+  * Bump Standards-Version to 4.7.4
