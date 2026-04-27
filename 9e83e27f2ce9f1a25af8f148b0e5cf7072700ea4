@@ -1,0 +1,2 @@
+  * Add more compat symlinks for libgit2-experimental as libgit2
+  * Explain the rationale behind libgit2-experimental in README.Debian
