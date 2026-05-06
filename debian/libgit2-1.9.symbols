@@ -687,6 +687,7 @@ libgit2.so.1.9 libgit2-1.9 #MINVER#
  git_remote_ls@Base 1.9.0
  git_remote_name@Base 1.9.0
  git_remote_name_is_valid@Base 1.9.0
+ git_remote_oid_type@Base 1.9.3+ds
  git_remote_owner@Base 1.9.0
  git_remote_prune@Base 1.9.0
  git_remote_prune_refs@Base 1.9.0

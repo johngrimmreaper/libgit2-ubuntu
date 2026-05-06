@@ -688,6 +688,7 @@ libgit2-experimental.so.1.9 libgit2-experimental1.9 #MINVER#
  git_remote_ls@LIBGIT2_SHA256 1.9.2+ds-6~
  git_remote_name@LIBGIT2_SHA256 1.9.2+ds-6~
  git_remote_name_is_valid@LIBGIT2_SHA256 1.9.2+ds-6~
+ git_remote_oid_type@LIBGIT2_SHA256 1.9.3+ds
  git_remote_owner@LIBGIT2_SHA256 1.9.2+ds-6~
  git_remote_prune@LIBGIT2_SHA256 1.9.2+ds-6~
  git_remote_prune_refs@LIBGIT2_SHA256 1.9.2+ds-6~

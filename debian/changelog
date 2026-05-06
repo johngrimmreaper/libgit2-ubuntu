@@ -1,3 +1,11 @@
+libgit2 (1.9.3+ds-1) unstable; urgency=medium
+
+  * New upstream version 1.9.3+ds
+  * libgit2{,-experimental}-dev must depend on libllhttp-dev now
+  * Update d/symbols
+
+ -- Timo Röhling <roehling@debian.org>  Wed, 06 May 2026 11:02:21 +0200
+
 libgit2 (1.9.2+ds-9) unstable; urgency=medium
 
   * Add more compat symlinks for libgit2-experimental as libgit2
