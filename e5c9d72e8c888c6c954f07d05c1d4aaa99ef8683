@@ -1,0 +1,3 @@
+  * New upstream version 1.9.3+ds
+  * libgit2{,-experimental}-dev must depend on libllhttp-dev now
+  * Update d/symbols
