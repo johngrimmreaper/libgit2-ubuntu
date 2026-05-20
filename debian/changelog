@@ -1,3 +1,15 @@
+libgit2 (1.9.3+ds-1ubuntu1) stonking; urgency=medium
+
+  * Merge with Debian unstable (LP: #2143615). Remaining changes:
+    - Vendor llhttp within package (LP #2080872)
+    - d/t/control: use cmake:native
+  * Dropped changes:
+    - d/{control,rules}: use OpenSSL as the crypto backend
+      [Fixed in 1.9.2+ds-7]
+    - d/copyright: include llhttp in tarball
+
+ -- Max Gilmour <max.gilmour@canonical.com>  Wed, 27 May 2026 07:25:57 -0700
+
 libgit2 (1.9.3+ds-1) unstable; urgency=medium
 
   * New upstream version 1.9.3+ds
