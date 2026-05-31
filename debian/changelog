@@ -1,3 +1,10 @@
+libgit2 (1.9.4+ds-1) unstable; urgency=medium
+
+  * New upstream version 1.9.4+ds
+  * Wrap and sort Debian package files
+
+ -- Timo Röhling <roehling@debian.org>  Sun, 31 May 2026 12:21:48 +0200
+
 libgit2 (1.9.3+ds-1) unstable; urgency=medium
 
   * New upstream version 1.9.3+ds
