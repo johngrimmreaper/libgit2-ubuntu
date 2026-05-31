@@ -10,11 +10,11 @@ Build-Depends:
  debhelper-compat (= 13),
  ca-certificates,
  cmake,
- libllhttp-dev,
  libkrb5-dev,
- libssl-dev,
+ libllhttp-dev,
  libpcre2-dev,
  libssh2-1-dev,
+ libssl-dev,
  pkgconf,
  python3-minimal:any,
  zlib1g-dev,
@@ -35,9 +35,9 @@ Multi-Arch: same
 Depends:
  libgit2-1.9 (= ${binary:Version}),
  libllhttp-dev,
- libssl-dev,
  libpcre2-dev,
  libssh2-1-dev,
+ libssl-dev,
  zlib1g-dev,
  ${misc:Depends},
 Description: ${source:Synopsis} (development files)
@@ -65,9 +65,9 @@ Conflicts:
 Depends:
  libgit2-experimental1.9 (= ${binary:Version}),
  libllhttp-dev,
- libssl-dev,
  libpcre2-dev,
  libssh2-1-dev,
+ libssl-dev,
  zlib1g-dev,
  ${misc:Depends},
 Description: ${source:Synopsis} with SHA-256 support (development files)
