@@ -1,13 +1,12 @@
 Source: libgit2
 Section: libs
-Priority: optional
 Maintainer: Utkarsh Gupta <utkarsh@debian.org>
 Uploaders:
  Pirate Praveen <praveen@debian.org>,
  Mohammed Bilal <mdbilal@disroot.org>,
  Timo Röhling <roehling@debian.org>,
 Build-Depends:
- debhelper-compat (= 13),
+ debhelper-compat (= 14),
  ca-certificates,
  cmake,
  libkrb5-dev,
@@ -39,7 +38,6 @@ Depends:
  libssh2-1-dev,
  libssl-dev,
  zlib1g-dev,
- ${misc:Depends},
 Description: ${source:Synopsis} (development files)
  ${source:Extended-Description}
  .
@@ -48,11 +46,6 @@ Description: ${source:Synopsis} (development files)
 Package: libgit2-1.9
 Architecture: any
 Multi-Arch: same
-Pre-Depends:
- ${misc:Pre-Depends},
-Depends:
- ${misc:Depends},
- ${shlibs:Depends},
 Description: ${source:Synopsis}
  ${source:Extended-Description}
 
@@ -69,7 +62,6 @@ Depends:
  libssh2-1-dev,
  libssl-dev,
  zlib1g-dev,
- ${misc:Depends},
 Description: ${source:Synopsis} with SHA-256 support (development files)
  ${source:Extended-Description}
  .
@@ -79,11 +71,6 @@ Description: ${source:Synopsis} with SHA-256 support (development files)
 Package: libgit2-experimental1.9
 Architecture: any
 Multi-Arch: same
-Pre-Depends:
- ${misc:Pre-Depends},
-Depends:
- ${misc:Depends},
- ${shlibs:Depends},
 Description: ${source:Synopsis} with SHA-256 support
  ${source:Extended-Description}
  .
@@ -93,10 +80,6 @@ Description: ${source:Synopsis} with SHA-256 support
 Package: libgit2-fixtures
 Architecture: all
 Multi-Arch: foreign
-Pre-Depends:
- ${misc:Pre-Depends},
-Depends:
- ${misc:Depends},
 Description: ${source:Synopsis} (test suite examples)
  ${source:Extended-Description}
  .
