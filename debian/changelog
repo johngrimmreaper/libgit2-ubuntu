@@ -1,3 +1,13 @@
+libgit2 (1.9.6+ds-1) unstable; urgency=medium
+
+  * New upstream version 1.9.6+ds
+  * Update excludes in d/copyright
+  * debian/copyright: use spaces rather than tabs to start continuation lines.
+  * Remove redundant Priority: optional from source stanza.
+  * Migrate to debhelper 14
+
+ -- Timo Röhling <roehling@debian.org>  Wed, 22 Jul 2026 23:49:27 +0200
+
 libgit2 (1.9.4+ds-1) unstable; urgency=medium
 
   * New upstream version 1.9.4+ds
