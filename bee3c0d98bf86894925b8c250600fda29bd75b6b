@@ -1,0 +1,5 @@
+  * New upstream version 1.9.6+ds
+  * Update excludes in d/copyright
+  * debian/copyright: use spaces rather than tabs to start continuation lines.
+  * Remove redundant Priority: optional from source stanza.
+  * Migrate to debhelper 14
