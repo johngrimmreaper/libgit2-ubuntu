@@ -1,3 +1,9 @@
+libgit2 (1.9.3+ds-1ubuntu2) stonking; urgency=medium
+
+  * No-change rebuild against libssl4
+
+ -- Ravi Kant Sharma <ravi.kant.sharma@canonical.com>  Fri, 24 Jul 2026 10:41:27 +0000
+
 libgit2 (1.9.3+ds-1ubuntu1) stonking; urgency=medium
 
   * Merge with Debian unstable (LP: #2143615). Remaining changes:
