@@ -3,10 +3,10 @@ Upstream-Name: libgit2
 Source: https://libgit2.github.com/
 Files-Excluded: deps/chromium-zlib
                 deps/llhttp
-                deps/ntlmclient
-                deps/pcre2
-                deps/winhttp
-                deps/zlib
+		deps/ntlmclient
+		deps/pcre
+		deps/winhttp
+		deps/zlib
 Comment: Remove unneeded bundled dependencies
  Note: xdiff has been moved from libgit2 sources to deps and is currently
        hardcoded to be used from there. This may change once xdiff
