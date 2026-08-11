@@ -131,12 +131,12 @@ GIT_INLINE(void) free_cred(git_credential **cred)
 static int handle_auth(
 	http_server *server,
 	const char *server_type,
-	const char *url,
 	unsigned int allowed_schemetypes,
 	unsigned int allowed_credtypes,
 	git_credential_acquire_cb callback,
 	void *callback_payload)
 {
+	git_str server_url = GIT_STR_INIT;
 	int error = 1;
 
 	if (server->cred)
@@ -155,7 +155,8 @@ static int handle_auth(
 	}
 
 	if (error > 0 && callback) {
-		error = callback(&server->cred, url, server->url.username, allowed_credtypes, callback_payload);
+		if ((error = git_net_url_fmt(&server_url, &server->url)) == 0)
+			error = callback(&server->cred, server_url.ptr, server->url.username, allowed_credtypes, callback_payload);
 
 		/* treat GIT_PASSTHROUGH as if callback isn't set */
 		if (error == GIT_PASSTHROUGH)
@@ -170,6 +171,7 @@ static int handle_auth(
 	if (!error)
 		server->auth_schemetypes = allowed_schemetypes;
 
+	git_str_dispose(&server_url);
 	return error;
 }
 
@@ -189,7 +191,6 @@ GIT_INLINE(int) handle_remote_auth(
 	return handle_auth(
 		&transport->server,
 		SERVER_TYPE_REMOTE,
-		transport->owner->url,
 		response->server_auth_schemetypes,
 		response->server_auth_credtypes,
 		connect_opts->callbacks.credentials,
@@ -212,7 +213,6 @@ GIT_INLINE(int) handle_proxy_auth(
 	return handle_auth(
 		&transport->proxy,
 		SERVER_TYPE_PROXY,
-		connect_opts->proxy_opts.url,
 		response->server_auth_schemetypes,
 		response->proxy_auth_credtypes,
 		connect_opts->proxy_opts.credentials,
