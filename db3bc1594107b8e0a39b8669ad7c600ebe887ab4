@@ -1,0 +1,18 @@
+  * SECURITY UPDATE: Path traversal in submodule.
+    - debian/patches/CVE-2026-53584.patch: Ensure that we do not try to load
+      a submodule who has a filesystem path that points outside of our
+      repository in src/libgit2/submodule.c and src/util/fs_path.h.
+    - CVE-2026-53584
+  * SECURITY UPDATE: Memory exhaustion in delta apply.
+    - debian/patches/CVE-2026-53585.patch: Prevent overly large sized
+      objects in packfiles in include/git2/common.h, src/libgit2/delta.c,
+      src/libgit2/indexer.c, and src/libgit2/settings.c
+    - CVE-2026-53585
+  * SECURITY UPDATE: Credential leakage in HTTP transport.
+    - debian/patches/CVE-2026-53586.patch: Give the URL of the current host
+      in src/libgit2/transports/http.c.
+    - CVE-2026-53586
+  * SECURITY UPDATE: Out-of-bounds read in smart-pkt transport.
+    - debian/patches/CVE-2026-53587.patch: Ensure that the current packet
+      buffer is large enough in src/libgit2/transports/smart_pkt.c
+    - CVE-2026-53587
