@@ -1,3 +1,11 @@
+libgit2 (1.9.7+ds-1) unstable; urgency=medium
+
+  * New upstream version 1.9.7+ds
+    - Fix CVE-2026-5917: shell command injection vulnerability
+      (Closes: #1144465)
+
+ -- Timo Röhling <roehling@debian.org>  Sun, 16 Aug 2026 14:38:25 +0200
+
 libgit2 (1.9.6+ds-1) unstable; urgency=medium
 
   * New upstream version 1.9.6+ds
