@@ -1,3 +1,12 @@
+libgit2 (1.9.6+ds-1ubuntu2) stonking; urgency=medium
+
+  * SECURITY UPDATE: Remote code execution via SSH backend
+    - debian/patches/CVE-2026-5917.patch: Escape repo path in
+      src/libgit2/transports/ssh_libssh2.c
+    - CVE-2026-5917
+
+ -- Kyle Kernick <kyle.kernick@canonical.com>  Mon, 21 Sep 2026 13:58:53 -0600
+
 libgit2 (1.9.6+ds-1ubuntu1) stonking; urgency=medium
 
   * Merge with Debian Unstable. Remaining changes:

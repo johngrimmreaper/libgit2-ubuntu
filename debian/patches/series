@@ -1,3 +1,4 @@
 disable-online-tests.patch
 disable-flaky-stat-tests.patch
 use-vendored-llhttp.patch
+CVE-2026-5917.patch
