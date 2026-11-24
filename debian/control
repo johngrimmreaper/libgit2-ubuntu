@@ -1,5 +1,6 @@
 Source: libgit2
 Section: libs
+Priority: optional
 Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
 XSBC-Original-Maintainer: Utkarsh Gupta <utkarsh@debian.org>
 Uploaders:
@@ -7,7 +8,7 @@ Uploaders:
  Mohammed Bilal <mdbilal@disroot.org>,
  Timo Röhling <roehling@debian.org>,
 Build-Depends:
- debhelper-compat (= 14),
+ debhelper-compat (= 13),
  ca-certificates,
  cmake,
  libkrb5-dev,
@@ -37,18 +38,25 @@ Depends:
  libssh2-1-dev,
  libssl-dev,
  zlib1g-dev,
-Description: ${source:Synopsis} (development files)
- ${source:Extended-Description}
+ ${misc:Depends},
+Description: low-level Git library (development files)
+ libgit2 is a portable, pure C implementation of the Git
+ distributed version control system core methods provided as a
+ re-entrant link-able library with a solid API.
  .
  This package contains the development files for libgit2.
 
 Package: libgit2-1.9
 Architecture: any
 Multi-Arch: same
+Pre-Depends: ${misc:Pre-Depends}
+Depends: ${misc:Depends}, ${shlibs:Depends}
 Static-Built-Using: ${misc:Static-Built-Using}
 Built-Using: ${misc:Built-Using}
-Description: ${source:Synopsis}
- ${source:Extended-Description}
+Description: low-level Git library
+ libgit2 is a portable, pure C implementation of the Git
+ distributed version control system core methods provided as a
+ re-entrant link-able library with a solid API.
 
 Package: libgit2-experimental-dev
 Architecture: any
@@ -62,8 +70,11 @@ Depends:
  libssh2-1-dev,
  libssl-dev,
  zlib1g-dev,
-Description: ${source:Synopsis} with SHA-256 support (development files)
- ${source:Extended-Description}
+ ${misc:Depends},
+Description: low-level Git library with SHA-256 support (development files)
+ libgit2 is a portable, pure C implementation of the Git
+ distributed version control system core methods provided as a
+ re-entrant link-able library with a solid API.
  .
  This package contains the development files for libgit2 with
  experimental SHA-256 support enabled.
@@ -71,8 +82,12 @@ Description: ${source:Synopsis} with SHA-256 support (development files)
 Package: libgit2-experimental1.9
 Architecture: any
 Multi-Arch: same
-Description: ${source:Synopsis} with SHA-256 support
- ${source:Extended-Description}
+Pre-Depends: ${misc:Pre-Depends}
+Depends: ${misc:Depends}, ${shlibs:Depends}
+Description: low-level Git library with SHA-256 support
+ libgit2 is a portable, pure C implementation of the Git
+ distributed version control system core methods provided as a
+ re-entrant link-able library with a solid API.
  .
  This package contains the shared library version with
  experimental SHA-256 support enabled.
@@ -80,8 +95,12 @@ Description: ${source:Synopsis} with SHA-256 support
 Package: libgit2-fixtures
 Architecture: all
 Multi-Arch: foreign
-Description: ${source:Synopsis} (test suite examples)
- ${source:Extended-Description}
+Pre-Depends: ${misc:Pre-Depends}
+Depends: ${misc:Depends}
+Description: low-level Git library (test suite examples)
+ libgit2 is a portable, pure C implementation of the Git
+ distributed version control system core methods provided as a
+ re-entrant link-able library with a solid API.
  .
  This package provides the test examples of the library, which
  can be useful for other pieces of software relying on libgit2,
