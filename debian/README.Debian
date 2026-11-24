@@ -1,0 +1,20 @@
+libgit2 SHA-256 support
+=======================
+
+The libgit2 offers SHA-256 support as "experimental" feature.
+Starting with 1.9.2+ds-3, Debian provides both the mainline and
+experimental SHA-256 enabled version as separate packages:
+
+* libgit2-dev                -- Development package, SHA-1 only
+* libgit2-<X.Y>              -- Shared library without SHA-256 support
+* libgit2-experimental-dev   -- Development package, SHA-256 enabled
+* libgit2-experimental<X.Y>  -- Shared library with SHA-256 support
+
+You cannot install both libgit2-dev and libgit2-experimental-dev,
+because libgit2-experimental-dev is intended as drop-in replacement
+and ships with conflicting compatibility symlinks.
+
+The upside is that package maintainers can opt-in for SHA-256 support
+simply by updating their build dependency.
+
+ -- Timo Röhling <roehling@debian.org>  Mon, 27 Apr 2026 00:14:53 +0200

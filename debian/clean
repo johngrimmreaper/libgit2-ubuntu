@@ -1,2 +1,5 @@
-build-debian-devel/
-build-debian-release/
+build-debian-shared-experimental/
+build-debian-shared/
+build-debian-static-experimental/
+build-debian-static/
+debian/tmp-experimental/

@@ -1,0 +1,5 @@
+usr/include/git2-experimental usr/include/git2
+usr/include/git2-experimental.h usr/include/git2.h
+usr/lib/${DEB_HOST_MULTIARCH}/libgit2-experimental.a usr/lib/${DEB_HOST_MULTIARCH}/libgit2.a
+usr/lib/${DEB_HOST_MULTIARCH}/libgit2-experimental.so usr/lib/${DEB_HOST_MULTIARCH}/libgit2.so
+usr/lib/${DEB_HOST_MULTIARCH}/pkgconfig/libgit2-experimental.pc usr/lib/${DEB_HOST_MULTIARCH}/pkgconfig/libgit2.pc
